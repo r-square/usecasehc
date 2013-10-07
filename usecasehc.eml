@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component jdk="1.6" jdk_type="JavaSDK">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<levels>
+		<level name="Java EE 6-Java EE 6" value="project"/>
+		<level name="commons-codec-1.6" value="project"/>
+		<level name="jcl-over-slf4j-1.6.4" value="project"/>
+	</levels>
+</component>

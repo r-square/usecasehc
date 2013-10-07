@@ -1,0 +1,10 @@
+prefix : <http://demo.marklogic.com/provider/> 
+  prefix vocab: <http://demo.marklogic.com/provider/vocab#> 
+  prefix foaf: <http://xmlns.com/foaf/0.1/> 
+    SELECT  ?referring_doctor (?provider as ?doctor) ?referral_count  
+    WHERE { ?referring_doctor foaf:knows ?provider  .
+            ?referring_doctor vocab:referral ?referral . 
+            ?referral vocab:referredTo ?provider ;
+                      vocab:quantity ?referral_count.
+            FILTER (?referral_count >= 1) .
+             }

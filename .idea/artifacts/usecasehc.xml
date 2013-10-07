@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="usecasehc">
+    <output-path>$PROJECT_DIR$/out/artifacts/usecasehc</output-path>
+    <root id="archive" name="usecasehc.war">
+      <element id="javaee-facet-resources" facet="usecasehc/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="usecasehc" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="jcl-over-slf4j-1.6.4" />
+          <element id="library" level="project" name="Java EE 6-Java EE 6" />
+          <element id="library" level="project" name="commons-codec-1.6" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/WebContent/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
