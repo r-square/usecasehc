@@ -1,15 +1,19 @@
 package com.rsquare.usecase.hive;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.rsquare.usecasehc.hive.HiveClient;
 import com.rsquare.usecasehc.model.Provider;
+import com.rsquare.usecasehc.model.ProviderReferralResult;
 
 public class HiveClientTest {
 
@@ -30,9 +34,21 @@ public class HiveClientTest {
 	@Test
 	public void testGetProvider() throws SQLException {
 		HiveClient hc = new HiveClient();
-		Provider p = hc.getProvider(123123123);
+		Provider p = hc.getProvider(1043377500);
 		assertNotNull(p);
-		System.out.printf("%s %s%n", p.getFirst(), p.getLast());
+		System.out.printf("%s %s %s%n", p.getFirst(), p.getLast(), p.getOrganization());
+	}
+	
+	@Test
+	public void testMakeQueryString() throws SQLException {
+		HiveClient hc = new HiveClient();
+		List<ProviderReferralResult> results = new ArrayList<ProviderReferralResult>();
+		results.add(new ProviderReferralResult("x", "1", "", "", ""));
+		results.add(new ProviderReferralResult("x", "2", "", "", ""));
+		results.add(new ProviderReferralResult("x", "3", "", "", ""));
+		StringBuilder sql = hc.makeQueryString(results, "1043377500");
+		assertNotNull(sql);
+		System.out.println(sql);
 	}
 
 }

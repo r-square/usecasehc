@@ -4,21 +4,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Provider {
-	private int npi;
+	private String npi;
 	private String organization;
 	private String first;
 	private String last;
 	private String taxonomy;
 
 	public Provider(ResultSet rs) throws SQLException {
-		npi = rs.getInt(0);
-		organization = rs.getString(1);
-		first = rs.getString(2);
-		last = rs.getString(3);
-		taxonomy = rs.getString(4);
+		npi = rs.getString("npi");
+		organization = rs.getString("provider_organization_name_legal_business_name_");
+		first = rs.getString("provider_first_name");
+		last = rs.getString("provider_last_name_legal_name_");
+		taxonomy = rs.getString("healthcare_provider_taxonomy_code_1");
 	}
 
-	public int getNpi() {
+	public String getNpi() {
 		return npi;
 	}
 

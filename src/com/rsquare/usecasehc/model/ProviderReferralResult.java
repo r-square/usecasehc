@@ -1,21 +1,20 @@
 package com.rsquare.usecasehc.model;
 
-import com.hp.hpl.jena.rdf.model.RDFNode;
 
 public class ProviderReferralResult {
 
-	private RDFNode doctor;
-	private RDFNode referredDoctor;
-	private RDFNode referralCount;
-	private RDFNode direction;
-	private RDFNode reverseCount;
+	private String doctor;
+	private String referredDoctor;
+	private String referralCount;
+	private String direction;
+	private String reverseCount;
 	
 	public ProviderReferralResult() {
 		super();
 	}
 	
-	public ProviderReferralResult(RDFNode doctor, RDFNode referredDoctor,
-			RDFNode referralCount, RDFNode direction, RDFNode reverseCount) {
+	public ProviderReferralResult(String doctor, String referredDoctor,
+			String referralCount, String direction, String reverseCount) {
 		super();
 		this.doctor = doctor;
 		this.referredDoctor = referredDoctor;
@@ -24,34 +23,34 @@ public class ProviderReferralResult {
 		this.reverseCount = reverseCount;
 	}
 
-	public RDFNode getDoctor() {
+	public String getDoctor() {
 		return doctor;
 	}
-	public void setDoctor(RDFNode doctor) {
+	public void setDoctor(String doctor) {
 		this.doctor = doctor;
 	}
-	public RDFNode getReferredDoctor() {
+	public String getReferredDoctor() {
 		return referredDoctor;
 	}
-	public void setReferredDoctor(RDFNode referredDoctor) {
+	public void setReferredDoctor(String referredDoctor) {
 		this.referredDoctor = referredDoctor;
 	}
-	public RDFNode getReferralCount() {
+	public String getReferralCount() {
 		return referralCount;
 	}
-	public void setReferralCount(RDFNode referralCount) {
+	public void setReferralCount(String referralCount) {
 		this.referralCount = referralCount;
 	}
-	public RDFNode getDirection() {
+	public String getDirection() {
 		return direction;
 	}
-	public void setDirection(RDFNode direction) {
+	public void setDirection(String direction) {
 		this.direction = direction;
 	}
-	public RDFNode getReverseCount() {
+	public String getReverseCount() {
 		return reverseCount;
 	}
-	public void setReverseCount(RDFNode reverseCount) {
+	public void setReverseCount(String reverseCount) {
 		this.reverseCount = reverseCount;
 	}
 	
@@ -73,7 +72,7 @@ public class ProviderReferralResult {
 				+ ((reverseCount == null) ? 0 : reverseCount.hashCode());
 		return result;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -126,7 +125,7 @@ public class ProviderReferralResult {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

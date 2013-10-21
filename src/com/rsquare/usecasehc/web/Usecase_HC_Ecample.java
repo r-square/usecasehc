@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -37,6 +39,8 @@ import com.hp.hpl.jena.sparql.util.FmtUtils;
 import com.hp.hpl.jena.sparql.util.NodeFactoryExtra;
 import com.hp.hpl.jena.tdb.TDBFactory;
 import com.hp.hpl.jena.util.FileManager;
+import com.rsquare.usecasehc.hive.HiveClient;
+import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 
 /**
@@ -140,54 +144,71 @@ public class Usecase_HC_Ecample extends HttpServlet {
 		   long t2 = System.currentTimeMillis();
 		   logger.info("Query 1 took time(mSec): " + (t2-t1));
 		   
-		   out.println(getUIGraphResultOutput(results1, pid));
+//		   out.println(getUIGraphResultOutput(results1, pid));
 		   
-//		   t1 = System.currentTimeMillis();
-//		   List<ProviderReferralResult> results = getResultCollection(results1);
-//		   t2 = System.currentTimeMillis();
-//		   logger.info("getResultCollection() took time(mSec): " + (t2-t1));
-//		   out.println(getUIGraphResultOutput(results, pid));
-		} finally { 
+		   t1 = System.currentTimeMillis();
+		   List<ProviderReferralResult> results = getResultCollection(results1);
+		   t2 = System.currentTimeMillis();
+		   logger.info("getResultCollection() took time(mSec): " + (t2-t1));
+		   
+		   HiveClient hc = new HiveClient();
+		   t1 = System.currentTimeMillis();
+		   Map<String, Provider> providers = hc.getProviders(results, pid.replace(":", ""));
+		   t2 = System.currentTimeMillis();
+		   logger.info("getProviders() took time(mSec): " + (t2-t1));
+		   
+		   out.println(getUIGraphResultOutput(results, providers, pid));
+		}
+		catch(SQLException exception)
+		{
+			logger.debug(exception);
+			out.println("<graph_data><nodes /><edges /></graph_data>");
+			out.println("exception - please check logs");
+		}
+		finally { 
 			qexec1.close() ;
 		}
 	}
 	
-//	private List<ProviderReferralResult> getResultCollection(ResultSet results1)
-//	{
-//		List<ProviderReferralResult> results = new ArrayList<ProviderReferralResult>();
-//		for ( ; results1.hasNext() ; )
-//	    {
-//	      QuerySolution soln = results1.nextSolution() ;
-//	      RDFNode x = soln.get("doctor") ;
-//	      RDFNode y = soln.get("referred_doctor");
-//	      RDFNode z = soln.get("referral_count");
-//	      RDFNode d = soln.get("direction");
-//	      RDFNode c = soln.get("reverse_count");
-//	      ProviderReferralResult result = new ProviderReferralResult(x, y, z, d, c);
-//	      results.add(result);
-//	    }
-//		return results;
-//	}
+	private List<ProviderReferralResult> getResultCollection(ResultSet results1)
+	{
+		List<ProviderReferralResult> results = new ArrayList<ProviderReferralResult>();
+		for ( ; results1.hasNext() ; )
+	    {
+	      QuerySolution soln = results1.nextSolution() ;
+	      RDFNode x = soln.get("doctor") ;
+	      RDFNode y = soln.get("referred_doctor");
+	      RDFNode z = soln.get("referral_count");
+	      RDFNode d = soln.get("direction");
+	      RDFNode c = soln.get("reverse_count");
+	      String doctor = FmtUtils.stringForRDFNode(x).replace(":", "");
+	      String referred_doctor = FmtUtils.stringForRDFNode(y).replace(":", "");
+	      String referral_count = FmtUtils.stringForRDFNode(z);
+	      String direction = FmtUtils.stringForRDFNode(d);
+	      String rev_referral_count = FmtUtils.stringForRDFNode(c);
+	      ProviderReferralResult result = new ProviderReferralResult(doctor, referred_doctor, referral_count, direction, rev_referral_count);
+	      results.add(result);
+	    }
+		return results;
+	}
 	
-	private String getUIGraphResultOutput(ResultSet results1, String pid)
+	private String getUIGraphResultOutput(List<ProviderReferralResult> results, Map<String, Provider> providers, String pid)
 	{
 		final String begin = "<graph_data>";
 		StringBuilder nodes = new StringBuilder();
 		StringBuilder edges = new StringBuilder();
 		final String end = "</graph_data>";
 		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
-		nodes.append("<nodes>\n<node id=\"" + pid.replace(":", "") + "\" label=\"" + pid.replace(":", "") + "\" depth_loaded=\"2\" tooltip=\"" + 
-				pid.replace(":", "") + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
+		Iterator<ProviderReferralResult> iterator = results.iterator();
+		String tempId = pid.replace(":", "");
+		Provider p = providers.get(tempId);
+		String name = (p.getFirst()==null || "".equals(p.getFirst()) || " ".equals(p.getFirst())) ? p.getOrganization() : (p.getFirst() + " " + p.getLast());
+		nodes.append("<nodes>\n<node id=\"" + tempId + "\" label=\"" + name + "\" depth_loaded=\"2\" tooltip=\"" + 
+				name + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
 		edges.append("<edges>\n");
-		for ( ; results1.hasNext() ; )
+		while ( iterator.hasNext() )
 	    {
-		  QuerySolution soln = results1.nextSolution() ;
-	      RDFNode x = soln.get("doctor") ;
-	      RDFNode y = soln.get("referred_doctor");
-	      RDFNode z = soln.get("referral_count");
-	      RDFNode d = soln.get("direction");
-	      RDFNode c = soln.get("reverse_count");
-	      ProviderReferralResult result = new ProviderReferralResult(x, y, z, d, c);
+	      ProviderReferralResult result = iterator.next();
 	      if(rNodes.contains(result))
 	      {
 	    	  logger.info("==== Node Already present ======" + result);
@@ -195,37 +216,41 @@ public class Usecase_HC_Ecample extends HttpServlet {
 	      }
 	      rNodes.add(result);
 	      
-	      String doctor = FmtUtils.stringForRDFNode(result.getDoctor()).replace(":", "");
-	      String referred_doctor = FmtUtils.stringForRDFNode(result.getReferredDoctor()).replace(":", "");
-	      String referral_count = FmtUtils.stringForRDFNode(result.getReferralCount());
-	      String direction = FmtUtils.stringForRDFNode(result.getDirection());
-	      String rev_referral_count = FmtUtils.stringForRDFNode(result.getReverseCount());
-	      
+	      p = providers.get(result.getReferredDoctor());
+	      name = (p.getFirst()==null || "".equals(p.getFirst()) || " ".equals(p.getFirst())) ? p.getOrganization() : (p.getFirst() + " " + p.getLast());
 	      nodes.append("<node id=\"");
-	      nodes.append(referred_doctor);
+	      nodes.append(result.getReferredDoctor());
 	      nodes.append("\" label=\"");
-	      nodes.append(referred_doctor);
+	      nodes.append(name);
 	      nodes.append("\" depth_loaded=\"1\" tooltip=\"");
-	      nodes.append(referred_doctor);
+	      nodes.append(name);
 	      nodes.append("\" graphic_type=\"image\" graphic_image_url=\"images/doctor_icon.png\" graphic_size=\"50\" selected_graphic_size=\"50\" />\n");
 	      
 	      
-	      edges.append("<edge id=\"" + Math.abs((doctor + referred_doctor).hashCode()) + "\"");
-	      edges.append(" head_node_id=\"");
-	      edges.append(referred_doctor);
-	      edges.append("\" tail_node_id=\"");
-	      edges.append(doctor);
-	      if("\"referred\"".equalsIgnoreCase(direction))
+	      edges.append("<edge id=\"" + Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode()) + "\"");
+	      if("\"referred\"".equalsIgnoreCase(result.getDirection()))
 	      {
-	    	  edges.append("\" tooltip=\"provided " + referral_count + " referrals\" edge_line_color=\"#2262A0\"/>\n");
+	    	  edges.append(" head_node_id=\"");
+		      edges.append(result.getReferredDoctor());
+		      edges.append("\" tail_node_id=\"");
+		      edges.append(result.getDoctor());
+	    	  edges.append("\" tooltip=\"provided " + result.getReferralCount() + " referrals\" edge_line_color=\"#2262A0\"/>\n");
 	      }
-	      else if("\"was referred by\"".equalsIgnoreCase(direction))
+	      else if("\"was referred by\"".equalsIgnoreCase(result.getDirection()))
 	      {
-	    	  edges.append("\" tooltip=\"received " + referral_count + " referrals\" edge_line_color=\"#DA6315\"/>\n");
+	    	  edges.append(" head_node_id=\"");
+		      edges.append(result.getDoctor());
+		      edges.append("\" tail_node_id=\"");
+		      edges.append(result.getReferredDoctor());
+	    	  edges.append("\" tooltip=\"received " + result.getReferralCount() + " referrals\" edge_line_color=\"#DA6315\"/>\n");
 	      }
 	      else
 	      {
-	    	  String tooltip = "provided " + referral_count + " referrals\\n" + "received " + rev_referral_count + " referrals";
+	    	  edges.append(" head_node_id=\"");
+		      edges.append(result.getReferredDoctor());
+		      edges.append("\" tail_node_id=\"");
+		      edges.append(result.getDoctor());
+	    	  String tooltip = "provided " + result.getReferralCount() + " referrals\\n" + "received " + result.getReverseCount() + " referrals";
 	    	  edges.append("\" tooltip=\"" + tooltip + "\" edge_line_color=\"#FF0000\"/>\n"); 
 	      }
 	    }
@@ -235,6 +260,72 @@ public class Usecase_HC_Ecample extends HttpServlet {
 		
 		return (begin + "\n" + (nodes.append(edges.toString())).toString() + "\n" + end);
 	}
+	
+//	private String getUIGraphResultOutput(ResultSet results1, String pid)
+//	{
+//		final String begin = "<graph_data>";
+//		StringBuilder nodes = new StringBuilder();
+//		StringBuilder edges = new StringBuilder();
+//		final String end = "</graph_data>";
+//		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
+//		nodes.append("<nodes>\n<node id=\"" + pid.replace(":", "") + "\" label=\"" + pid.replace(":", "") + "\" depth_loaded=\"2\" tooltip=\"" + 
+//				pid.replace(":", "") + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
+//		edges.append("<edges>\n");
+//		for ( ; results1.hasNext() ; )
+//	    {
+//		  QuerySolution soln = results1.nextSolution() ;
+//	      RDFNode x = soln.get("doctor") ;
+//	      RDFNode y = soln.get("referred_doctor");
+//	      RDFNode z = soln.get("referral_count");
+//	      RDFNode d = soln.get("direction");
+//	      RDFNode c = soln.get("reverse_count");
+//	      String doctor = FmtUtils.stringForRDFNode(x).replace(":", "");
+//	      String referred_doctor = FmtUtils.stringForRDFNode(y).replace(":", "");
+//	      String referral_count = FmtUtils.stringForRDFNode(z);
+//	      String direction = FmtUtils.stringForRDFNode(d);
+//	      String rev_referral_count = FmtUtils.stringForRDFNode(c);
+//	      ProviderReferralResult result = new ProviderReferralResult(doctor, referred_doctor, referral_count, direction, rev_referral_count);
+//	      if(rNodes.contains(result))
+//	      {
+//	    	  logger.info("==== Node Already present ======" + result);
+//	    	  continue;
+//	      }
+//	      rNodes.add(result);
+//	      
+//	      nodes.append("<node id=\"");
+//	      nodes.append(referred_doctor);
+//	      nodes.append("\" label=\"");
+//	      nodes.append(referred_doctor);
+//	      nodes.append("\" depth_loaded=\"1\" tooltip=\"");
+//	      nodes.append(referred_doctor);
+//	      nodes.append("\" graphic_type=\"image\" graphic_image_url=\"images/doctor_icon.png\" graphic_size=\"50\" selected_graphic_size=\"50\" />\n");
+//	      
+//	      
+//	      edges.append("<edge id=\"" + Math.abs((doctor + referred_doctor).hashCode()) + "\"");
+//	      edges.append(" head_node_id=\"");
+//	      edges.append(referred_doctor);
+//	      edges.append("\" tail_node_id=\"");
+//	      edges.append(doctor);
+//	      if("\"referred\"".equalsIgnoreCase(direction))
+//	      {
+//	    	  edges.append("\" tooltip=\"provided " + referral_count + " referrals\" edge_line_color=\"#2262A0\"/>\n");
+//	      }
+//	      else if("\"was referred by\"".equalsIgnoreCase(direction))
+//	      {
+//	    	  edges.append("\" tooltip=\"received " + referral_count + " referrals\" edge_line_color=\"#DA6315\"/>\n");
+//	      }
+//	      else
+//	      {
+//	    	  String tooltip = "provided " + referral_count + " referrals\\n" + "received " + rev_referral_count + " referrals";
+//	    	  edges.append("\" tooltip=\"" + tooltip + "\" edge_line_color=\"#FF0000\"/>\n"); 
+//	      }
+//	    }
+//		
+//		nodes.append("</nodes>\n");
+//		edges.append("</edges>\n");
+//		
+//		return (begin + "\n" + (nodes.append(edges.toString())).toString() + "\n" + end);
+//	}
 	
 //	private String getUIGraphResultOutput(List<ProviderReferralResult> results, String pid)
 //	{
