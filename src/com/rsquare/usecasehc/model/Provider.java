@@ -17,6 +17,18 @@ public class Provider {
 		last = rs.getString("provider_last_name_legal_name_");
 		taxonomy = rs.getString("healthcare_provider_taxonomy_code_1");
 	}
+	
+	public Provider(String npi, String organization, String first, String last,
+			String taxonomy) {
+		super();
+		this.npi = npi;
+		this.organization = organization;
+		this.first = first;
+		this.last = last;
+		this.taxonomy = taxonomy;
+	}
+
+
 
 	public String getNpi() {
 		return npi;

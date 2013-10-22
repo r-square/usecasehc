@@ -138,6 +138,8 @@ public class Usecase_HC_Ecample extends HttpServlet {
 //		logger.info("Query2: " + query2.toString());
 		QueryExecution qexec1 = QueryExecutionFactory.create(query1, model) ;
 //		QueryExecution qexec2 = QueryExecutionFactory.create(query2, model) ;
+		List<ProviderReferralResult> results = new ArrayList<ProviderReferralResult>();
+		String tempId = pid.replace(":", "");
 		try {
 		   long t1 = System.currentTimeMillis();
 		   ResultSet results1 = qexec1.execSelect() ;
@@ -147,23 +149,34 @@ public class Usecase_HC_Ecample extends HttpServlet {
 //		   out.println(getUIGraphResultOutput(results1, pid));
 		   
 		   t1 = System.currentTimeMillis();
-		   List<ProviderReferralResult> results = getResultCollection(results1);
+		   results = getResultCollection(results1);
 		   t2 = System.currentTimeMillis();
 		   logger.info("getResultCollection() took time(mSec): " + (t2-t1));
 		   
 		   HiveClient hc = new HiveClient();
 		   t1 = System.currentTimeMillis();
-		   Map<String, Provider> providers = hc.getProviders(results, pid.replace(":", ""));
+		   Map<String, Provider> providers = hc.getProviders(results, tempId);
 		   t2 = System.currentTimeMillis();
 		   logger.info("getProviders() took time(mSec): " + (t2-t1));
 		   
-		   out.println(getUIGraphResultOutput(results, providers, pid));
+		   out.println(getUIGraphResultOutput(results, providers, tempId));
 		}
 		catch(SQLException exception)
 		{
-			logger.debug(exception);
-			out.println("<graph_data><nodes /><edges /></graph_data>");
-			out.println("exception - please check logs");
+			logger.error(exception);
+//			out.println("<graph_data><nodes /><edges /></graph_data>");
+//			out.println("exception - please check logs. Making graph data with IDs only");
+			Iterator<ProviderReferralResult> iterator = results.iterator();
+			Map<String, Provider> providers = new HashMap<String, Provider>();
+			Provider p = new Provider(tempId, tempId, null, null, null);
+			providers.put(tempId, p);
+			while(iterator.hasNext())
+			{
+				ProviderReferralResult pr = iterator.next();
+				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null);
+				providers.put(pr.getReferredDoctor(), p);
+			}
+			out.println(getUIGraphResultOutput(results, providers, tempId));
 		}
 		finally { 
 			qexec1.close() ;
@@ -200,10 +213,9 @@ public class Usecase_HC_Ecample extends HttpServlet {
 		final String end = "</graph_data>";
 		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
 		Iterator<ProviderReferralResult> iterator = results.iterator();
-		String tempId = pid.replace(":", "");
-		Provider p = providers.get(tempId);
+		Provider p = providers.get(pid);
 		String name = (p.getFirst()==null || "".equals(p.getFirst()) || " ".equals(p.getFirst())) ? p.getOrganization() : (p.getFirst() + " " + p.getLast());
-		nodes.append("<nodes>\n<node id=\"" + tempId + "\" label=\"" + name + "\" depth_loaded=\"2\" tooltip=\"" + 
+		nodes.append("<nodes>\n<node id=\"" + pid + "\" label=\"" + name + "\" depth_loaded=\"2\" tooltip=\"" + 
 				name + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
 		edges.append("<edges>\n");
 		while ( iterator.hasNext() )
