@@ -37,10 +37,8 @@ public class HiveClient {
 	public Provider getProvider(int npi) throws SQLException {
         Statement stmt = getConnection().createStatement();
         String sql = "" +
-                "SELECT npi, provider_organization_name_legal_business_name_,provider_first_name,provider_last_name_legal_name_,"
-                + "healthcare_provider_taxonomy_code_1" +
-                " FROM providers" +
-                " WHERE providers.npi = " + npi + " limit 1";
+        		"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,ps.general_area, ps.specialty FROM providers p join provider_specialty ps"
+        		 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and p.npi = " + npi + " limit 1";
  
         ResultSet res = stmt.executeQuery(sql);
         if(res.next())
@@ -73,8 +71,8 @@ public class HiveClient {
 	public StringBuilder makeQueryString(List<ProviderReferralResult> results, String pid)
 	{
 		StringBuilder sql = new StringBuilder(
-                "SELECT npi, provider_organization_name_legal_business_name_,provider_first_name,provider_last_name_legal_name_,"
-                + "healthcare_provider_taxonomy_code_1 FROM providers WHERE providers.npi in (" + pid + "," );
+                "SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,ps.general_area, ps.specialty FROM providers p join provider_specialty ps"
+                + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and p.npi in (" + pid + "," );
         Iterator<ProviderReferralResult> iterator = results.iterator();
         
         while(iterator.hasNext())

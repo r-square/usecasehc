@@ -36,7 +36,7 @@ public class HiveClientTest {
 		HiveClient hc = new HiveClient();
 		Provider p = hc.getProvider(1043377500);
 		assertNotNull(p);
-		System.out.printf("%s %s %s%n", p.getFirst(), p.getLast(), p.getOrganization());
+		System.out.printf("%s%n", p);
 	}
 	
 	@Test

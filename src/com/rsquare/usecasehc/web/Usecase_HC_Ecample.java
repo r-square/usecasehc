@@ -168,12 +168,12 @@ public class Usecase_HC_Ecample extends HttpServlet {
 //			out.println("exception - please check logs. Making graph data with IDs only");
 			Iterator<ProviderReferralResult> iterator = results.iterator();
 			Map<String, Provider> providers = new HashMap<String, Provider>();
-			Provider p = new Provider(tempId, tempId, null, null, null);
+			Provider p = new Provider(tempId, tempId, null, null, null, null, null);
 			providers.put(tempId, p);
 			while(iterator.hasNext())
 			{
 				ProviderReferralResult pr = iterator.next();
-				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null);
+				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
 				providers.put(pr.getReferredDoctor(), p);
 			}
 			out.println(getUIGraphResultOutput(results, providers, tempId));
@@ -215,7 +215,7 @@ public class Usecase_HC_Ecample extends HttpServlet {
 		Iterator<ProviderReferralResult> iterator = results.iterator();
 		Provider p = providers.get(pid);
 		String name = (p.getFirst()==null || "".equals(p.getFirst()) || " ".equals(p.getFirst())) ? p.getOrganization() : (p.getFirst() + " " + p.getLast());
-		nodes.append("<nodes>\n<node id=\"" + pid + "\" label=\"" + name + "\" depth_loaded=\"2\" tooltip=\"" + 
+		nodes.append("<nodes>\n<node id=\"" + pid + "\" label=\"" + name + "\\n" + p.getGeneral_area() + " - " + p.getSpecialty() + "\" depth_loaded=\"2\" tooltip=\"" + 
 				name + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
 		edges.append("<edges>\n");
 		while ( iterator.hasNext() )
@@ -234,6 +234,7 @@ public class Usecase_HC_Ecample extends HttpServlet {
 	      nodes.append(result.getReferredDoctor());
 	      nodes.append("\" label=\"");
 	      nodes.append(name);
+	      nodes.append("\\n" + p.getGeneral_area() + " - " + p.getSpecialty());
 	      nodes.append("\" depth_loaded=\"1\" tooltip=\"");
 	      nodes.append(name);
 	      nodes.append("\" graphic_type=\"image\" graphic_image_url=\"images/doctor_icon.png\" graphic_size=\"50\" selected_graphic_size=\"50\" />\n");
