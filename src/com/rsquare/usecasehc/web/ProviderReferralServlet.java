@@ -49,14 +49,14 @@ import com.rsquare.usecasehc.model.ProviderReferralResult;
 @WebServlet(urlPatterns={"/usecase_hc"}, 
 		initParams={ @WebInitParam(name="prop",value="./config/dev.properties") }
 )
-public class Usecase_HC_Ecample extends HttpServlet {
+public class ProviderReferralServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private String directory;
 	private String queryFilePath;
 	private Properties props = new Properties();
 	
-	private Logger logger = Logger.getLogger(Usecase_HC_Ecample.class);
+	private Logger logger = Logger.getLogger(ProviderReferralServlet.class);
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {

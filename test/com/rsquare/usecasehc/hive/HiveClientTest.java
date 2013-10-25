@@ -1,4 +1,4 @@
-package com.rsquare.usecase.hive;
+package com.rsquare.usecasehc.hive;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.rsquare.usecasehc.hive.HiveClient;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 

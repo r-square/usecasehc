@@ -11,6 +11,7 @@ public class Provider {
 	private String taxonomy;
 	private String general_area;
 	private String specialty;
+	private String graphViewButtonHTML;
 
 	public Provider(ResultSet rs) throws SQLException {
 		npi = rs.getString("npi");
@@ -20,6 +21,7 @@ public class Provider {
 		taxonomy = rs.getString("healthcare_provider_taxonomy_code_1");
 		general_area = rs.getString("general_area");
 		specialty = rs.getString("specialty");
+		this.graphViewButtonHTML = makeGraphViewButtonHTML();
 	}
 	
 	public Provider(String npi, String organization, String first, String last,
@@ -32,6 +34,7 @@ public class Provider {
 		this.taxonomy = taxonomy;
 		this.general_area = general_area;
 		this.specialty = specialty;
+		this.graphViewButtonHTML = makeGraphViewButtonHTML();
 	}
 
 
@@ -60,18 +63,27 @@ public class Provider {
 		return taxonomy;
 	}
 
-	/**
-	 * @return the general_area
-	 */
 	public String getGeneral_area() {
-		return general_area.replace("\"", "");
+		return general_area==null ? "" : general_area.replace("\"", "");
 	}
 
-	/**
-	 * @return the specialty
-	 */
 	public String getSpecialty() {
-		return specialty.replace("\"", "");
+		return specialty==null ? "" : specialty.replace("\"", "");
+	}
+
+	public String getGraphViewButtonHTML() {
+		if(graphViewButtonHTML==null)
+		{
+			graphViewButtonHTML = makeGraphViewButtonHTML();
+		}
+		return graphViewButtonHTML;
+	}
+	
+	private String makeGraphViewButtonHTML() {
+		StringBuilder s = new StringBuilder("<input type='button' value='View' onclick=\"javascript:loadIframe('graphFrame', '");
+		s.append(npi);
+		s.append("');javascript:$('#tab-container').easytabs('select', '#network-graph-tab'); showNetworkGraphLeftPanel();\" />");
+		return s.toString();
 	}
 
 	/* (non-Javadoc)
