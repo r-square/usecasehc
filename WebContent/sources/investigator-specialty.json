@@ -1,0 +1,21 @@
+[
+	{
+		"text": "Nursing",
+		"expanded": true,
+		"classes": "folder",
+		"children":
+		[
+			{
+				"text": "Pediatric",
+				"classes":"folder",
+				"children":
+				[
+					{
+						"text": "Long term care",
+						"classes":"file"
+					}
+				]
+			}
+		]
+	}
+]
