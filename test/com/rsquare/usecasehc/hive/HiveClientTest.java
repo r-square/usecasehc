@@ -30,9 +30,9 @@ public class HiveClientTest {
 	}
 
 	@Test
-	public void testGetProvider() throws SQLException {
+	public void testGetProviderById() throws SQLException {
 		HiveClient hc = new HiveClient();
-		Provider p = hc.getProvider("1043377500");
+		Provider p = hc.getProviderById("1043377500");
 		assertNotNull(p);
 		System.out.printf("%s%n", p);
 	}

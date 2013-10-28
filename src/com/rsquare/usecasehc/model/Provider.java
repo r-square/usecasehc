@@ -56,7 +56,11 @@ public class Provider {
 	}
 
 	public String getName() {
-		return first + " " + last;
+		StringBuilder builder = new StringBuilder();
+		builder.append((first==null || first.equals("")) ? "" : first);
+		builder.append((first==null || first.equals("")) && (last==null || last.equals("")) ? "" : " ");
+		builder.append((last==null || last.equals("")) ? "" : last);
+		return builder.toString();
 	}
 
 	public String getTaxonomy() {
@@ -118,11 +122,9 @@ public class Provider {
 		builder.append("\",\"");
 		builder.append(organization);
 		builder.append("\",\"");
-		builder.append((first==null || first.equals("")) ? "" : first);
-		builder.append((first==null || first.equals("")) && (last==null || last.equals("")) ? "" : " ");
-		builder.append((last==null || last.equals("")) ? "" : last);
+		builder.append(getName());
 		builder.append("\",\"");
-		builder.append(specialty);
+		builder.append(getSpecialty());
 		builder.append("\",\"");
 		builder.append("\u003cinput type\u003d\u0027button\u0027 value\u003d\u0027View\u0027 onclick\u003d\\\"javascript:loadIframe(\u0027graphFrame\u0027, \u0027" + npi + "\u0027);javascript:$(\u0027#tab-container\u0027).easytabs(\u0027select\u0027, \u0027#network-graph-tab\u0027); showNetworkGraphLeftPanel();\\\" /\u003e");
 		builder.append("\"]");

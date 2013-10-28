@@ -155,7 +155,7 @@ public class ProviderReferralServlet extends HttpServlet {
 		   
 		   HiveClient hc = new HiveClient();
 		   t1 = System.currentTimeMillis();
-		   Map<String, Provider> providers = hc.getProviders(results, tempId);
+		   Map<String, Provider> providers = hc.getProvidersByReferrals(results, tempId);
 		   t2 = System.currentTimeMillis();
 		   logger.info("getProviders() took time(mSec): " + (t2-t1));
 		   
@@ -214,7 +214,7 @@ public class ProviderReferralServlet extends HttpServlet {
 		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
 		Iterator<ProviderReferralResult> iterator = results.iterator();
 		Provider p = providers.get(pid);
-		String name = (p.getFirst()==null || "".equals(p.getFirst()) || " ".equals(p.getFirst())) ? p.getOrganization() : (p.getFirst() + " " + p.getLast());
+		String name = (p.getName()==null || "".equals(p.getName()) || " ".equals(p.getName())) ? p.getOrganization() : (p.getName());
 		nodes.append("<nodes>\n<node id=\"" + pid + "\" label=\"" + name + "\\n" + p.getGeneral_area() + " - " + p.getSpecialty() + "\" depth_loaded=\"2\" tooltip=\"" + 
 				name + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
 		edges.append("<edges>\n");
@@ -229,7 +229,7 @@ public class ProviderReferralServlet extends HttpServlet {
 	      rNodes.add(result);
 	      
 	      p = providers.get(result.getReferredDoctor());
-	      name = (p.getFirst()==null || "".equals(p.getFirst()) || " ".equals(p.getFirst())) ? p.getOrganization() : (p.getFirst() + " " + p.getLast());
+	      name = (p.getName()==null || "".equals(p.getName()) || " ".equals(p.getName())) ? p.getOrganization() : (p.getName());
 	      nodes.append("<node id=\"");
 	      nodes.append(result.getReferredDoctor());
 	      nodes.append("\" label=\"");
