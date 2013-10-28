@@ -3,6 +3,7 @@ package com.rsquare.usecasehc.model;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.After;
@@ -36,8 +37,21 @@ public class ProviderTest {
 		List<Provider> list = new ArrayList<Provider>();
 		list.add(p1);
 		list.add(p2);
-		Gson g = new Gson();
-		System.out.println(g.toJson(list));
+		StringBuilder b = new StringBuilder();
+		Iterator<Provider> iterator = list.iterator();
+		b.append("{ \"providerList\": [");
+		while(iterator.hasNext())
+		{
+			b.append("\n");
+			Provider p = iterator.next();
+			b.append(p.toJSONString());
+			b.append(",");
+		}
+		b.deleteCharAt(b.length()-1);
+		b.append("\n]}");
+		System.out.println(b.toString());
+//		Gson g = new Gson();
+//		System.out.println(g.toJson(list));
 	}
 
 }
