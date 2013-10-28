@@ -110,6 +110,26 @@ public class Provider {
 		return builder.toString();
 	}
 	
+	public String toJSONString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("[\"");
+		builder.append(npi);
+		builder.append("\",\"");
+		builder.append(organization);
+		builder.append("\",\"");
+		builder.append((first==null || first.equals("")) ? "" : first);
+		builder.append((first==null || first.equals("")) && (last==null || last.equals("")) ? "" : " ");
+		builder.append((last==null || last.equals("")) ? "" : last);
+		builder.append("\",\"");
+		builder.append(specialty);
+		builder.append("\",\"");
+		builder.append("\u003cinput type\u003d\u0027button\u0027 value\u003d\u0027View\u0027 onclick\u003d\\\"javascript:loadIframe(\u0027graphFrame\u0027, \u0027" + npi + "\u0027);javascript:$(\u0027#tab-container\u0027).easytabs(\u0027select\u0027, \u0027#network-graph-tab\u0027); showNetworkGraphLeftPanel();\\\" /\u003e");
+		builder.append("\"]");
+		
+		return builder.toString();
+	}
+	
 	
 
 }

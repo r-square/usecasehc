@@ -264,7 +264,7 @@ public class ProviderReferralServlet extends HttpServlet {
 		      edges.append("\" tail_node_id=\"");
 		      edges.append(result.getDoctor());
 	    	  String tooltip = "provided " + result.getReferralCount() + " referrals\\n" + "received " + result.getReverseCount() + " referrals";
-	    	  edges.append("\" tooltip=\"" + tooltip + "\" edge_line_color=\"#FF0000\"/>\n"); 
+	    	  edges.append("\" tooltip=\"" + tooltip + "\" edge_line_color=\"#FF0000\" bidirectional=\"true\"/>\n"); 
 	      }
 	    }
 		

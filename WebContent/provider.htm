@@ -8,6 +8,7 @@
 <link href="css/demo_page.css" type="text/css" rel="stylesheet">
 <link href="css/demo_table.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" language="javascript" src="scripts/jquery.dataTables.js"></script>
+<script type="text/javascript" src="scripts/dataTables.fnGetHiddenNodes.js"></script>
 
 <link rel="stylesheet" href="css/jquery.treeview.css" />
 <script src="scripts/jquery.treeview.js" type="text/javascript"></script>
@@ -74,8 +75,10 @@ $(document).ready( function() {
 	   }
   });
 	var providerListTable = $('#provider-list').dataTable( {
+		"bServerSide": true,
 		"bProcessing": true,
-		"sAjaxSource": "sources/provider-list.json",
+		"bRetrieve": true,
+		"sAjaxSource": "providerdata",
 		"sAjaxDataProp": "providerList"
 	});
 	
@@ -135,7 +138,7 @@ function loadIframe(iframeName, url) {
     var $iframe = $('#' + iframeName);
     if(url=='')
     {
-    	url = 'provider_graph.html?pid=' + $('#pid').val();
+    	url = 'provider_graph.html?pid=' + $('#pid_network_graph').val();
     }
     else
     {
@@ -146,6 +149,15 @@ function loadIframe(iframeName, url) {
         return false;
     }
     return true;
+}
+
+function loadGridFromProviderId() {
+    var url = 'providerdata?pid=' + $('#pid_provider_list').val();
+    url += '&state=' + $('#state_provider_list').val();
+    var table = $('#provider-list').dataTable();
+    //table.fnDraw(true);
+    table.fnReloadAjax(url);
+    //table.fnClearTable();
 }
 
 
@@ -179,10 +191,10 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 		<div id="lft-div-provider-list" style="display:none;">
 			<strong>Enter Provider Id</strong>
 			<br />
-			<input type="text">
+			<input id="pid_provider_list" name="pid_provider_list" type="text" onchange="javascript:$('#state_provider_list').val(0);">
 			<br /><br />
-			<select>
-				<option>State</option>
+			<select id="state_provider_list" name="state_provider_list" onchange="javascript:$('#pid_provider_list').val('');">
+				<option>All States</option>
 				<option>AZ</option>
 				<option>AL</option>
 				<option>NJ</option>
@@ -199,13 +211,14 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 			
 			
 			<br /><br /><br /><br />
-			<div style="vertical-align:bottom"><input type="button" value="Filter Results"></div>
+			<div style="vertical-align:bottom">
+			<input type="button" value="Filter Results" onclick="javascript:loadGridFromProviderId()"></div>
 		</div>
 		
 		<div id="lft-div-network-graph" style="display:none">
 			<strong>Enter Provider Id</strong>
 			<br />
-			<input id="pid" name="pid" type="text">
+			<input id="pid_network_graph" name="pid_network_graph" type="text">
 			<br /><br />
 			<strong>View only top k referrals</strong>
 			<br />
