@@ -34,7 +34,7 @@ public class HiveClient {
 				"jdbc:hive2://localhost:10000/default", "", "");
 	}
 	
-	public Provider getProvider(int npi) throws SQLException {
+	public Provider getProvider(String npi) throws SQLException {
         Statement stmt = getConnection().createStatement();
         String sql = "" +
         		"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,ps.general_area, ps.specialty FROM providers p join provider_specialty ps"
