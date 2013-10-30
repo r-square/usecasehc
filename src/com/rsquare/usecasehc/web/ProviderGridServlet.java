@@ -22,6 +22,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.rsquare.usecasehc.hive.HiveClient;
 import com.rsquare.usecasehc.model.Provider;
@@ -80,20 +83,24 @@ public class ProviderGridServlet extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		PrintWriter out = response.getWriter();
-//		Provider p1 = new Provider("1043377500", "Detroit Medical Labs", "", "", "xyz", "Lab", "Agency");
-//		Provider p2 = new Provider("1477664738", "", "John", "Smith", "xyz", "Surgeon", "Surgery");
-//		Provider p3 = new Provider("14776647380000", "", "John", "Smith", "xyz", "Surgeon", "Surgery");
 		List<Provider> list = new ArrayList<Provider>();
 		String pid = request.getParameter("pid");
 		String state = request.getParameter("state");
 		int startIndex = Integer.parseInt(request.getParameter("iDisplayStart"));
 		int records = Integer.parseInt(request.getParameter("iDisplayLength"));
+		final String searchString = request.getParameter("sSearch");
 		HttpSession session = request.getSession(true);
 		File f = (File)session.getAttribute(pid + state);
+		boolean filterResults = false;
+		if(searchString!=null &&  !searchString.equals("") && !searchString.startsWith("debug"))
+		{
+			filterResults = true;
+			
+		}
 		if(f==null)
 		{
 			//First run of the query
-			if(pid!=null &&  !pid.equals(""))
+			if(pid!=null &&  !pid.equals("") && !pid.startsWith("debug"))
 			{
 				HiveClient hc = new HiveClient();
 				try {
@@ -116,22 +123,13 @@ public class ProviderGridServlet extends HttpServlet {
 					logger.error(exception);
 				}
 			}
-//			if("1".equals(pid)){
-//				list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);
-//				list.add(p2);
-//				list.add(p2);
-//				list.add(p2);
-//				list.add(p2);
-//				list.add(p2);
-//				list.add(p2);
-//				list.add(p2);
-//				list.add(p2);
-//			}
-//			else if("2".equals(pid))
-//			list.add(p3);
+			else
+			{
+				list = getStubData(pid);
+			}
 			logger.info("Got the Hive results - Writing temp file");
 			ProviderGridResult pgr = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), list);
-			ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), getProviders(startIndex, records, list));
+			
 			if(list.size() > 0)
 			{
 				File f1 = createTempFile();
@@ -141,8 +139,17 @@ public class ProviderGridServlet extends HttpServlet {
 				output.close();
 				session.setAttribute(pid + state, f1);
 			}
-			Gson g = new Gson();
-			out.println(g.toJson(pgr1));
+			if(filterResults)
+			{
+				List<Provider> filteredList = Lists.newArrayList(Collections2.filter(list, getFilterPredicate(searchString)));
+				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(filteredList.size()), getProviders(startIndex, records, filteredList));
+				writeJSON(pgr1, out);
+			}
+			else
+			{
+				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), getProviders(startIndex, records, list));
+				writeJSON(pgr1, out);
+			}
 		}
 		else
 		{
@@ -151,14 +158,21 @@ public class ProviderGridServlet extends HttpServlet {
 			ObjectInputStream input = new ObjectInputStream(new FileInputStream(f));
 			try {
 				ProviderGridResult pgr = (ProviderGridResult)input.readObject();
-				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(pgr.getAaData().size()), getProviders(startIndex, records, pgr.getAaData()));
-				Gson g = new Gson();
-				out.println(g.toJson(pgr1));
+				if(filterResults)
+				{
+					List<Provider> filteredList = Lists.newArrayList(Collections2.filter(pgr.getAaData(), getFilterPredicate(searchString)));
+					ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(filteredList.size()), getProviders(startIndex, records, filteredList));
+					writeJSON(pgr1, out);
+				}
+				else
+				{
+					ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(pgr.getAaData().size()), getProviders(startIndex, records, pgr.getAaData()));
+					writeJSON(pgr1, out);
+				}
 			} catch (ClassNotFoundException e) {
 				logger.error(e);
 				ProviderGridResult pgr = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), list);
-				Gson g = new Gson();
-				out.println(g.toJson(pgr));
+				writeJSON(pgr, out);
 			}
 			finally
 			{
@@ -188,6 +202,46 @@ public class ProviderGridServlet extends HttpServlet {
 		String fileName = UUID.randomUUID().toString();
 		File f = new File(tempFilePath + "/" + fileName);
 		return f;
+	}
+	
+	private Predicate<Provider> getFilterPredicate(final String searchString)
+	{
+		return new Predicate<Provider>() {
+			  public boolean apply(Provider p) {
+			    return (p.getName().toLowerCase().contains(searchString.toLowerCase()) || p.getNpi().toLowerCase().contains(searchString.toLowerCase()) || 
+			    		p.getSpecialty().toLowerCase().contains(searchString.toLowerCase()) || p.getOrganization().toLowerCase().contains(searchString.toLowerCase()));
+			  }
+			};
+	}
+	
+	private void writeJSON(ProviderGridResult pgr, PrintWriter out)
+	{
+		Gson g = new Gson();
+		out.println(g.toJson(pgr));
+	}
+	
+	private List<Provider> getStubData(String pid)
+	{
+		Provider p1 = new Provider("1043377500", "Detroit Medical Labs", "", "", "xyz", "Lab", "Agency");
+		Provider p2 = new Provider("1477664738", "", "John", "Smith", "xyz", "Surgeon", "Surgery");
+		Provider p3 = new Provider("1477664738", "", "John", "Smith2", "xyz", "Surgeon", "Surgery");
+		List<Provider> list = new ArrayList<Provider>();
+		if("debug1".equals(pid)){
+			list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);
+			list.add(p2);
+			list.add(p2);
+			list.add(p2);
+			list.add(p2);
+			list.add(p2);
+			list.add(p2);
+			list.add(p2);
+			list.add(p2);
+		}
+		else if("debug2".equals(pid))
+		{
+			list.add(p3);
+		}
+		return list;
 	}
 	
 //	private void processRequest1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
