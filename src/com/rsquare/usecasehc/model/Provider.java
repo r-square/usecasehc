@@ -1,17 +1,20 @@
 package com.rsquare.usecasehc.model;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Provider {
+public class Provider implements Serializable {
 	private String npi;
 	private String organization;
 	private String first;
 	private String last;
+	private String name;
 	private String taxonomy;
 	private String general_area;
 	private String specialty;
 	private String graphViewButtonHTML;
+	private static final long serialVersionUID = 100L;
 
 	public Provider(ResultSet rs) throws SQLException {
 		npi = rs.getString("npi");
@@ -22,6 +25,7 @@ public class Provider {
 		general_area = rs.getString("general_area");
 		specialty = rs.getString("specialty");
 		this.graphViewButtonHTML = makeGraphViewButtonHTML();
+		this.name = makeNameString();
 	}
 	
 	public Provider(String npi, String organization, String first, String last,
@@ -35,6 +39,7 @@ public class Provider {
 		this.general_area = general_area;
 		this.specialty = specialty;
 		this.graphViewButtonHTML = makeGraphViewButtonHTML();
+		this.name = makeNameString();
 	}
 
 
@@ -56,11 +61,11 @@ public class Provider {
 	}
 
 	public String getName() {
-		StringBuilder builder = new StringBuilder();
-		builder.append((first==null || first.equals("")) ? "" : first);
-		builder.append((first==null || first.equals("")) && (last==null || last.equals("")) ? "" : " ");
-		builder.append((last==null || last.equals("")) ? "" : last);
-		return builder.toString();
+		if(name == null)
+		{
+			name = makeNameString();
+		}
+		return name;
 	}
 
 	public String getTaxonomy() {
@@ -88,6 +93,14 @@ public class Provider {
 		s.append(npi);
 		s.append("');javascript:$('#tab-container').easytabs('select', '#network-graph-tab'); showNetworkGraphLeftPanel();\" />");
 		return s.toString();
+	}
+	
+	private String makeNameString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append((first==null || first.equals("")) ? "" : first);
+		builder.append((first==null || first.equals("")) && (last==null || last.equals("")) ? "" : " ");
+		builder.append((last==null || last.equals("")) ? "" : last);
+		return builder.toString();
 	}
 
 	/* (non-Javadoc)
@@ -131,7 +144,5 @@ public class Provider {
 		
 		return builder.toString();
 	}
-	
-	
 
 }

@@ -1,17 +1,24 @@
 package com.rsquare.usecasehc.web;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -27,6 +34,7 @@ import com.rsquare.usecasehc.model.ProviderGridResult;
 public class ProviderGridServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Logger logger = Logger.getLogger(ProviderGridServlet.class);
+	private String tempFilePath = "./tmp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,6 +42,25 @@ public class ProviderGridServlet extends HttpServlet {
     public ProviderGridServlet() {
         super();
         // TODO Auto-generated constructor stub
+    }
+    
+    @Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		String path = getServletContext().getRealPath("../../");
+		File f = new File(path + "/tmp");
+		boolean exists = f.exists();
+		if(!exists)
+		{
+			exists = f.mkdir();
+			if(!exists)
+			{
+				logger.error("Failed to initialize temp directory for ProviderGrid data");
+				throw new ServletException("Failed to initialize temp directory for ProviderGrid data");
+			}
+		}
+		tempFilePath = f.getAbsolutePath();
+		logger.info("Temp file path is: " + tempFilePath);
     }
 
 	/**
@@ -50,12 +77,122 @@ public class ProviderGridServlet extends HttpServlet {
 		processRequest(request, response);
 	}
 	
-//	private void processRequest1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-//	{
-//		PrintWriter out = response.getWriter();
+	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
+		PrintWriter out = response.getWriter();
 //		Provider p1 = new Provider("1043377500", "Detroit Medical Labs", "", "", "xyz", "Lab", "Agency");
 //		Provider p2 = new Provider("1477664738", "", "John", "Smith", "xyz", "Surgeon", "Surgery");
 //		Provider p3 = new Provider("14776647380000", "", "John", "Smith", "xyz", "Surgeon", "Surgery");
+		List<Provider> list = new ArrayList<Provider>();
+		String pid = request.getParameter("pid");
+		String state = request.getParameter("state");
+		int startIndex = Integer.parseInt(request.getParameter("iDisplayStart"));
+		int records = Integer.parseInt(request.getParameter("iDisplayLength"));
+		HttpSession session = request.getSession(true);
+		File f = (File)session.getAttribute(pid + state);
+		if(f==null)
+		{
+			//First run of the query
+			if(pid!=null &&  !pid.equals(""))
+			{
+				HiveClient hc = new HiveClient();
+				try {
+					Provider p = hc.getProviderById(pid);
+					list.add(p);
+				}
+				catch(SQLException exception)
+				{
+					logger.error(exception);
+				}
+			}
+			else if(state!=null &&  !state.equals("") && !state.equalsIgnoreCase("All States"))
+			{
+				HiveClient hc = new HiveClient();
+				try {
+					list = hc.getProvidersByState(state);
+				}
+				catch(SQLException exception)
+				{
+					logger.error(exception);
+				}
+			}
+//			if("1".equals(pid)){
+//				list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);
+//				list.add(p2);
+//				list.add(p2);
+//				list.add(p2);
+//				list.add(p2);
+//				list.add(p2);
+//				list.add(p2);
+//				list.add(p2);
+//				list.add(p2);
+//			}
+//			else if("2".equals(pid))
+//			list.add(p3);
+			logger.info("Got the Hive results - Writing temp file");
+			ProviderGridResult pgr = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), list);
+			ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), getProviders(startIndex, records, list));
+			if(list.size() > 0)
+			{
+				File f1 = createTempFile();
+				logger.info("File path: " + f1.getAbsolutePath());
+				ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(f1));
+				output.writeObject(pgr);
+				output.close();
+				session.setAttribute(pid + state, f1);
+			}
+			Gson g = new Gson();
+			out.println(g.toJson(pgr1));
+		}
+		else
+		{
+			//Look for existing file and get the data.
+			logger.info("Reading existing file: " + f.getAbsolutePath());
+			ObjectInputStream input = new ObjectInputStream(new FileInputStream(f));
+			try {
+				ProviderGridResult pgr = (ProviderGridResult)input.readObject();
+				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(pgr.getAaData().size()), getProviders(startIndex, records, pgr.getAaData()));
+				Gson g = new Gson();
+				out.println(g.toJson(pgr1));
+			} catch (ClassNotFoundException e) {
+				logger.error(e);
+				ProviderGridResult pgr = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), list);
+				Gson g = new Gson();
+				out.println(g.toJson(pgr));
+			}
+			finally
+			{
+				input.close();
+			}
+		}
+	}
+	
+	private List<Provider> getProviders(int startIndex, int records, List<Provider>providers)
+	{
+		if(providers.size() > 0)
+		{
+			if(providers.size() > (startIndex + records))
+			{
+				return providers.subList(startIndex, startIndex + records);
+			}
+			else
+			{
+				return providers.subList(startIndex, providers.size());
+			}
+		}
+		return providers;
+	}
+	
+	private File createTempFile()
+	{
+		String fileName = UUID.randomUUID().toString();
+		File f = new File(tempFilePath + "/" + fileName);
+		return f;
+	}
+	
+//	private void processRequest1(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+//	{
+//		PrintWriter out = response.getWriter();
 //		List<Provider> list = new ArrayList<Provider>();
 //		String pid = request.getParameter("pid");
 //		String state = request.getParameter("state");
@@ -71,69 +208,30 @@ public class ProviderGridServlet extends HttpServlet {
 //				logger.error(exception);
 //			}
 //		}
-//		if("1".equals(pid)){
-//			list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);list.add(p1);
-//			list.add(p2);
-//			list.add(p2);
-//			list.add(p2);
-//			list.add(p2);
-//			list.add(p2);
-//			list.add(p2);
-//			list.add(p2);
-//			list.add(p2);
+//		else if(state!=null &&  !state.equals(""))
+//		{
+//			HiveClient hc = new HiveClient();
+//			try {
+//				list = hc.getProvidersByState(state);
+//			}
+//			catch(SQLException exception)
+//			{
+//				logger.error(exception);
+//			}
 //		}
-//		else if("2".equals(pid))
-//		list.add(p3);
-//		ProviderGridResult pgr = new ProviderGridResult(1, String.valueOf(list.size()), String.valueOf(list.size()), list);
-//		Gson g = new Gson();
-//		System.out.println(g.toJson(pgr));
+//		StringBuilder b = new StringBuilder();
+//		Iterator<Provider> iterator = list.iterator();
+//		b.append("{ \"providerList\": [");
+//		while(iterator.hasNext())
+//		{
+//			b.append("\n");
+//			Provider p = iterator.next();
+//			b.append(p.toJSONString());
+//			b.append(",");
+//		}
+//		if(list.size() > 0)
+//			b.deleteCharAt(b.length()-1);
+//		b.append("\n]}");
+//		out.println(b.toString());
 //	}
-	
-	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
-		PrintWriter out = response.getWriter();
-		List<Provider> list = new ArrayList<Provider>();
-		String pid = request.getParameter("pid");
-		String state = request.getParameter("state");
-		if(pid!=null &&  !pid.equals(""))
-		{
-			HiveClient hc = new HiveClient();
-			try {
-				Provider p = hc.getProviderById(pid);
-				list.add(p);
-			}
-			catch(SQLException exception)
-			{
-				logger.error(exception);
-			}
-		}
-		else if(state!=null &&  !state.equals(""))
-		{
-			HiveClient hc = new HiveClient();
-			try {
-				list = hc.getProvidersByState(state);
-			}
-			catch(SQLException exception)
-			{
-				logger.error(exception);
-			}
-		}
-		StringBuilder b = new StringBuilder();
-		Iterator<Provider> iterator = list.iterator();
-		b.append("{ \"providerList\": [");
-		while(iterator.hasNext())
-		{
-			b.append("\n");
-			Provider p = iterator.next();
-			b.append(p.toJSONString());
-			b.append(",");
-		}
-		if(list.size() > 0)
-			b.deleteCharAt(b.length()-1);
-		b.append("\n]}");
-		out.println(b.toString());
-	}
-	
-	
-
 }
