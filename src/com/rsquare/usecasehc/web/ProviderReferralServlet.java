@@ -56,7 +56,7 @@ public class ProviderReferralServlet extends HttpServlet {
 	private String queryFilePath;
 	private Properties props = new Properties();
 	
-	private Logger logger = Logger.getLogger(ProviderReferralServlet.class);
+	private static Logger logger = Logger.getLogger(ProviderReferralServlet.class);
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {

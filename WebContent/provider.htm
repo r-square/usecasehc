@@ -80,13 +80,13 @@ $(document).ready( function() {
 		"sAjaxDataProp": "aaData",
 		"iDisplayLength": 50,
 		"bFilter": true,
-		"bSort": false,
+		"bSort": true,
 		"aoColumns": [
 		              { "mData": "npi" },
 		              { "mData": "organization" },
 		              { "mData": "name" },
 		              { "mData": "specialty" },
-		              { "mData": "graphViewButtonHTML" }
+		              { "mData": "graphViewButtonHTML", "bSortable": false }
 		          ],
 		"fnServerParams": function ( aoData ) {
         	aoData.push( { "name": "pid", "value":  $('#pid_provider_list').val() }, { "name": "state", "value": $('#state_provider_list').val() });
