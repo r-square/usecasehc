@@ -89,9 +89,9 @@ public class Provider implements Serializable {
 	}
 	
 	private String makeGraphViewButtonHTML() {
-		StringBuilder s = new StringBuilder("<input type='button' value='View' onclick=\"javascript:loadIframe('graphFrame', '");
+		StringBuilder s = new StringBuilder("<input type='button' value='View' onclick=\"javascript:loadGraph('");
 		s.append(npi);
-		s.append("');javascript:$('#tab-container').easytabs('select', '#network-graph-tab'); showNetworkGraphLeftPanel();\" />");
+		s.append("');\" />");
 		return s.toString();
 	}
 	

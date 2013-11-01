@@ -99,7 +99,7 @@
 		   - when set to true, the Flash movie can communicate with the
 		   - embedding web page via javascript
 		   -->
-		<use_javascript>false</use_javascript>
+		<use_javascript>true</use_javascript>
 		
 		<!-- indicates whether javascript calls receive an instance ID.  the
 		   - instance ID is set by the embedding web page and setting this
@@ -237,7 +237,7 @@
 			edge_line_thickness="1"
 			
 			arrowhead="true"
-			bidirectional="false`"
+			bidirectional="false"
 			
 			edge_length_weight="0"
 			/>
