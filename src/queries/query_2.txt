@@ -1,10 +1,17 @@
 prefix : <http://demo.marklogic.com/provider/> 
-  prefix vocab: <http://demo.marklogic.com/provider/vocab#> 
-  prefix foaf: <http://xmlns.com/foaf/0.1/> 
-    SELECT  ?referring_doctor (?provider as ?doctor) ?referral_count  
-    WHERE { ?referring_doctor foaf:knows ?provider  .
-            ?referring_doctor vocab:referral ?referral . 
+prefix vocab: <http://demo.marklogic.com/provider/vocab#> 
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+SELECT (?provider as ?doctor) ?direction ?referred_doctor ?referral_count ?reverse_count
+    WHERE 
+    {
+          { 
+            ?referred_doctor foaf:knows ?provider ; 
+                             vocab:referral ?referral . 
             ?referral vocab:referredTo ?provider ;
                       vocab:quantity ?referral_count.
-            FILTER (?referral_count >= 1) .
-             }
+            BIND ("was referred by" as ?direction) .
+            BIND (0 as ?reverse_count) .
+            OPTIONAL { ?physician foaf:knows ?referred_doctor . }
+            FILTER (!bound(?physician)) .
+          }
+     }  
