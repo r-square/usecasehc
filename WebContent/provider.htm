@@ -178,6 +178,12 @@ function loadGraph(pid) {
     //coming from other tab via "view button click
     $('#tab-container').easytabs('select', '#network-graph-tab'); 
     showNetworkGraphLeftPanel();
+    var params = ($("#redArrow").prop('checked') ? '1' : '0') + ($("#brownArrow").prop('checked') ? '1' : '0') + ($("#blueArrow").prop('checked') ? '1' : '0') ;
+    if(!params || params=='000')
+    {
+    	alert("Select atleast one direction of referral");
+    	return;
+    }
     if(pid!=$('#pid_network_graph').val())
     {
     	$('#pid_network_graph').val(pid);
@@ -190,9 +196,9 @@ function loadGraph(pid) {
     }
     
     if (swfObj) {
-      var msg = swfObj.getSelectedNodeID() + " : " + swfObj.getTreeDepth();
       swfObj.clearGraphData();
       swfObj.setSelectedNodeID(pid);
+      swfObj.setPassthru(params);
       swfObj.reloadGraphData(); // e.g. an external interface call
     }
     else
@@ -200,7 +206,7 @@ function loadGraph(pid) {
     	var flashvars = {
    	   		config_url: 'provider_config.xml',
    	   		selected_node_id: pid,
-   	   		//passthru: escape(getParameterByName('s')),
+   	   		passthru: params,
    	   		//instance_id: pid,
    	   		debug: true
    	   	};
@@ -306,11 +312,11 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 			<br />
 			<strong>Select Direction of Referral</strong>
 			<br />
-			<input type="checkbox" checked="checked"> Referred other providers
+			<input id="blueArrow" type="checkbox" checked="checked"> Referred other providers
 			<br />
-			<input type="checkbox"> Was referred by other provider
+			<input id="brownArrow" type="checkbox"> Was referred by other provider
 			<br />
-			<input type="checkbox"> Referrals happened in both
+			<input id="redArrow" type="checkbox"> Referrals happened in both
 			<br /><br />
 			<hr width="200" style="float:left;" />
 			<br />

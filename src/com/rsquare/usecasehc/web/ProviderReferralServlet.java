@@ -109,6 +109,7 @@ public class ProviderReferralServlet extends HttpServlet {
 		}
 		logger.info("Querying DB Path: " + directory);
 		String pid = (request.getParameter("pid"));
+		int fileNum = Integer.parseInt(request.getParameter("params"), 2);
 		PrintWriter out = response.getWriter();
 		if(pid==null)
 		{
@@ -117,9 +118,8 @@ public class ProviderReferralServlet extends HttpServlet {
 		}
 		Dataset dataset = TDBFactory.createDataset(directory);
 		Model model = dataset.getDefaultModel();
+		String sql1 = FileManager.get().readWholeFileAsUTF8(queryFilePath + "/query_" + (fileNum==0 ? 1 : fileNum) + ".txt");
 		
-		String sql1 = FileManager.get().readWholeFileAsUTF8(queryFilePath + "/query_3.txt");
-//		String sql2 = FileManager.get().readWholeFileAsUTF8(queryFilePath + "/query_2.txt");
 		Map<String, String> prefix = new HashMap<String, String>();
 		prefix.put("", "http://demo.marklogic.com/provider/");
 		 
@@ -164,8 +164,6 @@ public class ProviderReferralServlet extends HttpServlet {
 		catch(SQLException exception)
 		{
 			logger.error(exception);
-//			out.println("<graph_data><nodes /><edges /></graph_data>");
-//			out.println("exception - please check logs. Making graph data with IDs only");
 			Iterator<ProviderReferralResult> iterator = results.iterator();
 			Map<String, Provider> providers = new HashMap<String, Provider>();
 			Provider p = new Provider(tempId, tempId, null, null, null, null, null);
