@@ -1,0 +1,31 @@
+{
+"nodes":[
+    {
+        "label": "Agency",
+        "id":"1234",
+        "children": [
+            {
+                "label": "CaseManagement",
+                 "id":"456",
+                "taxonomy_id": "251B00000X"
+            },
+            {
+                "label": "Community/BehavioralHealth",
+                 "id":"789",
+                "taxonomy_id": "251S00000X"
+            }
+        ]
+    },
+    {
+        "label": "Amb HC Fac",
+        "id":"890",
+        "children": [
+            {
+                "label": "Clinic/Center",
+                "id":"901",
+                "taxonomy_id": "261Q00000X"
+            }
+         ]
+      }
+]
+}      

@@ -29,6 +29,7 @@ import com.google.gson.Gson;
 import com.rsquare.usecasehc.hive.HiveClient;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderGridResult;
+import com.rsquare.usecasehc.util.PredicateHelper;
 import com.rsquare.usecasehc.util.ProviderSortHelper;
 
 /**
@@ -51,8 +52,8 @@ public class ProviderGridServlet extends HttpServlet {
     @Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		String path = getServletContext().getRealPath("../../");
-		File f = new File(path + "/tmp");
+		String path = getServletContext().getRealPath("/");
+		File f = new File(path + "../../tmp");
 		boolean exists = f.exists();
 		if(!exists)
 		{
@@ -65,6 +66,7 @@ public class ProviderGridServlet extends HttpServlet {
 		}
 		tempFilePath = f.getAbsolutePath();
 		logger.info("Temp file path is: " + tempFilePath);
+		
     }
 
 	/**
@@ -87,13 +89,14 @@ public class ProviderGridServlet extends HttpServlet {
 		List<Provider> list = new ArrayList<Provider>();
 		final String pid = request.getParameter("pid");
 		final String state = request.getParameter("state");
+		final String specialty = request.getParameter("specialty");
 		final int startIndex = Integer.parseInt(request.getParameter("iDisplayStart"));
 		final int records = Integer.parseInt(request.getParameter("iDisplayLength"));
 		final String searchString = request.getParameter("sSearch");
 		final int sortCol = Integer.parseInt(request.getParameter("iSortCol_0"));
 		final String sortDir = request.getParameter("sSortDir_0");
 		HttpSession session = request.getSession(true);
-		File f = (File)session.getAttribute(pid + state);
+		File f = (File)session.getAttribute(pid + state + specialty);
 		String sortDone = (String)session.getAttribute("sort");
 		boolean filterResults = false;
 		if(searchString!=null &&  !searchString.equals("") && !searchString.startsWith("debug"))
@@ -101,6 +104,7 @@ public class ProviderGridServlet extends HttpServlet {
 			filterResults = true;
 			
 		}
+//		f = new File(tempFilePath + "/" + "b10878b7-a254-4670-ba6e-7529d98c742e");
 		if(f==null)
 		{
 			//First run of the query
@@ -116,11 +120,35 @@ public class ProviderGridServlet extends HttpServlet {
 					logger.error(exception);
 				}
 			}
-			else if(state!=null &&  !state.equals("") && !state.equalsIgnoreCase("All States"))
+			else if(state!=null &&  !state.equals("") && !state.equalsIgnoreCase("All States") && (specialty==null || specialty.equals("") || specialty.equals("undefined")))
 			{
 				HiveClient hc = new HiveClient();
 				try {
 					list = hc.getProvidersByState(state);
+				}
+				catch(SQLException exception)
+				{
+					logger.error(exception);
+				}
+			}
+			else if(state!=null &&  !state.equals("") && !state.equalsIgnoreCase("All States") && specialty!=null && !specialty.equals("") && !specialty.equals("undefined"))
+			{
+				HiveClient hc = new HiveClient();
+				try {
+					//get provider by state & specialty
+					list = hc.getProvidersByStateAndSpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderNodeServlet.nodes.getNodes(), specialty), state);
+				}
+				catch(SQLException exception)
+				{
+					logger.error(exception);
+				}
+			}
+			else if((state==null || state.equals("") || state.equalsIgnoreCase("All States")) && specialty!=null && !specialty.equals("") && !specialty.equals("undefined"))
+			{
+				HiveClient hc = new HiveClient();
+				try {
+					//get provider by specialty
+					list = hc.getProvidersBySpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderNodeServlet.nodes.getNodes(), specialty));
 				}
 				catch(SQLException exception)
 				{
@@ -146,7 +174,7 @@ public class ProviderGridServlet extends HttpServlet {
 				ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(f1));
 				output.writeObject(pgr);
 				output.close();
-				session.setAttribute(pid + state, f1);
+				session.setAttribute(pid + state + specialty, f1);
 			}
 			if(filterResults)
 			{
