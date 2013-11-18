@@ -14,6 +14,8 @@ public class Provider implements Serializable {
 	private String general_area;
 	private String specialty;
 	private String graphViewButtonHTML;
+	private String city;
+	private String state;
 	private static final long serialVersionUID = 100L;
 
 	public Provider(ResultSet rs) throws SQLException {
@@ -24,6 +26,8 @@ public class Provider implements Serializable {
 		taxonomy = rs.getString("healthcare_provider_taxonomy_code_1");
 		general_area = rs.getString("general_area");
 		specialty = rs.getString("specialty");
+		state = rs.getString("provider_business_mailing_address_state_name");
+		city = rs.getString("provider_business_mailing_address_city_name");
 		this.graphViewButtonHTML = makeGraphViewButtonHTML();
 		this.name = makeNameString();
 	}
@@ -41,8 +45,6 @@ public class Provider implements Serializable {
 		this.graphViewButtonHTML = makeGraphViewButtonHTML();
 		this.name = makeNameString();
 	}
-
-
 
 	public String getNpi() {
 		return npi;
@@ -80,6 +82,22 @@ public class Provider implements Serializable {
 		return specialty==null ? "" : specialty.replace("\"", "");
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public String getGraphViewButtonHTML() {
 		if(graphViewButtonHTML==null)
 		{
@@ -97,15 +115,19 @@ public class Provider implements Serializable {
 	
 	private String makeNameString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append((first==null || first.equals("")) ? "" : first);
-		builder.append((first==null || first.equals("")) && (last==null || last.equals("")) ? "" : " ");
-		builder.append((last==null || last.equals("")) ? "" : last);
+		if(organization==null || organization.equals(""))
+		{
+			builder.append((first==null || first.equals("")) ? "" : first);
+			builder.append((first==null || first.equals("")) && (last==null || last.equals("")) ? "" : " ");
+			builder.append((last==null || last.equals("")) ? "" : last);
+		}
+		else
+		{
+			builder.append(organization);
+		}
 		return builder.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -117,32 +139,24 @@ public class Provider implements Serializable {
 		builder.append(first);
 		builder.append(", last=");
 		builder.append(last);
+		builder.append(", name=");
+		builder.append(name);
 		builder.append(", taxonomy=");
 		builder.append(taxonomy);
 		builder.append(", general_area=");
 		builder.append(general_area);
 		builder.append(", specialty=");
 		builder.append(specialty);
+		builder.append(", graphViewButtonHTML=");
+		builder.append(graphViewButtonHTML);
+		builder.append(", city=");
+		builder.append(city);
+		builder.append(", state=");
+		builder.append(state);
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
-	public String toJSONString()
-	{
-		StringBuilder builder = new StringBuilder();
-		builder.append("[\"");
-		builder.append(npi);
-		builder.append("\",\"");
-		builder.append(organization);
-		builder.append("\",\"");
-		builder.append(getName());
-		builder.append("\",\"");
-		builder.append(getSpecialty());
-		builder.append("\",\"");
-		builder.append("\u003cinput type\u003d\u0027button\u0027 value\u003d\u0027View\u0027 onclick\u003d\\\"javascript:loadIframe(\u0027graphFrame\u0027, \u0027" + npi + "\u0027);javascript:$(\u0027#tab-container\u0027).easytabs(\u0027select\u0027, \u0027#network-graph-tab\u0027); showNetworkGraphLeftPanel();\\\" /\u003e");
-		builder.append("\"]");
-		
-		return builder.toString();
-	}
 
 }

@@ -15,11 +15,6 @@
 <link rel="stylesheet" href="css/jqtree.css">
 <script src="scripts/tree.jquery.js" type="text/javascript"></script>
 
-<!--  <link rel="stylesheet" href="css/jquery.treeview.css" />
-<script src="scripts/jquery.treeview.js" type="text/javascript"></script>
-<script src="scripts/jquery.treeview.async.js" type="text/javascript"></script>
--->
-
 <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="constroamer.css" />
 <script src="swfobject.js" type="text/javascript"></script>
 	
@@ -35,62 +30,18 @@
 	.tab-container .panel-container { background: #fff; border: solid #666 1px; padding: 10px; padding-bottom: 30px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; }
 	.panel-container { margin-bottom: 10px; }
 	
-	/* .demoHeaders {
-		margin-top: 2em;
-	}
-	#dialog-link {
-		padding: .4em 1em .4em 20px;
-		text-decoration: none;
-		position: relative;
-	}
-	#dialog-link span.ui-icon {
-		margin: 0 5px 0 0;
-		position: absolute;
-		left: .2em;
-		top: 50%;
-		margin-top: -8px;
-	}
-	#icons {
-		margin: 0;
-		padding: 0;
-	}
-	#icons li {
-		margin: 2px;
-		position: relative;
-		padding: 4px 0;
-		cursor: pointer;
-		float: left;
-		list-style: none;
-	}
-	#icons span.ui-icon {
-		float: left;
-		margin: 0 4px;
-	}
-	.fakewindowcontain .ui-widget-overlay {
-		position: absolute;
-	} */
 	
 </style>
 <script type="text/javascript">
+var providerNodeName;
 $(document).ready( function() {
-  $('#tab-container').easytabs();
+  $('#tab-container').easytabs({
+	  cache: true
+  });
   $('#providerTree').tree({
 	   dataUrl: "provider_nodes",
 	   autoOpen: false
   });
-  var providerNodeName;
-  //$("#investigator-specialty-tv").treeview({
-  //		url: "sources/investigator-specialty.json"
-  //});
-  //$("#investigator-specialty-network-graph-tv").treeview({
-  //		url: "sources/investigator-specialty.json"
-  //});
-  //$("#investigator-specialty-geo-graph-tv").treeview({
-  //		url: "sources/investigator-specialty.json"
-  //});
-  //$("#investigator-specialty-questions").treeview({
-  //		url: "sources/investigator-specialty.json"
-  //});
   
   if(!window.location.hash || window.location.hash == "#provider-list-tab") {
   	showProviderListLeftPanel();
@@ -140,37 +91,22 @@ $(document).ready( function() {
 		            // a node was deselected
 		            // e.previous_node contains the deselected node
 		        }
+		        
+		        $('#provider-list').dataTable( {
+		    		"bServerSide": false,
+		    		"bProcessing": true,
+		    		"bDestroy": true,
+		    		"aaData": []		
+		    	});
 		    }
 		);
   
-	var providerListTable = $('#provider-list').dataTable( {
-		"bServerSide": true,
+	$('#provider-list').dataTable( {
+		"bServerSide": false,
 		"bProcessing": true,
-		"sAjaxSource": "providerdata",
-		"sAjaxDataProp": "aaData",
-		"iDisplayLength": 50,
-		"bFilter": true,
-		"bSort": true,
-		"aoColumns": [
-		              { "mData": "npi" },
-		              { "mData": "organization" },
-		              { "mData": "name" },
-		              { "mData": "specialty" },
-		              { "mData": "graphViewButtonHTML", "bSortable": false }
-		          ],
-		"fnServerParams": function ( aoData ) {
-        	aoData.push( { "name": "pid", "value":  $('#pid_provider_list').val() }, { "name": "state", "value": $('#state_provider_list').val() },
-        			{ "name": "specialty", "value": providerNodeName });
-		}
-		
+		"bDestroy": true,
+		"aaData": []		
 	});
-	
-	$('.dataTables_filter input')
-	    .unbind('keyup')
-	    .bind('keyup', function(e){
-	      if (e.keyCode != 13) return;
-	      providerListTable.fnFilter($(this).val());
-	    });
 	
 	//var questionsProviderListTable = $('#questions-provider-list').dataTable( {
 		//"bProcessing": true,
@@ -290,7 +226,58 @@ function loadGraph(pid) {
 
 function loadGridFromProviderId() {
     $('.dataTables_filter input').val('');
-    $('#provider-list').dataTable().fnFilter('');
+    $('#provider-list').dataTable( {
+		"bServerSide": true,
+		"bProcessing": true,
+		"sAjaxSource": "providerdata",
+		"sAjaxDataProp": "aaData",
+		"iDisplayLength": 50,
+		"bFilter": true,
+		"bSort": true,
+		"bDestroy": true,
+		"aoColumns": [
+		              { "mData": "npi" },
+		              { "mData": "name" },
+		              { "mData": "specialty" },
+		              { "mData": "city" },
+		              { "mData": "state" },
+		              { "mData": "graphViewButtonHTML", "bSortable": false }
+		          ],
+		"fnServerParams": function ( aoData ) {
+        	aoData.push( { "name": "pid", "value":  $('#pid_provider_list').val() }, { "name": "state", "value": $('#state_provider_list').val() },
+        			{ "name": "specialty", "value": providerNodeName });
+		}
+		
+	});
+    
+    $('.dataTables_filter input')
+    .unbind('keyup')
+    .bind('keyup', function(e){
+      if (e.keyCode != 13) return;
+      $('#provider-list').dataTable().fnFilter($(this).val());
+    });
+}
+
+function pid_provider_list_change() {
+	$('#state_provider_list').val(0);
+	$('#providerTree').tree('selected_node',null);
+	$('#provider-list').dataTable( {
+		"bServerSide": false,
+		"bProcessing": true,
+		"bDestroy": true,
+		"aaData": []		
+	});
+}
+
+function state_provider_list_change() {
+	$('#pid_provider_list').val('');
+	$('#providerTree').tree('selected_node',null);
+	$('#provider-list').dataTable( {
+		"bServerSide": false,
+		"bProcessing": true,
+		"bDestroy": true,
+		"aaData": []		
+	});
 }
 
 
@@ -324,9 +311,9 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 		<div id="lft-div-provider-list" style="display:none;">
 			<strong>Enter Provider Id</strong>
 			<br />
-			<input id="pid_provider_list" name="pid_provider_list" type="text" onchange="javascript:$('#state_provider_list').val(0);$('#providerTree').tree('selected_node',null);">
+			<input id="pid_provider_list" name="pid_provider_list" type="text" onchange="javascript:pid_provider_list_change();">
 			<br /><br />
-			<select id="state_provider_list" name="state_provider_list" onchange="javascript:$('#pid_provider_list').val('');$('#providerTree').tree('selected_node',null);">
+			<select id="state_provider_list" name="state_provider_list" onchange="javascript:state_provider_list_change();">
 				<option>All States</option>
 				<option>AZ</option>
 				<option>AL</option>
@@ -374,9 +361,9 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 			<br />
 			<input id="blueArrow" type="checkbox" checked="checked"> Referred other providers
 			<br />
-			<input id="brownArrow" type="checkbox"> Was referred by other provider
+			<input id="brownArrow" type="checkbox" checked="checked"> Was referred by other provider
 			<br />
-			<input id="redArrow" type="checkbox"> Referrals happened in both
+			<input id="redArrow" type="checkbox" checked="checked"> Referrals happened in both
 			<br /><br />
 			<hr width="200" style="float:left;" />
 			<br />
@@ -406,9 +393,9 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 			<br />
 			<input type="checkbox" checked="checked"> Referred other providers
 			<br />
-			<input type="checkbox"> Was referred by other provider
+			<input type="checkbox" checked="checked"> Was referred by other provider
 			<br />
-			<input type="checkbox"> Referrals happened in both
+			<input type="checkbox" checked="checked"> Referrals happened in both
 			<br /><br />
 			<hr width="200" style="float:left;" />
 			<br />
@@ -438,18 +425,19 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 					<thead>
 						<tr>
 							<th width="20%">PMID (Provider Identifier)</th>
-							<th width="25%">Business Name</th>
 							<th width="25%">Name</th>
 							<th width="15%">Specialty</th>
-							<th width="15%">Graph</th>
+							<th width="15%">City</th>
+							<th width="15%">State</th>
+							<th width="10%">Graph</th>
 						</tr>
 					</thead>
 					<tbody>
 					</tbody>
 				</table>
 			</div>
-			<div id="network-graph-tab">
-				<div id="graph-canvas" style="width:100%; height:100%;"></div>
+			<div id="network-graph-tab" >
+				<div id="graph-canvas"></div>
 				<!-- <iframe name="graphFrame" id="graphFrame" width="1280" height="1024" src=""></iframe>-->
 			</div>
 			<div id="geo-graph-tab">

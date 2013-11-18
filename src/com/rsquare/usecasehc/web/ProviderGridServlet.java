@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -96,7 +95,8 @@ public class ProviderGridServlet extends HttpServlet {
 		final int sortCol = Integer.parseInt(request.getParameter("iSortCol_0"));
 		final String sortDir = request.getParameter("sSortDir_0");
 		HttpSession session = request.getSession(true);
-		File f = (File)session.getAttribute(pid + state + specialty);
+		String fileName = pid + state + specialty;
+		//File f = (File)session.getAttribute(pid + state + specialty);
 		String sortDone = (String)session.getAttribute("sort");
 		boolean filterResults = false;
 		if(searchString!=null &&  !searchString.equals("") && !searchString.startsWith("debug"))
@@ -104,8 +104,9 @@ public class ProviderGridServlet extends HttpServlet {
 			filterResults = true;
 			
 		}
-//		f = new File(tempFilePath + "/" + "b10878b7-a254-4670-ba6e-7529d98c742e");
-		if(f==null)
+		//File f = new File(tempFilePath + "/" + "b10878b7-a254-4670-ba6e-7529d98c742e");
+		File f = new File(tempFilePath + "/" + fileName);
+		if(!f.exists())
 		{
 			//First run of the query
 			if(pid!=null &&  !pid.equals("") && !pid.startsWith("debug"))
@@ -169,7 +170,7 @@ public class ProviderGridServlet extends HttpServlet {
 			ProviderGridResult pgr = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), list);
 			if(list.size() > 0)
 			{
-				File f1 = createTempFile();
+				File f1 = createTempFile(fileName);
 				logger.info("File path: " + f1.getAbsolutePath());
 				ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(f1));
 				output.writeObject(pgr);
@@ -243,10 +244,10 @@ public class ProviderGridServlet extends HttpServlet {
 		return providers;
 	}
 	
-	private File createTempFile()
+	private File createTempFile(String key)
 	{
-		String fileName = UUID.randomUUID().toString();
-		File f = new File(tempFilePath + "/" + fileName);
+		//String fileName = UUID.randomUUID().toString();
+		File f = new File(tempFilePath + "/" + key);
 		return f;
 	}
 	

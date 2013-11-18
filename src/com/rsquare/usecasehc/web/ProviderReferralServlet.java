@@ -212,7 +212,7 @@ public class ProviderReferralServlet extends HttpServlet {
 		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
 		Iterator<ProviderReferralResult> iterator = results.iterator();
 		Provider p = providers.get(pid);
-		String name = (p.getName()==null || "".equals(p.getName()) || " ".equals(p.getName())) ? p.getOrganization() : (p.getName());
+		String name = p.getName();
 		nodes.append("<nodes>\n<node id=\"" + pid + "\" label=\"" + name + "\\n" + p.getGeneral_area() + " - " + p.getSpecialty() + "\" depth_loaded=\"2\" tooltip=\"" + 
 				name + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
 		edges.append("<edges>\n");
@@ -227,7 +227,7 @@ public class ProviderReferralServlet extends HttpServlet {
 	      rNodes.add(result);
 	      
 	      p = providers.get(result.getReferredDoctor());
-	      name = (p.getName()==null || "".equals(p.getName()) || " ".equals(p.getName())) ? p.getOrganization() : (p.getName());
+	      name = p.getName();
 	      nodes.append("<node id=\"");
 	      nodes.append(result.getReferredDoctor());
 	      nodes.append("\" label=\"");
