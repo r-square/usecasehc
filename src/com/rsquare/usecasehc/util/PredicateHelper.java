@@ -8,9 +8,20 @@ import java.util.Map;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderSpecialtyNode;
 
 public class PredicateHelper {
+	
+	public static Predicate<Provider> getFilterPredicate(final String searchString)
+	{
+		return new Predicate<Provider>() {
+			  public boolean apply(Provider p) {
+			    return (p.getName().toLowerCase().contains(searchString.toLowerCase()) || p.getNpi().toLowerCase().contains(searchString.toLowerCase()) || 
+			    		p.getSpecialty().toLowerCase().contains(searchString.toLowerCase()) || p.getOrganization().toLowerCase().contains(searchString.toLowerCase()));
+			  }
+			};
+	}
 	
 	public static Map<String, ProviderSpecialtyNode> getFlatFilteredProviderSpecialtyNodes(List<ProviderSpecialtyNode> nodes, String id)
 	{

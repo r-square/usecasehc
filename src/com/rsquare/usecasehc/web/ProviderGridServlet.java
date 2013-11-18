@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -179,7 +178,7 @@ public class ProviderGridServlet extends HttpServlet {
 			}
 			if(filterResults)
 			{
-				List<Provider> filteredList = Lists.newArrayList(Collections2.filter(list, getFilterPredicate(searchString)));
+				List<Provider> filteredList = Lists.newArrayList(Collections2.filter(list, PredicateHelper.getFilterPredicate(searchString)));
 				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(filteredList.size()), getProviders(startIndex, records, filteredList));
 				writeJSON(pgr1, out);
 			}
@@ -207,7 +206,7 @@ public class ProviderGridServlet extends HttpServlet {
 				}
 				if(filterResults)
 				{
-					List<Provider> filteredList = Lists.newArrayList(Collections2.filter(pgr.getAaData(), getFilterPredicate(searchString)));
+					List<Provider> filteredList = Lists.newArrayList(Collections2.filter(pgr.getAaData(), PredicateHelper.getFilterPredicate(searchString)));
 					ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(filteredList.size()), getProviders(startIndex, records, filteredList));
 					writeJSON(pgr1, out);
 				}
@@ -251,16 +250,6 @@ public class ProviderGridServlet extends HttpServlet {
 		return f;
 	}
 	
-	private Predicate<Provider> getFilterPredicate(final String searchString)
-	{
-		return new Predicate<Provider>() {
-			  public boolean apply(Provider p) {
-			    return (p.getName().toLowerCase().contains(searchString.toLowerCase()) || p.getNpi().toLowerCase().contains(searchString.toLowerCase()) || 
-			    		p.getSpecialty().toLowerCase().contains(searchString.toLowerCase()) || p.getOrganization().toLowerCase().contains(searchString.toLowerCase()));
-			  }
-			};
-	}
-	
 	private void writeJSON(ProviderGridResult pgr, PrintWriter out)
 	{
 		Gson g = new Gson();
@@ -275,13 +264,16 @@ public class ProviderGridServlet extends HttpServlet {
 				ProviderSortHelper.getSortedListByNpi(list, sortDir);
 				break;
 			case 1:
-				ProviderSortHelper.getSortedListByOrganization(list, sortDir);
-				break;
-			case 2:
 				ProviderSortHelper.getSortedListByName(list, sortDir);
 				break;
-			case 3:
+			case 2:
 				ProviderSortHelper.getSortedListBySpecialty(list, sortDir);
+				break;
+			case 3:
+				ProviderSortHelper.getSortedListByCity(list, sortDir);
+				break;
+			case 4:
+				ProviderSortHelper.getSortedListByState(list, sortDir);
 				break;
 			
 		}

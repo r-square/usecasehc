@@ -27,19 +27,6 @@ public class ProviderSortHelper {
 		
 	}
 	
-	public static void getSortedListByOrganization(List<Provider> list, String order)
-	{
-		if(ASC.equalsIgnoreCase(order))
-		{
-			Collections.sort(list, new OrganizationComparator());
-		}
-		else
-		{
-			Collections.sort(list, Collections.reverseOrder(new OrganizationComparator()));
-		}
-		
-	}
-	
 	public static void getSortedListByName(List<Provider> list, String order)
 	{
 		if(ASC.equalsIgnoreCase(order))
@@ -66,6 +53,32 @@ public class ProviderSortHelper {
 		
 	}
 	
+	public static void getSortedListByCity(List<Provider> list, String order)
+	{
+		if(ASC.equalsIgnoreCase(order))
+		{
+			Collections.sort(list, new CityComparator());
+		}
+		else
+		{
+			Collections.sort(list, Collections.reverseOrder(new CityComparator()));
+		}
+		
+	}
+	
+	public static void getSortedListByState(List<Provider> list, String order)
+	{
+		if(ASC.equalsIgnoreCase(order))
+		{
+			Collections.sort(list, new StateComparator());
+		}
+		else
+		{
+			Collections.sort(list, Collections.reverseOrder(new StateComparator()));
+		}
+		
+	}
+	
 	private static class NpiComparator implements Comparator<Provider>
 	{
 		@Override
@@ -85,15 +98,6 @@ public class ProviderSortHelper {
 		}
 	}
 	
-	private static class OrganizationComparator implements Comparator<Provider>
-	{
-		@Override
-		public int compare(Provider o1, Provider o2)
-		{
-			return o1.getOrganization().compareToIgnoreCase(o2.getOrganization());
-		}
-	}
-	
 	private static class NameComparator implements Comparator<Provider>
 	{
 		@Override
@@ -109,6 +113,24 @@ public class ProviderSortHelper {
 		public int compare(Provider o1, Provider o2)
 		{
 			return o1.getSpecialty().compareToIgnoreCase(o2.getSpecialty());
+		}
+	}
+	
+	private static class CityComparator implements Comparator<Provider>
+	{
+		@Override
+		public int compare(Provider o1, Provider o2)
+		{
+			return o1.getCity().compareToIgnoreCase(o2.getCity());
+		}
+	}
+	
+	private static class StateComparator implements Comparator<Provider>
+	{
+		@Override
+		public int compare(Provider o1, Provider o2)
+		{
+			return o1.getState().compareToIgnoreCase(o2.getState());
 		}
 	}
 
