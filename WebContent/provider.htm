@@ -4,7 +4,7 @@
 <link href="css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
 <script src="scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>
-<!-- <script type="text/javascript" src="js/jquery.autocomplete.js"></script> -->
+<script type="text/javascript" src="js/jquery.autocomplete.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
 <script src="scripts/jquery.easytabs.js" type="text/javascript"></script>
@@ -35,6 +35,8 @@
 </style>
 <script type="text/javascript">
 var providerNodeName;
+var states = new Array;
+
 $(document).ready( function() {
 
 var cities;
@@ -65,7 +67,6 @@ var a=$.ajax({
 
 var expression = 'eq(item.state, "NJ")';
 
-var states = new Array;
 var statelist = new Array;
 var citycount = 0;
 var statecount = 0;
@@ -82,9 +83,16 @@ for(var index = 0; index < cities.length; index++){
 $("#state_provider_list option").remove();
 var statelist = $("#state_provider_list");
 statelist.append('<option>All States</option>')
-statelist.selectedIndex = 0;
+states['All States'] = new Array;
+states['All States'].push("");
 
 for (var key in states) { statelist.append('<option>'+key+'</option>') }
+
+
+var b = $('#city').autocomplete({
+maxHeight:400,
+lookup: states["All States"]
+});
 
 
 /*var statelist = '';
@@ -352,6 +360,11 @@ function state_provider_list_change() {
 		"bDestroy": true,
 		"aaData": []		
 	});
+	
+	$('#city').autocomplete().setOptions({
+lookup: states[$('#state_provider_list').val()] //local lookup values
+});
+
 }
 
 
