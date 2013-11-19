@@ -4,6 +4,7 @@
 <link href="css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
 <script src="scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
 <script src="js/jquery-ui-1.10.3.custom.js"></script>
+<!-- <script type="text/javascript" src="js/jquery.autocomplete.js"></script> -->
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
 <script src="scripts/jquery.easytabs.js" type="text/javascript"></script>
@@ -35,6 +36,79 @@
 <script type="text/javascript">
 var providerNodeName;
 $(document).ready( function() {
+
+var cities;
+var servererror=false;
+
+var a=$.ajax({
+					type: "GET"
+					,url: 'js/city_listing.json'
+					,cache: false
+					,datatype:'json'
+					,success:function(json){
+						cities = JSON.parse(json);
+					}
+					,error: function(jqXHR, textStatus, errorThrown) {
+						servererror=true;
+					}
+				})
+				
+				$.when(a).done(function()
+				{
+					if (servererror)
+					{
+						alert('Error loading cities!');
+					}
+					else
+					{
+						//alert(cities.length)
+
+var expression = 'eq(item.state, "NJ")';
+
+var states = new Array;
+var statelist = new Array;
+var citycount = 0;
+var statecount = 0;
+for(var index = 0; index < cities.length; index++){
+	var item = cities[index]; // define the item that will be evaluated
+	if (states[item.state]==undefined) states[item.state]= new Array;
+	if (item.state && item.state!=undefined && item.city && item.city!=undefined) {
+		states[item.state].push(item.city);
+	}
+}
+
+//console.log(states['NJ']);
+
+$("#state_provider_list option").remove();
+var statelist = $("#state_provider_list");
+statelist.append('<option>All States</option>')
+statelist.selectedIndex = 0;
+
+for (var key in states) { statelist.append('<option>'+key+'</option>') }
+
+
+/*var statelist = '';
+for(var index = 0; index < states.length; index++){
+	console.log(states[index]);
+}*/
+
+
+//console.log(states["NJ"]);
+
+					}
+				});
+				
+				$.when(a).fail(function()
+				{
+					if (servererror)
+					{
+						alert('Error loading cities!');
+					}
+				});
+				
+				
+
+
   $('#tab-container').easytabs({
 	  cache: true
   });
@@ -326,7 +400,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 			<br /><br />
 			<strong>Enter City (Optional)</strong>
 			<br />
-			<input type="text">
+			<input type="text" id="city" name="city">
 			<br /><br />
 			<div style="vertical-align:bottom">
 			<input type="button" value="Filter Results" onclick="javascript:loadGridFromProviderId()"></div>
