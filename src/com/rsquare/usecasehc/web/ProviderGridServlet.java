@@ -88,13 +88,14 @@ public class ProviderGridServlet extends HttpServlet {
 		final String pid = request.getParameter("pid");
 		final String state = request.getParameter("state");
 		final String specialty = request.getParameter("specialty");
+		final String city = request.getParameter("city");
 		final int startIndex = Integer.parseInt(request.getParameter("iDisplayStart"));
 		final int records = Integer.parseInt(request.getParameter("iDisplayLength"));
 		final String searchString = request.getParameter("sSearch");
 		final int sortCol = Integer.parseInt(request.getParameter("iSortCol_0"));
 		final String sortDir = request.getParameter("sSortDir_0");
 		HttpSession session = request.getSession(true);
-		String fileName = pid + state + specialty;
+		String fileName = pid + state + city + specialty;
 		//File f = (File)session.getAttribute(pid + state + specialty);
 		String sortDone = (String)session.getAttribute("sort");
 		boolean filterResults = false;
@@ -108,7 +109,7 @@ public class ProviderGridServlet extends HttpServlet {
 		if(!f.exists())
 		{
 			//First run of the query
-			if(pid!=null &&  !pid.equals("") && !pid.startsWith("debug"))
+			if(pidPresent(pid))
 			{
 				HiveClient hc = new HiveClient();
 				try {
@@ -120,7 +121,7 @@ public class ProviderGridServlet extends HttpServlet {
 					logger.error(exception);
 				}
 			}
-			else if(state!=null &&  !state.equals("") && !state.equalsIgnoreCase("All States") && (specialty==null || specialty.equals("") || specialty.equals("undefined")))
+			else if(statePresent(state) && !cityPresent(city) && !specialtyPresent(specialty))
 			{
 				HiveClient hc = new HiveClient();
 				try {
@@ -131,7 +132,7 @@ public class ProviderGridServlet extends HttpServlet {
 					logger.error(exception);
 				}
 			}
-			else if(state!=null &&  !state.equals("") && !state.equalsIgnoreCase("All States") && specialty!=null && !specialty.equals("") && !specialty.equals("undefined"))
+			else if(statePresent(state) && !cityPresent(city) && specialtyPresent(specialty))
 			{
 				HiveClient hc = new HiveClient();
 				try {
@@ -143,12 +144,36 @@ public class ProviderGridServlet extends HttpServlet {
 					logger.error(exception);
 				}
 			}
-			else if((state==null || state.equals("") || state.equalsIgnoreCase("All States")) && specialty!=null && !specialty.equals("") && !specialty.equals("undefined"))
+			else if(!statePresent(state) && !cityPresent(city) && specialtyPresent(specialty))
 			{
 				HiveClient hc = new HiveClient();
 				try {
 					//get provider by specialty
 					list = hc.getProvidersBySpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderNodeServlet.nodes.getNodes(), specialty));
+				}
+				catch(SQLException exception)
+				{
+					logger.error(exception);
+				}
+			}
+			else if(statePresent(state) && cityPresent(city) && specialtyPresent(specialty))
+			{
+				HiveClient hc = new HiveClient();
+				try {
+					//get provider by specialty
+					list = hc.getProvidersByStateAndCityAndSpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderNodeServlet.nodes.getNodes(), specialty), state, city);
+				}
+				catch(SQLException exception)
+				{
+					logger.error(exception);
+				}
+			}
+			else if(statePresent(state) && cityPresent(city) && !specialtyPresent(specialty))
+			{
+				HiveClient hc = new HiveClient();
+				try {
+					//get provider by specialty
+					list = hc.getProvidersByStateAndCity(state, city);
 				}
 				catch(SQLException exception)
 				{
@@ -277,6 +302,42 @@ public class ProviderGridServlet extends HttpServlet {
 				break;
 			
 		}
+	}
+	
+	private boolean pidPresent(String pid)
+	{
+		if(pid!=null &&  !pid.equals("") && !pid.startsWith("debug"))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean statePresent(String state)
+	{
+		if(state!=null &&  !state.equals("") && !state.equalsIgnoreCase("All States"))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean cityPresent(String city)
+	{
+		if(city!=null && !city.equals(""))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean specialtyPresent(String specialty)
+	{
+		if(specialty!=null && !specialty.equals("") && !specialty.equals("undefined"))
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	private List<Provider> getStubData(String pid)

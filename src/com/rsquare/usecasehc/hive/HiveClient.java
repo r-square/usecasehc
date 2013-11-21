@@ -84,6 +84,21 @@ public class HiveClient {
         return list;
     }
 	
+	public List<Provider> getProvidersByStateAndCity(String state, String city) throws SQLException {
+		List<Provider> list = new ArrayList<Provider>();
+        Statement stmt = getConnection().createStatement();
+        String sql = "" +
+        		"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,ps.general_area,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name, ps.specialty FROM providers p join provider_specialty ps"
+        		 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and UPPER(p.provider_business_mailing_address_state_name) = '" + state + "' and UPPER(p.provider_business_mailing_address_city_name) LIKE '%" + city.toUpperCase() + "%'";
+        logger.info(sql);
+        ResultSet res = stmt.executeQuery(sql);
+        while(res.next())
+        {
+        	list.add(new Provider(res));
+        }
+        return list;
+    }
+	
 	public List<Provider> getProvidersBySpecialty(Map<String, ProviderSpecialtyNode> providers) throws SQLException {
 		List<Provider> list = new ArrayList<Provider>();
         Statement stmt = getConnection().createStatement();
@@ -92,11 +107,7 @@ public class HiveClient {
         ResultSet res = stmt.executeQuery(sql);
         while(res.next())
         {
-        	String taxonomy = res.getString("healthcare_provider_taxonomy_code_1");
-        	ProviderSpecialtyNode node = providers.get(taxonomy);
-        	Provider p = new Provider(res.getString("npi"), res.getString("provider_organization_name_legal_business_name_"), res.getString("provider_first_name"),
-        			res.getString("provider_last_name_legal_name_"),taxonomy,"", node.getLabel());
-        	list.add(p);
+        	list.add(new Provider(res));
         }
         return list;
     }
@@ -109,11 +120,20 @@ public class HiveClient {
         ResultSet res = stmt.executeQuery(sql);
         while(res.next())
         {
-        	String taxonomy = res.getString("healthcare_provider_taxonomy_code_1");
-        	ProviderSpecialtyNode node = providers.get(taxonomy);
-        	Provider p = new Provider(res.getString("npi"), res.getString("provider_organization_name_legal_business_name_"), res.getString("provider_first_name"),
-        			res.getString("provider_last_name_legal_name_"),taxonomy,"", node.getLabel());
-        	list.add(p);
+        	list.add(new Provider(res));
+        }
+        return list;
+    }
+	
+	public List<Provider> getProvidersByStateAndCityAndSpecialty(Map<String, ProviderSpecialtyNode> providers, String state, String city) throws SQLException {
+		List<Provider> list = new ArrayList<Provider>();
+        Statement stmt = getConnection().createStatement();
+        String sql = makeQueryStringForTaxonomyAndStateAndCity(providers, state, city).toString();
+        logger.info(sql);
+        ResultSet res = stmt.executeQuery(sql);
+        while(res.next())
+        {
+        	list.add(new Provider(res));
         }
         return list;
     }
@@ -160,6 +180,25 @@ public class HiveClient {
 		StringBuilder sql = new StringBuilder(
 				"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM providers p join provider_specialty ps"
                 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and UPPER(p.provider_business_mailing_address_state_name) = '" + state + "' and p.healthcare_provider_taxonomy_code_1 in ('");
+		Iterator<String> iterator = nodes.keySet().iterator();
+        
+        while(iterator.hasNext())
+        {
+        	sql.append(iterator.next() + "','");
+        }
+ 
+        //remove the last comma
+        sql.delete(sql.length()-2, sql.length());
+        sql.append(")");
+        return sql;
+	}
+	
+	private StringBuilder makeQueryStringForTaxonomyAndStateAndCity(Map<String, ProviderSpecialtyNode> nodes, String state, String city)
+	{
+		StringBuilder sql = new StringBuilder(
+				"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM providers p join provider_specialty ps"
+                + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and UPPER(p.provider_business_mailing_address_state_name) = '" + state 
+                + "' and UPPER(p.provider_business_mailing_address_city_name) LIKE '%" + city.toUpperCase() + "%'and p.healthcare_provider_taxonomy_code_1 in ('");
 		Iterator<String> iterator = nodes.keySet().iterator();
         
         while(iterator.hasNext())

@@ -18,7 +18,7 @@ public class PredicateHelper {
 		return new Predicate<Provider>() {
 			  public boolean apply(Provider p) {
 			    return (p.getName().toLowerCase().contains(searchString.toLowerCase()) || p.getNpi().toLowerCase().contains(searchString.toLowerCase()) || 
-			    		p.getSpecialty().toLowerCase().contains(searchString.toLowerCase()) || p.getOrganization().toLowerCase().contains(searchString.toLowerCase()));
+			    		p.getSpecialty().toLowerCase().contains(searchString.toLowerCase()) || p.getCity().toLowerCase().contains(searchString.toLowerCase()) || p.getState().toLowerCase().contains(searchString.toLowerCase()));
 			  }
 			};
 	}

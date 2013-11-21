@@ -48,7 +48,7 @@ var a=$.ajax({
 					,cache: false
 					,datatype:'json'
 					,success:function(json){
-						cities = JSON.parse(json);
+						cities = json;
 					}
 					,error: function(jqXHR, textStatus, errorThrown) {
 						servererror=true;
@@ -327,7 +327,7 @@ function loadGridFromProviderId() {
 		          ],
 		"fnServerParams": function ( aoData ) {
         	aoData.push( { "name": "pid", "value":  $('#pid_provider_list').val() }, { "name": "state", "value": $('#state_provider_list').val() },
-        			{ "name": "specialty", "value": providerNodeName });
+        			{ "name": "specialty", "value": providerNodeName }, { "name": "city", "value": $('#city').val() });
 		}
 		
 	});
@@ -342,6 +342,7 @@ function loadGridFromProviderId() {
 
 function pid_provider_list_change() {
 	$('#state_provider_list').val(0);
+	$('#city').val('');
 	$('#providerTree').tree('selected_node',null);
 	$('#provider-list').dataTable( {
 		"bServerSide": false,
