@@ -79,6 +79,9 @@ $(document).ready( function() {
 var cities;
 var servererror=false;
 
+$('#city').hide();
+
+
 var a=$.ajax({
 					type: "GET"
 					,url: 'js/city_listing.json'
@@ -124,7 +127,7 @@ statelist.append('<option>All States</option>')
 states['All States'] = new Array;
 states['All States'].push("");
 
-for (var key in states) { statelist.append('<option>'+key+'</option>') }
+for (var key in states) { if (key!='All States') statelist.append('<option>'+key+'</option>') }
 
 
 var b = $('#city').autocomplete({
@@ -391,7 +394,14 @@ function pid_provider_list_change() {
 		"bDestroy": true,
 		"aaData": []		
 	});
+	
 }
+
+function pid_provider_list_smallchange() {
+	$('#state_provider_list').val("All States");
+	$('#city').hide();
+}
+
 
 function state_provider_list_change() {
 	$('#pid_provider_list').val('');
@@ -402,6 +412,9 @@ function state_provider_list_change() {
 		"bDestroy": true,
 		"aaData": []		
 	});
+
+	if ($('#state_provider_list').val()==='All States') { $('#city').hide(); $('#pid_provider_list').val(''); }
+	else { $('#city').show(); }
 	
 	$('#city').autocomplete().setOptions({
 lookup: states[$('#state_provider_list').val()] //local lookup values
@@ -435,7 +448,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 	<fieldset>
 		<legend id="leg-exp-prov-net">Explore Provider Network</legend>
 		<div id="lft-div-provider-list" style="display:none;">
-			<input id="pid_provider_list"  placeholder="Enter Provider Id..." name="pid_provider_list" type="text" onchange="javascript:pid_provider_list_change();">
+			<input id="pid_provider_list"  placeholder="Enter Provider Id..." name="pid_provider_list" type="text" onchange="javascript:pid_provider_list_change();" onkeydown="javascript:pid_provider_list_smallchange();">
 			<br /><br/>
 			<select id="state_provider_list" name="state_provider_list" onchange="javascript:state_provider_list_change();">
 				<option>All States</option>
