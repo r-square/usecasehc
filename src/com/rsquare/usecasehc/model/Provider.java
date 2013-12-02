@@ -25,7 +25,7 @@ public class Provider implements Serializable {
 		last = rs.getString("provider_last_name_legal_name_");
 		taxonomy = rs.getString("healthcare_provider_taxonomy_code_1");
 		general_area = rs.getString("general_area");
-		specialty = rs.getString("specialty");
+		makeSpecialtyHTML(rs.getString("specialty"));
 		state = rs.getString("provider_business_mailing_address_state_name");
 		city = rs.getString("provider_business_mailing_address_city_name");
 		this.graphViewButtonHTML = makeGraphViewButtonHTML();
@@ -79,7 +79,7 @@ public class Provider implements Serializable {
 	}
 
 	public String getSpecialty() {
-		return specialty==null ? "" : specialty.replace("\"", "");
+		return specialty;
 	}
 
 	public String getCity() {
@@ -111,6 +111,10 @@ public class Provider implements Serializable {
 		s.append(npi);
 		s.append("');\" />");
 		return s.toString();
+	}
+	
+	private void makeSpecialtyHTML(String s) {
+		specialty = "<div id=\"city\">" + (s==null ? "" : s.replace("\"", ""))  + "</div>";
 	}
 	
 	private String makeNameString() {
