@@ -114,7 +114,7 @@ public class Provider implements Serializable {
 	}
 	
 	private void makeSpecialtyHTML(String s) {
-		specialty = "<div id=\"city\">" + (s==null ? "" : s.replace("\"", ""))  + "</div>";
+		specialty = s;//"<div id=\"city\">" + (s==null ? "" : s.replace("\"", ""))  + "</div>";
 	}
 	
 	private String makeNameString() {
