@@ -1,0 +1,610 @@
+<html>
+<head>
+<title>R-Square Demo: Provider Referral Network</title>
+<link href="css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
+<script src="scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery.autocomplete.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<link href='https://fonts.googleapis.com/css?family=Kameron:700|Kameron:400|PT+Serif:400' rel='stylesheet' type='text/css'>
+
+
+<!-- <script src="scripts/jquery.easytabs.js" type="text/javascript"></script> -->
+
+<link href="css/demo_page.css" type="text/css" rel="stylesheet">
+<link href="css/demo_table.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" language="javascript" src="scripts/jquery.dataTables.js"></script>
+
+<link rel="stylesheet" href="css/jqtree.css">
+<script src="scripts/tree.jquery.js" type="text/javascript"></script>
+
+<link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="constroamer.css" />
+<script src="swfobject.js" type="text/javascript"></script>
+	
+<style>
+	body { font: 80%/1.45em "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; margin: 10px; background-color:#FFFFF9}
+	/* Example Styles for Demo */
+	/* .etabs { margin: 0; padding: 0; }
+	.tab { display: inline-block; zoom:1; *display:inline; background: #eee; border: solid 1px #999; border-bottom: none; -moz-border-radius: 4px 4px 0 0; -webkit-border-radius: 4px 4px 0 0; }
+	.tab a { font-size: 14px; line-height: 2em; display: block; padding: 0 10px; outline: none; }
+	.tab a:hover { text-decoration: underline; }
+	.tab.active { background: #fff; padding-top: 6px; position: relative; top: 1px; border-color: #666; }
+	.tab a.active { font-weight: bold; }
+	.tab-container .panel-container { background: #fff; border: solid #666 1px; padding: 10px; padding-bottom: 30px; -moz-border-radius: 0 4px 4px 4px; -webkit-border-radius: 0 4px 4px 4px; } */
+	.panel-container { margin-bottom: 10px; }
+	.city {word-wrap:break-word; max-width:100px; width:100px; }
+	
+	.ui-widget { font: 100%/1.45em "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; }
+	
+	input {
+	font-size:small;
+	color: #555;
+    border: 1px solid rgb(204,204,190); 
+    padding: 3px;
+    background: rgba(225,225,225,0.5);
+    margin: 0 0 10px 0;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+	}
+	
+	select{
+	font-size:small;
+	color: #555;
+    border: 1px solid rgb(204,204,190); 
+    padding: 1px;
+    background: rgba(255,255,245,0.5);
+    margin: 0 0 0 0;
+    
+	}
+	
+	h1 {
+font-family: Kameron, cursive;
+font-weight: 400;
+color: #333;
+font-size: 48px;
+}
+	
+</style>
+<script type="text/javascript">
+
+
+var providerNodeName;
+var states = new Array;
+
+$(document).ready( function() {
+
+    $( "#tabs" ).tabs();
+    $( "button" ).button();
+
+var cities;
+var servererror=false;
+
+$('#city').hide();
+
+
+var a=$.ajax({
+					type: "GET"
+					,url: 'sources/city_listing.json'
+					,cache: false
+					,datatype:'json'
+					,success:function(json){
+						if (typeof json === 'string') cities = JSON.parse(json);
+						else cities=json;
+					}
+					,error: function(jqXHR, textStatus, errorThrown) {
+						servererror=true;
+					}
+				})
+				
+				$.when(a).done(function()
+				{
+					if (servererror)
+					{
+						alert('Error loading cities!');
+					}
+					else
+					{
+						//alert(cities.length)
+
+var expression = 'eq(item.state, "NJ")';
+
+var statelist = new Array;
+var citycount = 0;
+var statecount = 0;
+for(var index = 0; index < cities.length; index++){
+	var item = cities[index]; // define the item that will be evaluated
+	if (states[item.state]==undefined) states[item.state]= new Array;
+	if (item.state && item.state!=undefined && item.city && item.city!=undefined) {
+		states[item.state].push(item.city);
+	}
+}
+
+//console.log(states['NJ']);
+
+$("#state_provider_list option").remove();
+var statelist = $("#state_provider_list");
+statelist.append('<option>All States</option>')
+states['All States'] = new Array;
+states['All States'].push("");
+
+for (var key in states) { if (key!='All States') statelist.append('<option>'+key+'</option>') }
+
+
+var b = $('#city').autocomplete({
+maxHeight:400,
+lookup: states["All States"]
+});
+
+
+/*var statelist = '';
+for(var index = 0; index < states.length; index++){
+	console.log(states[index]);
+}*/
+
+
+//console.log(states["NJ"]);
+
+					}
+				});
+				
+				$.when(a).fail(function()
+				{
+					if (servererror)
+					{
+						alert('Error loading cities!');
+					}
+				});
+				
+				
+
+
+  /*$('#tab-container').easytabs({
+	  cache: true
+  }); */
+  $('#providerTree').tree({
+	   dataUrl: "provider_nodes",
+	   autoOpen: false
+  });
+  
+  if(!window.location.hash || window.location.hash == "#provider-list-tab") {
+  	showProviderListLeftPanel();
+  }
+  else if(window.location.hash == "#network-graph-tab") {
+  	showNetworkGraphLeftPanel();
+  }
+  else if(window.location.hash == "#geo-graph-tab") {
+  	showGeoGraphLeftPanel();
+  }
+  else if(window.location.hash == "#questions-tab") {
+	$("#leg-exp-prov-net").html('Question Builder');
+  	showQuestionsLeftPanel();
+  }
+  
+  $(".tab > a").click(function(event) {
+       if($(this).attr("href") == "#provider-list-tab") {
+	   		showProviderListLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Provider Network');
+	   }
+	   else if($(this).attr("href") == "#network-graph-tab") {
+	   		showNetworkGraphLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Provider Network');
+	   }
+	   else if($(this).attr("href") == "#geo-graph-tab") {
+	   		showGeoGraphLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Provider Network');
+	   }
+	   else if($(this).attr("href") == "#questions-tab") {
+	   		$("#leg-exp-prov-net").html('Question Builder');
+	   		showQuestionsLeftPanel();
+	   }
+  });
+  
+  $('#providerTree').bind(
+		    'tree.select',
+		    function(event) {
+		    	$('#pid_provider_list').val('');
+		        if (event.node) {
+		            // node was selected
+		            providerNodeName = event.node.id;
+		            //alert(event.node.taxonomy_id);
+		        }
+		        else {
+		        	providerNodeName = 'undefined';
+		            // event.node is null
+		            // a node was deselected
+		            // e.previous_node contains the deselected node
+		        }
+		        
+		        $('#provider-list').dataTable( {
+		    		"bServerSide": false,
+		    		"bProcessing": true,
+		    		"bDestroy": true,
+		    		"aaData": []		
+		    	});
+		    }
+		);
+  
+	$('#provider-list').dataTable( {
+		"bServerSide": false,
+		"bProcessing": true,
+		"bDestroy": true,
+		"aaData": []		
+	});
+	
+	//var questionsProviderListTable = $('#questions-provider-list').dataTable( {
+		//"bProcessing": true,
+		//"sAjaxSource": "sources/provider-list.json",
+		//"sAjaxDataProp": "providerList"
+	//});
+
+});
+
+var swfObj;
+
+function constellationRoamer_onLoaded() {
+	swfObj = swfobject.getObjectById("constellation_roamer");
+}
+	
+jQuery.fn.dataTableExt.aTypes.push(
+    function ( sData ) {
+        return 'html';
+    }
+);
+
+function showProviderListLeftPanel() {
+	$("#lft-div-provider-list").show();
+	$("#lft-div-network-graph").hide();
+	$("#lft-div-geo-graph").hide();
+	$("#lft-div-questions").hide();
+	$("#divFindProvider").show();
+}
+
+function showNetworkGraphLeftPanel() {
+	$("#lft-div-provider-list").hide();
+	$("#lft-div-network-graph").show();
+	$("#lft-div-map-view").hide();
+	$("#lft-div-questions").hide();
+	$("#divFindProvider").show();
+}
+function showGeoGraphLeftPanel() {
+	$("#lft-div-provider-list").hide();
+	$("#lft-div-network-graph").hide();
+	$("#lft-div-geo-graph").show();
+	$("#lft-div-investigator-list").hide();
+	$("#divFindProvider").show();
+	//initializeMap();
+	setTimeout(function() {
+		var center = map.getCenter();
+		google.maps.event.trigger(map, "resize");
+		map.setCenter(center);
+	}, 1000);
+	
+}
+
+function showQuestionsLeftPanel() {
+	$("#lft-div-provider-list").hide();
+	$("#lft-div-network-graph").hide();
+	$("#lft-div-geo-graph").hide();
+	$("#lft-div-questions").show();
+	$("#divFindProvider").show();
+}
+
+function loadGraph(pid) {
+    if(pid==null || pid==''){
+    	return;
+    }
+    //coming from other tab via "view button click
+    //$('#tab-container').easytabs('select', '#network-graph-tab'); 
+    $( "#tabs" ).tabs( "option", "active", 1 );
+
+
+    showNetworkGraphLeftPanel();
+    var params = ($("#redArrow").prop('checked') ? '1' : '0') + ($("#brownArrow").prop('checked') ? '1' : '0') + ($("#blueArrow").prop('checked') ? '1' : '0') ;
+    if(!params || params=='000')
+    {
+    	alert("Select atleast one direction of referral");
+    	return;
+    }
+    if(pid!=$('#pid_network_graph').val())
+    {
+    	$('#pid_network_graph').val(pid);
+        if($("#constellation_roamer").length)
+        {
+        	swfObj = null;
+        	$( "#constellation_roamer" ).remove();
+    	    $("#network-graph-tab").append("<div id='graph-canvas' style='width:100%; height:100%;'/>");
+        }
+    }
+    
+    if (swfObj) {
+      swfObj.clearGraphData();
+      swfObj.setSelectedNodeID(pid);
+      swfObj.setPassthru(params);
+      swfObj.reloadGraphData(); // e.g. an external interface call
+    }
+    else
+    {
+    	var flashvars = {
+   	   		config_url: 'provider_config.xml',
+   	   		selected_node_id: pid,
+   	   		passthru: params,
+   	   		//instance_id: pid,
+   	   		debug: true
+   	   	};
+    	
+    	var params = {
+   			bgcolor: '#ffffff',
+   			allowScriptAccess: 'sameDomain',
+   			quality: 'high',
+   			scale: 'noscale'
+   		};
+
+   		var attributes = {
+   			id: "constellation_roamer",
+   			name: "constellation_roamer"
+   		};
+    	
+    	swfobject.embedSWF(
+    			"constellation_roamer.swf", "graph-canvas", "100%", "100%",
+    			"9", "expressInstall.swf", flashvars, params, attributes);	
+    }
+}
+
+function loadGridFromProviderId() {
+    $('.dataTables_filter input').val('');
+    $('#provider-list').dataTable( {
+		"bServerSide": true,
+		"bProcessing": true,
+		"sAjaxSource": "providerdata",
+		"sAjaxDataProp": "aaData",
+		"iDisplayLength": 50,
+		"bFilter": true,
+		"bSort": true,
+		"bDestroy": true,
+		"aoColumns": [
+		              { "mData": "npi" },
+		              { "mData": "name" },
+		              { "mData": "specialty" },
+		              { "mData": "city" },
+		              { "mData": "state" },
+		              { "mData": "graphViewButtonHTML", "bSortable": false }
+		          ],
+		"fnServerParams": function ( aoData ) {
+        	aoData.push( { "name": "pid", "value":  $('#pid_provider_list').val() }, { "name": "state", "value": $('#state_provider_list').val() },
+        			{ "name": "specialty", "value": providerNodeName }, { "name": "city", "value": $('#city').val() });
+		}
+		
+	});
+    
+    $('.dataTables_filter input')
+    .unbind('keyup')
+    .bind('keyup', function(e){
+      if (e.keyCode != 13) return;
+      $('#provider-list').dataTable().fnFilter($(this).val());
+    });
+}
+
+function pid_provider_list_change() {
+	$('#state_provider_list').val(0);
+	$('#city').val('');
+	$('#providerTree').tree('selected_node',null);
+	$('#provider-list').dataTable( {
+		"bServerSide": false,
+		"bProcessing": true,
+		"bDestroy": true,
+		"aaData": []		
+	});
+	
+}
+
+function pid_provider_list_smallchange() {
+	$('#state_provider_list').val("All States");
+	$('#city').hide();
+}
+
+
+function state_provider_list_change() {
+	$('#pid_provider_list').val('');
+	$('#providerTree').tree('selected_node',null);
+	$('#provider-list').dataTable( {
+		"bServerSide": false,
+		"bProcessing": true,
+		"bDestroy": true,
+		"aaData": []		
+	});
+
+	if ($('#state_provider_list').val()==='All States') { $('#city').hide(); $('#pid_provider_list').val(''); }
+	else { $('#city').show(); }
+	
+	$('#city').autocomplete().setOptions({
+lookup: states[$('#state_provider_list').val()] //local lookup values
+});
+
+}
+
+
+
+//google.maps.visualRefresh = true;
+var map;
+function initializeMap() {
+  var mapOptions = {
+	zoom: 14,
+	center: new google.maps.LatLng(40.3140,-74.5089),
+	mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+	  mapOptions);
+}
+
+google.maps.event.addDomListener(window, 'load', initializeMap);
+</script>
+</head>
+
+<body>
+<div style="text-align:center; margin-top:10px;width:100%; min-width:620">
+	<h1><nobr>Provider Network Analysis</nobr></h1>
+</div>
+<div style="display:inline-block; width:290px; float:left; margin-right:10px; margin-top:10px; margin-bottom:10px;">
+	<fieldset>
+		<legend id="leg-exp-prov-net">Explore Provider Network</legend>
+		<div id="lft-div-provider-list" style="display:none;">
+			<input id="pid_provider_list"  placeholder="Enter Provider Id..." name="pid_provider_list" type="text" onchange="javascript:pid_provider_list_change();" onkeydown="javascript:pid_provider_list_smallchange();">
+			<br /><br/>
+			<select id="state_provider_list" name="state_provider_list" onchange="javascript:state_provider_list_change();">
+				<option>All States</option>
+				<option>AZ</option>
+				<option>AL</option>
+				<option>MI</option>
+				<option>MS</option>
+				<option>NJ</option>
+				<option>OH</option>
+				<option>VA</option>
+			</select>
+			<br/><br/>
+			<input type="text" placeholder="Enter City (Optional)" id="city" name="city">
+			<br /><br />
+			<div style="vertical-align:bottom">
+			<button id="button" type="button" value="Filter Results" onclick="javascript:loadGridFromProviderId()">Filter Results</button></div>
+			<hr width="100%" style="float:left;" />
+			<br />
+			<strong>Select Investigator Speciality</strong>
+			<div id="providerTree"></div>
+			<!--  <ul id="investigator-specialty-tv" class="filetree"></ul>
+			
+			<br /><br /><br /><br />
+			<div style="vertical-align:bottom">
+			<input type="button" value="Filter Results" onclick="javascript:loadGridFromProviderId()"></div>
+			-->
+		</div>
+		<div id="lft-div-network-graph" style="display:none">
+			<input id="pid_network_graph" placeholder="Enter Provider Id..." name="pid_network_graph" type="text">
+			<br /><br />
+			<strong>View only top k referrals</strong>
+			<br />
+			<select>
+				<option>10</option>
+				<option>50</option>
+				<option>100</option>
+			</select>
+			<br /><br />
+			<hr width="200" style="float:left;" />
+			<br />
+			<strong>Select Direction of Referral</strong>
+			<br />
+			<input id="blueArrow" type="checkbox" checked="checked"> Referred other providers
+			<br />
+			<input id="brownArrow" type="checkbox" checked="checked"> Was referred by other provider
+			<br />
+			<input id="redArrow" type="checkbox" checked="checked"> Referrals happened in both
+			<br /><br />
+			<hr width="200" style="float:left;" />
+			<br />
+			<!--  <strong>Select Investigator Speciality</strong>
+			<ul id="investigator-specialty-network-graph-tv" class="filetree"></ul>
+			-->
+			<br /><br /><br /><br />
+			<input type="button" value="Run Analysis" onclick="javascript:loadGraph($('#pid_network_graph').val())" />
+		</div>
+		
+		<div id="lft-div-geo-graph" style="display:none;">
+			<input placeholder="Enter Provider Id..." type="text">
+			<br /><br />
+			<hr width="200" style="float:left;" />
+			<br />
+			<strong>Limit to k mile radius</strong>
+			<br />
+			<select>
+				<option>10</option>
+				<option>50</option>
+				<option>100</option>
+			</select>
+			<br /><br />
+			<strong>Select Direction of Referral</strong>
+			<br />
+			<input type="checkbox" checked="checked"> Referred other providers
+			<br />
+			<input type="checkbox" checked="checked"> Was referred by other provider
+			<br />
+			<input type="checkbox" checked="checked"> Referrals happened in both
+			<br /><br />
+			<hr width="200" style="float:left;" />
+			<br />
+			<!--  <strong>Select Investigator Speciality</strong>
+			<ul id="investigator-specialty-geo-graph-tv" class="filetree"></ul>
+			-->
+			<br /><br /><br /><br />
+			<input type="button" value="Run Analysis">
+		</div>
+		
+		<div id="lft-div-questions" style="display:none;">
+			<strong>Report Generator</strong>
+		</div>
+	</fieldset>
+</div>
+<div style="display:inline-block; width:800; float:left; margin-right:10px;">
+<div id="divFindProvider" style="display:none;">
+	<input type="text" placeholder="Find provider..." style="float:right; margin-right:0"><BR/><BR/>
+</div>
+	<div id="tabs">
+		<ul>
+		   <li class='tab'><a href="#provider-list-tab">Provider List</a></li>
+		   <li class='tab'><a href="#network-graph-tab">Network Graph</a></li>
+		   <li class='tab'><a href="#geo-graph-tab">Geo Graph</a></li>
+		   <li class='tab'><a href="#questions-tab">Questions</a></li>
+		</ul>
+		<div class='panel-container'>
+			<div id="provider-list-tab">
+				<table cellpadding="0" cellspacing="0" border="0" class="display grid-list" id="provider-list">
+					<thead>
+						<tr>
+							<th width="20%">PMID (Provider Identifier)</th>
+							<th width="25%">Name</th>
+							<th width="15%">Specialty</th>
+							<th width="15%">City</th>
+							<th width="15%">State</th>
+							<th width="10%">Graph</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div id="network-graph-tab" >
+				<div id="graph-canvas"></div>
+				<!-- <iframe name="graphFrame" id="graphFrame" width="1280" height="1024" src=""></iframe>-->
+			</div>
+			<div id="geo-graph-tab">
+				<div id="map-canvas" style="width:100%; height:75%;"></div>
+			</div>
+			<div id="questions-tab">
+				<strong>I want to know which doctor might be the best in my city based on peer communications, so show me the:</strong>
+				<br /><br>
+				<strong>top</strong> <select><option>10</option><option>50</option><option>100</option></select> <strong>providers
+				who have received the most referrals in </strong> <input type="text" placeholder="city">&nbsp;<select><option>State</option><option>NJ</option></select>
+				<br /><br>
+				<strong><div style="float:left;">for specialty: </div><div style="float:left;"><ul id="investigator-specialty-questions" class="filetree"></ul></div>
+				<br /><br /><br /><br />
+				<div style="clear:both;">
+					<input type="button" value="Run Analysis">
+				</div>
+				<br /><br /><br /><br />
+				<table cellpadding="0" cellspacing="0" border="0" class="display grid-list" id="questions-provider-list">
+					<thead>
+						<tr>
+							<th width="20%">PMID (Provider Identifier)</th>
+							<th width="25%">Business Name</th>
+							<th width="25%">Name</th>
+							<th width="15%">Specialty</th>
+							<th width="15%">Graph</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
