@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<title>Constellation</title>
+			
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="scripts/jquery.svg.js"></script>	
+				
+		<script type="text/javascript" src="scripts/constellation.js"></script>
+		
+		<script type="text/javascript">
+			var constellation;
+			var config = {
+				graphLoader: {
+					url: 'sources/graph2.json'
+				},
+				// Use a tree graph view to navigate the graph.
+				graphViewClass: TreeGraphView,
+				// Pass parameters to the graph view.
+				graphView: {
+					// Display the selected node and its neighbours.
+					depth: 2
+				},
+
+				layoutClass: RoamerLayout,
+				layout: {
+					// Set the baseEdgeLength a little higher to space nodes out a little more.
+					baseEdgeLength: 250
+				}
+			};
+			var styles = [
+				['node', {
+					rendererClass: DefaultNodeRenderer,
+					graphicFillColor: '#65a4cd',
+					graphicLineColor: '#3161a3',
+					graphicSize: 10,
+					labelBoxLineColor: '#444444',
+					labelFontColor: '#333333',
+					labelFontSize: 14
+				}],
+				['node.visited', {
+					labelBoxFillColor: '#e6e6e6',
+					labelBoxLineColor: '#444444',
+					labelFontColor: '#555555'
+				}],
+				['node.selected', {
+					labelBoxFillColor: '#ffffff',
+					labelFontColor: '#222222',
+					labelFontWeight: 'bold'
+				}],
+				['node.feature', {
+					graphicFillColor: '#681d7a',
+					graphicLineColor: '#370b3e'
+				}],
+				['node.edgeStyles', {
+					graphicFillColor: '#5a186f',
+					graphicLineColor: '#2d0935',
+					graphicSize: 10,
+					labelBoxEnabled: false,
+					labelPosition: 'right'
+				}],
+				['edge', {
+					edgeLineThickness: 2,
+					arrowhead: true, 
+					rendererClass: DefaultEdgeRenderer
+				}]
+			];
+												
+			$(document).ready(function() {
+				constellation = new Constellation(config, styles);
+				constellation.init();
+								
+				jQuery(constellation).bind('nodeclick', function(event, nodeId) {
+					this.setSelectedNodeId(nodeId);
+				});
+				constellation.setSelectedNodeId('1043377500');
+			});
+		</script>
+				
+		<style type="text/css">@import "css/jquery.svg.css";</style>
+		<style type="text/css">
+			html, body, #constellation {
+				height: 100%;
+				margin: 0;
+				overflow: hidden;
+				padding: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="constellation"></div>
+	</body>
+</html>
+
