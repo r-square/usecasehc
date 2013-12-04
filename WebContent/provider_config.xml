@@ -145,7 +145,7 @@
 		   http://10.211.55.2:8008/html_search.xqy?q=[node_id]&s=[passthru]&d=[depth]
 		   <url>http://10.211.55.2:8008/provider_search.xqy?q=[node_id]&s=[passthru]&c=[instance_id]&d=[depth]</url>
 		   -->
-		<url>http://localhost:8081/usecase_hc/usecase_hc?pid=:[node_id]&params=[passthru]</url>
+		<url>http://localhost:8080/usecase_hc/usecase_hc?pid=:[node_id]&params=[passthru]</url>
 		
 		<!-- the depth of the tree to load from the server. in any tree
 		   - interface mode, the client will request a tree of this
