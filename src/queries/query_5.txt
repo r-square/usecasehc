@@ -6,17 +6,6 @@ SELECT (?provider as ?doctor) ?direction ?referred_doctor ?referral_count ?rever
     {
           {
             ?provider foaf:knows ?referred_doctor ;
-                      vocab:referral ?referral . 
-            ?referral vocab:referredTo ?referred_doctor ;
-                      vocab:quantity ?referral_count.
-            BIND ("referred" as ?direction) .
-            BIND (0 as ?reverse_count) .
-            OPTIONAL { ?referred_doctor foaf:knows ?physician . }
-            FILTER (!bound(?physician)) .
-           }
-           UNION
-           {
-            ?provider foaf:knows ?referred_doctor ;
                       vocab:referral ?referral .                     
             ?referral vocab:referredTo ?referred_doctor ;
                       vocab:quantity ?referral_count.

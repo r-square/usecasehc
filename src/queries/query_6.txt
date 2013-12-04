@@ -4,18 +4,7 @@ prefix foaf: <http://xmlns.com/foaf/0.1/>
 SELECT (?provider as ?doctor) ?direction ?referred_doctor ?referral_count ?reverse_count
     WHERE 
     {
-          { 
-            ?referred_doctor foaf:knows ?provider ; 
-                             vocab:referral ?referral . 
-            ?referral vocab:referredTo ?provider ;
-                      vocab:quantity ?referral_count.
-            BIND ("was referred by" as ?direction) .
-            BIND (0 as ?reverse_count) .
-            OPTIONAL { ?physician foaf:knows ?referred_doctor . }
-            FILTER (!bound(?physician)) .
-          }
-           UNION
-           {
+          {
             ?provider foaf:knows ?referred_doctor ;
                       vocab:referral ?referral .                     
             ?referral vocab:referredTo ?referred_doctor ;

@@ -21,7 +21,7 @@ SELECT (?provider as ?doctor) ?direction ?referred_doctor ?referral_count ?rever
             ?referral vocab:referredTo ?provider ;
                       vocab:quantity ?referral_count.
             BIND ("was referred by" as ?direction) .
-            BIND (0 as ?reverse_count) .
+            BIND (?referral_count as ?reverse_count) .
             OPTIONAL { ?physician foaf:knows ?referred_doctor . }
             FILTER (!bound(?physician)) .
            }
