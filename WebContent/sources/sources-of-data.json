@@ -1,5 +1,0 @@
-{ "sourcesOfData": [
-	["1","BMIS","09/30/2013","external","<input type='radio' checked='true' name='groupInclude' />"],
-	["2","Excel File","01/01/2013","internal","<input type='radio' name='groupInclude' />"],
-	["3","CMS PEDS","10/1/2013","external","<input type='radio' name='groupInclude' />"]
-] }

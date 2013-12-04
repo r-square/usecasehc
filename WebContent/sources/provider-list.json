@@ -1,5 +1,0 @@
-{ "providerList": [
-	["1043377500","Detroit Medical Labs","","Nursing","<input type='button' value='View' onclick=\"javascript:loadIframe('graphFrame', '1043377500');javascript:$('#tab-container').easytabs('select', '#network-graph-tab'); showNetworkGraphLeftPanel();\" />"],
-	["1477664738","","John Smith","Surgeon","<input type='button' value='View' onclick=\"javascript:loadIframe('graphFrame', '1477664738')\" />"],
-	["4567893","","Kyle Silvestone","Chriropractice","\u003cinput type\u003d\u0027button\u0027 value\u003d\u0027View\u0027 onclick\u003d\"javascript:loadIframe(\u0027graphFrame\u0027, \u00271043377500\u0027);javascript:$(\u0027#tab-container\u0027).easytabs(\u0027select\u0027, \u0027#network-graph-tab\u0027); showNetworkGraphLeftPanel();\" /\u003e"]
-] }
