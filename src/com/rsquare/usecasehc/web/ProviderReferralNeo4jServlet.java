@@ -48,6 +48,7 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pid = (request.getParameter("pid"));
 		int option = Integer.parseInt(request.getParameter("params"), 2);
+		String format = request.getParameter("format");
 		PrintWriter out = response.getWriter();
 		List<ProviderReferralResult> results = new ArrayList<ProviderReferralResult>();
 		if(pid==null)
@@ -65,7 +66,14 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		    long t2 = System.currentTimeMillis();
 		    logger.info("getProviders() took time(mSec): " + (t2-t1));
 		   
-		    out.println(ProviderReferralHelper.getUIGraphResultOutput(results, providers, pid));
+		    if("json".equalsIgnoreCase(format))
+		    {
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, providers, pid));
+		    }
+		    else
+		    {
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, providers, pid));
+		    }
 		} 
 		catch(SQLException exception)
 		{
@@ -80,7 +88,14 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
 				providers.put(pr.getReferredDoctor(), p);
 			}
-			out.println(ProviderReferralHelper.getUIGraphResultOutput(results, providers, pid));
+			if("json".equalsIgnoreCase(format))
+		    {
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, providers, pid));
+		    }
+		    else
+		    {
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, providers, pid));
+		    }
 		}
 		finally { 
 		}

@@ -7,6 +7,12 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.rsquare.usecasehc.dto.ProviderGraph;
+import com.rsquare.usecasehc.dto.ProviderGraphEdge;
+import com.rsquare.usecasehc.dto.ProviderGraphEdgeData;
+import com.rsquare.usecasehc.dto.ProviderGraphNode;
+import com.rsquare.usecasehc.dto.ProviderGraphNodeData;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 
@@ -14,7 +20,64 @@ public class ProviderReferralHelper {
 	
 	private static Logger logger = Logger.getLogger(ProviderReferralHelper.class);
 	
-	public static String getUIGraphResultOutput(List<ProviderReferralResult> results, Map<String, Provider> providers, String pid)
+	public static String getUIGraphResultOutputJSON(List<ProviderReferralResult> results, Map<String, Provider> providers, String pid)
+	{
+		List<ProviderGraphNode> nodes = new ArrayList<ProviderGraphNode>();
+		List<ProviderGraphEdge> edges = new ArrayList<ProviderGraphEdge>();
+		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
+		Iterator<ProviderReferralResult> iterator = results.iterator();
+		Provider p = providers.get(pid);
+		ProviderGraphNodeData nData = new ProviderGraphNodeData((p.getName() + "\\n" + p.getGeneral_area() + "-" + p.getSpecialty()), 
+				"2", p.getName(), "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "");
+		ProviderGraphNode node = new ProviderGraphNode(pid, nData);
+		nodes.add(node);
+		while ( iterator.hasNext() )
+	    {
+			ProviderReferralResult result = iterator.next();
+	        if(rNodes.contains(result))
+	        {
+	        	logger.info("==== Node Already present ======" + result);
+	        	continue;
+	        }
+	        rNodes.add(result);
+	        p = providers.get(result.getReferredDoctor());
+	        nData = new ProviderGraphNodeData((p.getName() + "\\n" + p.getGeneral_area() + "-" + p.getSpecialty()), 
+					"1", p.getName(), "", "", "image", "images/doctor_icon.png", "50", "50");
+	        node = new ProviderGraphNode(result.getReferredDoctor(), nData);
+	        nodes.add(node);
+	        
+	        if("\"referred\"".equalsIgnoreCase(result.getDirection()) || "referred".equalsIgnoreCase(result.getDirection()))
+		    {
+	        	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("provided " + result.getReferralCount() + " referrals", 
+	        			"#2262A0", "false");
+	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode())), 
+	        			result.getReferredDoctor(), result.getDoctor(), eData);
+	        	edges.add(edge);
+		    }
+		    else if("\"was referred by\"".equalsIgnoreCase(result.getDirection()) || "was referred by".equalsIgnoreCase(result.getDirection()))
+		    {
+		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("received " + result.getReverseCount() + " referrals", 
+	        			"#DA6315", "false");
+	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode())), 
+	        			result.getDoctor(), result.getReferredDoctor(), eData);
+	        	edges.add(edge);
+		    }
+		    else
+		    {
+		    	String tooltip = "provided " + result.getReferralCount() + " referrals\\n" + "received " + result.getReverseCount() + " referrals";
+		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#FF0000", "true");
+	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode())), 
+	        			result.getReferredDoctor(), result.getDoctor(), eData);
+	        	edges.add(edge);
+		    }
+	    }
+		
+		ProviderGraph graph = new ProviderGraph(nodes, edges);
+		Gson gson = new Gson();
+		return gson.toJson(graph);
+	}
+	
+	public static String getUIGraphResultOutputXML(List<ProviderReferralResult> results, Map<String, Provider> providers, String pid)
 	{
 		final String begin = "<graph_data>";
 		StringBuilder nodes = new StringBuilder();

@@ -110,6 +110,7 @@ public class ProviderReferralServlet extends HttpServlet {
 		}
 		logger.info("Querying DB Path: " + directory);
 		String pid = (request.getParameter("pid"));
+		String format = request.getParameter("format");
 		int fileNum = Integer.parseInt(request.getParameter("params"), 2);
 		PrintWriter out = response.getWriter();
 		if(pid==null)
@@ -160,7 +161,15 @@ public class ProviderReferralServlet extends HttpServlet {
 		   t2 = System.currentTimeMillis();
 		   logger.info("getProviders() took time(mSec): " + (t2-t1));
 		   
-		   out.println(ProviderReferralHelper.getUIGraphResultOutput(results, providers, tempId));
+		   if("json".equalsIgnoreCase(format))
+		   {
+		   	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, providers, tempId));
+		   }
+		   else
+		   {
+		   	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, providers, tempId));
+		   }
+		   
 		}
 		catch(SQLException exception)
 		{
@@ -175,7 +184,15 @@ public class ProviderReferralServlet extends HttpServlet {
 				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
 				providers.put(pr.getReferredDoctor(), p);
 			}
-			out.println(ProviderReferralHelper.getUIGraphResultOutput(results, providers, tempId));
+			
+			 if("json".equalsIgnoreCase(format))
+			 {
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, providers, tempId));
+		     }
+		     else
+		     {
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, providers, tempId));
+		     }
 		}
 		finally { 
 			qexec1.close() ;

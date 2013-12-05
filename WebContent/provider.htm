@@ -1,15 +1,20 @@
 <html>
 <head>
 <title>R-Square Demo: Provider Referral Network</title>
+
+<link type="text/css" href="css/ui-lightness/jquery-ui-1.10.2.custom.css" rel="stylesheet" />	
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="scripts/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="scripts/jquery.svg.js"></script>	
+		
+<script type="text/javascript" src="scripts/constellation.js"></script>
+		
 <link href="css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
-<script src="scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+<!-- <script src="scripts/jquery-1.7.1.min.js" type="text/javascript"></script>-->
 <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="js/jquery.autocomplete.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-<link href='https://fonts.googleapis.com/css?family=Kameron:700|Kameron:400|PT+Serif:400' rel='stylesheet' type='text/css'>
-
-
-<!-- <script src="scripts/jquery.easytabs.js" type="text/javascript"></script> -->
+<!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+<link href='https://fonts.googleapis.com/css?family=Kameron:700|Kameron:400|PT+Serif:400' rel='stylesheet' type='text/css'>-->
 
 <link href="css/demo_page.css" type="text/css" rel="stylesheet">
 <link href="css/demo_table.css" type="text/css" rel="stylesheet">
@@ -18,9 +23,9 @@
 <link rel="stylesheet" href="css/jqtree.css">
 <script src="scripts/tree.jquery.js" type="text/javascript"></script>
 
-<link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="constroamer.css" />
-<script src="swfobject.js" type="text/javascript"></script>
-	
+<!-- <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="constroamer.css" />
+<script src="swfobject.js" type="text/javascript"></script>-->
+<style type="text/css">@import "css/jquery.svg.css";</style>
 <style>
 	body { font: 80%/1.45em "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif; margin: 10px; background-color:#FFFFF9}
 	/* Example Styles for Demo */
@@ -59,11 +64,18 @@
 	}
 	
 	h1 {
-font-family: Kameron, cursive;
-font-weight: 400;
-color: #333;
-font-size: 48px;
-}
+	font-family: Kameron, cursive;
+	font-weight: 400;
+	color: #333;
+	font-size: 48px;
+	}
+
+	html, body, #constellation {
+		height: 100%;
+		margin: 0;
+		overflow: hidden;
+		padding: 0;
+	}
 	
 </style>
 <script type="text/javascript">
@@ -71,7 +83,44 @@ font-size: 48px;
 
 var providerNodeName;
 var states = new Array;
-
+var styles = [
+	['node', {
+		rendererClass: DefaultNodeRenderer,
+		graphicFillColor: '#65a4cd',
+		graphicLineColor: '#3161a3',
+		graphicSize: 10,
+		labelBoxLineColor: '#444444',
+		labelFontColor: '#333333',
+		labelFontSize: 14
+	}],
+	['node.visited', {
+		labelBoxFillColor: '#e6e6e6',
+		labelBoxLineColor: '#444444',
+		labelFontColor: '#555555'
+	}],
+	['node.selected', {
+		labelBoxFillColor: '#ffffff',
+		labelFontColor: '#222222',
+		labelFontWeight: 'bold'
+	}],
+	['node.feature', {
+		graphicFillColor: '#681d7a',
+		graphicLineColor: '#370b3e'
+	}],
+	['node.edgeStyles', {
+		graphicFillColor: '#5a186f',
+		graphicLineColor: '#2d0935',
+		graphicSize: 10,
+		labelBoxEnabled: false,
+		labelPosition: 'right'
+	}],
+	['edge', {
+		edgeLineThickness: 2,
+		arrowhead: true, 
+		rendererClass: DefaultEdgeRenderer
+	}]
+];
+	
 $(document).ready( function() {
 
     $( "#tabs" ).tabs();
@@ -240,11 +289,10 @@ for(var index = 0; index < states.length; index++){
 
 });
 
-var swfObj;
-
+/*var swfObj;
 function constellationRoamer_onLoaded() {
 	swfObj = swfobject.getObjectById("constellation_roamer");
-}
+}*/
 	
 jQuery.fn.dataTableExt.aTypes.push(
     function ( sData ) {
@@ -274,11 +322,11 @@ function showGeoGraphLeftPanel() {
 	$("#lft-div-investigator-list").hide();
 	$("#divFindProvider").show();
 	//initializeMap();
-	setTimeout(function() {
+	/*setTimeout(function() {
 		var center = map.getCenter();
 		google.maps.event.trigger(map, "resize");
 		map.setCenter(center);
-	}, 1000);
+	}, 1000);*/
 	
 }
 
@@ -306,7 +354,53 @@ function loadGraph(pid) {
     	alert("Select atleast one direction of referral");
     	return;
     }
-    if(pid!=$('#pid_network_graph').val())
+    
+    if(!constellation || pid!=constellation.getSelectedNodeId())
+    {
+    	$('#pid_network_graph').val(pid);
+    	var newURL = 'referral?pid=' + pid + '&params=' + params + '&format=json';
+    	if(constellation)
+    	{
+    		constellation.getModel().clear();
+    	}
+        var config = {
+        		graphLoader: {
+        			url: newURL
+        		},
+        		// Use a tree graph view to navigate the graph.
+        		graphViewClass: TreeGraphView,
+        		// Pass parameters to the graph view.
+        		graphView: {
+        			// Display the selected node and its neighbours.
+        			depth: 2
+        		},
+
+        		layoutClass: RoamerLayout,
+        		layout: {
+        			// Set the baseEdgeLength a little higher to space nodes out a little more.
+        			baseEdgeLength: 250
+        		},
+        		
+        		zoomSlider: {
+        			'display': 'auto',
+        			'orientation': 'vertical',
+        			'min': 0.2,
+        			'max': 2,
+        			'value': 0.5,
+        			'step': 0.05
+        		}
+        		
+        	};
+        $( "#constellation" ).remove();
+        $("#network-graph-tab").append("<div id='constellation' style='width:100%; height:100%;'/>");
+        var constellation = new Constellation(config, styles);
+        constellation.init();
+        jQuery(constellation).bind('nodeclick', function(event, nodeId) {
+        	this.setSelectedNodeId(nodeId);
+        });
+    	constellation.setSelectedNodeId(pid);
+    }
+   /* if(pid!=$('#pid_network_graph').val())
     {
     	$('#pid_network_graph').val(pid);
         if($("#constellation_roamer").length)
@@ -348,7 +442,7 @@ function loadGraph(pid) {
     	swfobject.embedSWF(
     			"constellation_roamer.swf", "graph-canvas", "100%", "100%",
     			"9", "expressInstall.swf", flashvars, params, attributes);	
-    }
+    }*/
 }
 
 function loadGridFromProviderId() {
@@ -426,7 +520,7 @@ lookup: states[$('#state_provider_list').val()] //local lookup values
 
 
 //google.maps.visualRefresh = true;
-var map;
+/*var map;
 function initializeMap() {
   var mapOptions = {
 	zoom: 14,
@@ -437,7 +531,7 @@ function initializeMap() {
 	  mapOptions);
 }
 
-google.maps.event.addDomListener(window, 'load', initializeMap);
+google.maps.event.addDomListener(window, 'load', initializeMap);*/
 </script>
 </head>
 
@@ -480,14 +574,14 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 		<div id="lft-div-network-graph" style="display:none">
 			<input id="pid_network_graph" placeholder="Enter Provider Id..." name="pid_network_graph" type="text">
 			<br /><br />
-			<strong>View only top k referrals</strong>
+			<!-- <strong>View only top k referrals</strong>
 			<br />
 			<select>
 				<option>10</option>
 				<option>50</option>
 				<option>100</option>
 			</select>
-			<br /><br />
+			<br /><br />-->
 			<hr width="200" style="float:left;" />
 			<br />
 			<strong>Select Direction of Referral</strong>
@@ -550,8 +644,8 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 		<ul>
 		   <li class='tab'><a href="#provider-list-tab">Provider List</a></li>
 		   <li class='tab'><a href="#network-graph-tab">Network Graph</a></li>
-		   <li class='tab'><a href="#geo-graph-tab">Geo Graph</a></li>
-		   <li class='tab'><a href="#questions-tab">Questions</a></li>
+		   <!--<li class='tab'><a href="#geo-graph-tab">Geo Graph</a></li>
+		   <li class='tab'><a href="#questions-tab">Questions</a></li>-->
 		</ul>
 		<div class='panel-container'>
 			<div id="provider-list-tab">
@@ -571,10 +665,10 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 				</table>
 			</div>
 			<div id="network-graph-tab" >
-				<div id="graph-canvas"></div>
+				<div id="constellation"></div>
 				<!-- <iframe name="graphFrame" id="graphFrame" width="1280" height="1024" src=""></iframe>-->
 			</div>
-			<div id="geo-graph-tab">
+			<!-- <div id="geo-graph-tab">
 				<div id="map-canvas" style="width:100%; height:75%;"></div>
 			</div>
 			<div id="questions-tab">
@@ -602,7 +696,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 					<tbody>
 					</tbody>
 				</table>
-			</div>
+			</div>-->
 		</div>
 	</div>
 </div>
