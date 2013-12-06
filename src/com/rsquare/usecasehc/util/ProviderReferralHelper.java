@@ -49,7 +49,7 @@ public class ProviderReferralHelper {
 	        if("\"referred\"".equalsIgnoreCase(result.getDirection()) || "referred".equalsIgnoreCase(result.getDirection()))
 		    {
 	        	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("provided " + result.getReferralCount() + " referrals", 
-	        			"#2262A0", "false");
+	        			"#2262A0", null);
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode())), 
 	        			result.getReferredDoctor(), result.getDoctor(), eData);
 	        	edges.add(edge);
@@ -57,7 +57,7 @@ public class ProviderReferralHelper {
 		    else if("\"was referred by\"".equalsIgnoreCase(result.getDirection()) || "was referred by".equalsIgnoreCase(result.getDirection()))
 		    {
 		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("received " + result.getReverseCount() + " referrals", 
-	        			"#DA6315", "false");
+	        			"#DA6315", null);
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode())), 
 	        			result.getDoctor(), result.getReferredDoctor(), eData);
 	        	edges.add(edge);
