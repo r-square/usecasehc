@@ -1,31 +1,1001 @@
 {
-"nodes":[
-    {
-        "label": "Agency",
-        "id":"1234",
-        "children": [
-            {
-                "label": "CaseManagement",
-                 "id":"456",
-                "taxonomy_id": "251B00000X"
-            },
-            {
-                "label": "Community/BehavioralHealth",
-                 "id":"789",
-                "taxonomy_id": "251S00000X"
-            }
-        ]
-    },
-    {
-        "label": "Amb HC Fac",
-        "id":"890",
-        "children": [
-            {
-                "label": "Clinic/Center",
-                "id":"901",
-                "taxonomy_id": "261Q00000X"
-            }
-         ]
-      }
-]
-}      
+    "nodes":[
+        {"label":"Agency", "id":"546583", "children": [
+            {"label":"CaseManagement", "id":"9709993", "taxonomy_id":"251B00000X"},
+            {"label":"Community/BehavioralHealth", "id":"1756347", "taxonomy_id":"251S00000X"},
+            {"label":"DayTraining,DevelopmentallyDisabledServices", "id":"8666691", "taxonomy_id":"251C00000X"},
+            {"label":"EarlyInterventionProviderAgency", "id":"1886510", "taxonomy_id":"252Y00000X"},
+            {"label":"FosterCareAgency", "id":"7410539", "taxonomy_id":"253J00000X"},
+            {"label":"HomeHealth", "id":"3684787", "taxonomy_id":"251E00000X"},
+            {"label":"HomeInfusion", "id":"2671679", "taxonomy_id":"251F00000X"},
+            {"label":"HospiceCare,CommunityBased", "id":"1332585", "taxonomy_id":"251G00000X"},
+            {"label":"InHomeSupportiveCare", "id":"5981511", "taxonomy_id":"253Z00000X"},
+            {"label":"LocalEducationAgency(LEA)", "id":"4959198", "taxonomy_id":"251300000X"},
+            {"label":"NursingCare", "id":"8861094", "taxonomy_id":"251J00000X"},
+            {"label":"ProgramofAll-InclusiveCarefortheElderly(PACE)ProviderOrganization", "id":"7727719", "taxonomy_id":"251T00000X"},
+            {"label":"PublicHealthorWelfare", "id":"1207607", "taxonomy_id":"251K00000X"},
+            {"label":"SupportsBrokerage", "id":"7279165", "taxonomy_id":"251X00000X"},
+            {"label":"VoluntaryorCharitable", "id":"1091144", "taxonomy_id":"251V00000X"}
+        ]},
+        {"label":"Amb HC Fac", "id":"3222516", "children": [
+            {"label":"Clinic/Center", "id":"7194482", "taxonomy_id":"261Q00000X"},
+            {"label":"Clinic/Ctr", "id":"5058596", "children": [
+                {"label":"AdolescentandChildrenMentalHealth", "id":"2746625", "taxonomy_id":"261QM0855X"},
+                {"label":"AdultDayCare", "id":"7988115", "taxonomy_id":"261QA0600X"},
+                {"label":"AdultMentalHealth", "id":"5714923", "taxonomy_id":"261QM0850X"},
+                {"label":"AmbulatoryFamilyPlanningFacility", "id":"7902179", "taxonomy_id":"261QA0005X"},
+                {"label":"AmbulatoryFertilityFacility", "id":"2446388", "taxonomy_id":"261QA0006X"},
+                {"label":"AmbulatorySurgical", "id":"7231092", "taxonomy_id":"261QA1903X"},
+                {"label":"Amputee", "id":"7640036", "taxonomy_id":"261QA0900X"},
+                {"label":"AugmentativeCommunication", "id":"6800119", "taxonomy_id":"261QA3000X"},
+                {"label":"Birthing", "id":"2063907", "taxonomy_id":"261QB0400X"},
+                {"label":"CommunityHealth", "id":"5666151", "taxonomy_id":"261QC1500X"},
+                {"label":"CorporateHealth", "id":"8888171", "taxonomy_id":"261QC1800X"},
+                {"label":"CriticalAccessHospital", "id":"7157602", "taxonomy_id":"261QC0050X"},
+                {"label":"Dental", "id":"9910381", "taxonomy_id":"261QD0000X"},
+                {"label":"DevelopmentalDisabilities", "id":"5018456", "taxonomy_id":"261QD1600X"},
+                {"label":"EmergencyCare", "id":"3107450", "taxonomy_id":"261QE0002X"},
+                {"label":"End-StageRenalDisease(ESRD)Treatment", "id":"2655755", "taxonomy_id":"261QE0700X"},
+                {"label":"Endoscopy", "id":"9571467", "taxonomy_id":"261QE0800X"},
+                {"label":"FamilyPlanning,Non-Surgical", "id":"3694412", "taxonomy_id":"261QF0050X"},
+                {"label":"FederallyQualifiedHealthCenter(FQHC)", "id":"6336789", "taxonomy_id":"261QF0400X"},
+                {"label":"Gen", "id":"4121342", "taxonomy_id":"261QG0250X"},
+                {"label":"HealthService", "id":"6231419", "taxonomy_id":"261QH0100X"},
+                {"label":"HearingandSpeech", "id":"1258091", "taxonomy_id":"261QH0700X"},
+                {"label":"InfusionTherapy", "id":"5256102", "taxonomy_id":"261QI0500X"},
+                {"label":"Lithotripsy", "id":"7946436", "taxonomy_id":"261QL0400X"},
+                {"label":"MagneticResonanceImaging(MRI)", "id":"1379567", "taxonomy_id":"261QM1200X"},
+                {"label":"MedicallyFragileInfantsandChildrenDayCare", "id":"6444129", "taxonomy_id":"261QM3000X"},
+                {"label":"Medicallabel", "id":"2477594", "taxonomy_id":"261QM2500X"},
+                {"label":"MentalHealth(IncludingCommunityMentalHealthCenter)", "id":"8446318", "taxonomy_id":"261QM0801X"},
+                {"label":"Methadone", "id":"3988486", "taxonomy_id":"261QM2800X"},
+                {"label":"MigrantHealth", "id":"7714353", "taxonomy_id":"261QM1000X"},
+                {"label":"Military/U.S.CoastGuardOutpatient", "id":"2357001", "taxonomy_id":"261QM1100X"},
+                {"label":"MilitaryAmbulatoryProcedureVisitsOperational(Transportable)", "id":"9804266", "taxonomy_id":"261QM1103X"},
+                {"label":"MilitaryandU.S.CoastGuardAmbulatoryProcedure", "id":"3509728", "taxonomy_id":"261QM1101X"},
+                {"label":"MilitaryOutpatientOperational(Transportable)Component", "id":"1614029", "taxonomy_id":"261QM1102X"},
+                {"label":"Multi-label", "id":"9172919", "taxonomy_id":"261QM1300X"},
+                {"label":"OccupationalMedicine", "id":"4034378", "taxonomy_id":"261QX0100X"},
+                {"label":"Oncology", "id":"7222978", "taxonomy_id":"261QX0200X"},
+                {"label":"Oncology,Radiation", "id":"6542465", "taxonomy_id":"261QX0203X"},
+                {"label":"OphthalmologicSurgery", "id":"3527233", "taxonomy_id":"261QS0132X"},
+                {"label":"OralandMaxillofacialSurgery", "id":"5532759", "taxonomy_id":"261QS0112X"},
+                {"label":"Pain", "id":"7967291", "taxonomy_id":"261QP3300X"},
+                {"label":"PhysicalTherapy", "id":"6279813", "taxonomy_id":"261QP2000X"},
+                {"label":"Podiatric", "id":"3029898", "taxonomy_id":"261QP1100X"},
+                {"label":"PrimaryCare", "id":"7742851", "taxonomy_id":"261QP2300X"},
+                {"label":"PrisonHealth", "id":"8669019", "taxonomy_id":"261QP2400X"},
+                {"label":"PublicHealth,Federal", "id":"4884534", "taxonomy_id":"261QP0904X"},
+                {"label":"PublicHealth,StateorLocal", "id":"9571031", "taxonomy_id":"261QP0905X"},
+                {"label":"Radiology", "id":"5632918", "taxonomy_id":"261QR0200X"},
+                {"label":"Radiology,Mammography", "id":"182176", "taxonomy_id":"261QR0206X"},
+                {"label":"Radiology,Mobile", "id":"3477688", "taxonomy_id":"261QR0208X"},
+                {"label":"Radiology,MobileMammography", "id":"6759137", "taxonomy_id":"261QR0207X"},
+                {"label":"RecoveryCare", "id":"1888744", "taxonomy_id":"261QR0800X"},
+                {"label":"Rehabilitation", "id":"9815656", "taxonomy_id":"261QR0400X"},
+                {"label":"Rehabilitation,CardiacFacilities", "id":"3828498", "taxonomy_id":"261QR0404X"},
+                {"label":"Rehabilitation,ComprehensiveOutpatientRehabilitationFacility(CORF)", "id":"2102297", "taxonomy_id":"261QR0401X"},
+                {"label":"Rehabilitation,SubstanceUseDisorder", "id":"5751780", "taxonomy_id":"261QR0405X"},
+                {"label":"Research", "id":"845557", "taxonomy_id":"261QR1100X"},
+                {"label":"RuralHealth", "id":"2697089", "taxonomy_id":"261QR1300X"},
+                {"label":"SleepDisorderDiagnostic", "id":"8244501", "taxonomy_id":"261QS1200X"},
+                {"label":"StudentHealth", "id":"4533160", "taxonomy_id":"261QS1000X"},
+                {"label":"UrgentCare", "id":"6017495", "taxonomy_id":"261QU0200X"},
+                {"label":"VA", "id":"3623418", "taxonomy_id":"261QV0200X"}
+            ]}
+        ]},
+        {"label":"Behav/Soc Svc", "id":"9704450", "children": [
+            {"label":"BehavioralAnalyst", "id":"578053", "taxonomy_id":"103K00000X"},
+            {"label":"ClinicalNeuropsychologist", "id":"4442858", "taxonomy_id":"103G00000X"},
+            {"label":"Counselor", "id":"2094758", "taxonomy_id":"101Y00000X", "children": [
+                {"label":"Addiction(SubstanceUseDisorder)", "id":"1813725", "taxonomy_id":"101YA0400X"},
+                {"label":"MentalHealth", "id":"8511855", "taxonomy_id":"101YM0800X"},
+                {"label":"Pastoral", "id":"2508075", "taxonomy_id":"101YP1600X"},
+                {"label":"Professional", "id":"9576221", "taxonomy_id":"101YP2500X"},
+                {"label":"School", "id":"5904374", "taxonomy_id":"101YS0200X"}
+            ]},
+            {"label":"Marriage&amp;FamilyTherapist", "id":"1701011", "taxonomy_id":"106H00000X"},
+            {"label":"PoetryTherapist", "id":"4273268", "taxonomy_id":"102X00000X"},
+            {"label":"Psychoanalyst", "id":"8501320", "taxonomy_id":"102L00000X"},
+            {"label":"Psychol", "id":"2088442", "children": [
+                {"label":"Addiction(SubstanceUseDisorder)", "id":"6564728", "taxonomy_id":"103TA0400X"},
+                {"label":"AdultDevelopment&amp;Aging", "id":"8991410", "taxonomy_id":"103TA0700X"},
+                {"label":"Clinical", "id":"3557684", "taxonomy_id":"103TC0700X"},
+                {"label":"ClinicalChild&amp;Adolescent", "id":"3439913", "taxonomy_id":"103TC2200X"},
+                {"label":"Cognitive&amp;Behavioral", "id":"6275161", "taxonomy_id":"103TB0200X"},
+                {"label":"Counseling", "id":"7546943", "taxonomy_id":"103TC1900X"},
+                {"label":"Exercise&amp;Sports", "id":"6941036", "taxonomy_id":"103TE1100X"},
+                {"label":"Family", "id":"1608365", "taxonomy_id":"103TF0000X"},
+                {"label":"Forensic", "id":"8614542", "taxonomy_id":"103TF0200X"},
+                {"label":"GroupPsychotherapy", "id":"8407761", "taxonomy_id":"103TP2701X"},
+                {"label":"Health", "id":"4896645", "taxonomy_id":"103TH0004X"},
+                {"label":"HealthService", "id":"4380147", "taxonomy_id":"103TH0100X"},
+                {"label":"MentalRetardation&amp;DevelopmentalDisabilities", "id":"7107244", "taxonomy_id":"103TM1800X"},
+                {"label":"Prescribing(Medical)", "id":"2912754", "taxonomy_id":"103TP0016X"},
+                {"label":"Psychoanalysis", "id":"8446358", "taxonomy_id":"103TP0814X"},
+                {"label":"Rehabilitation", "id":"9495669", "taxonomy_id":"103TR0400X"},
+                {"label":"School", "id":"7277227", "taxonomy_id":"103TS0200X"}
+            ]},
+            {"label":"Psychologist", "id":"345867", "taxonomy_id":"103T00000X"},
+            {"label":"SocialWorker", "id":"9838823", "taxonomy_id":"104100000X"},
+            {"label":"SocWorker", "id":"785114", "children": [
+                {"label":"Clinical", "id":"6300821", "taxonomy_id":"1041C0700X"},
+                {"label":"School", "id":"9162262", "taxonomy_id":"1041S0200X"}
+            ]}
+        ]},
+        {"label":"Chiropractic", "id":"7583269", "children": [
+            {"label":"Chiropractor", "id":"3571237", "taxonomy_id":"111N00000X", "children": [
+                {"label":"IndependentMedicalExaminer", "id":"3413790", "taxonomy_id":"111NI0013X"},
+                {"label":"Internist", "id":"9681656", "taxonomy_id":"111NI0900X"},
+                {"label":"Neurology", "id":"9755338", "taxonomy_id":"111NN0400X"},
+                {"label":"Nutrition", "id":"8278461", "taxonomy_id":"111NN1001X"},
+                {"label":"OccupationalMedicine", "id":"3768226", "taxonomy_id":"111NX0100X"},
+                {"label":"Orthopedic", "id":"9358061", "taxonomy_id":"111NX0800X"},
+                {"label":"PediatricChiropractor", "id":"6236530", "taxonomy_id":"111NP0017X"},
+                {"label":"Radiology", "id":"9453557", "taxonomy_id":"111NR0200X"},
+                {"label":"Rehabilitation", "id":"1416716", "taxonomy_id":"111NR0400X"},
+                {"label":"SportsPhysician", "id":"696874", "taxonomy_id":"111NS0005X"},
+                {"label":"Thermography", "id":"1393847", "taxonomy_id":"111NT0100X"}
+            ]}
+        ]},
+        {"label":"Dental", "id":"7727153", "children": [
+            {"label":"DentalAssistant", "id":"4057405", "taxonomy_id":"126800000X"},
+            {"label":"DentalHygienist", "id":"5943284", "taxonomy_id":"124Q00000X"},
+            {"label":"DentalLaboratoryTechnician", "id":"3227464", "taxonomy_id":"126900000X"},
+            {"label":"Dentist", "id":"9545108", "taxonomy_id":"122300000X", "children": [
+                {"label":"DentalPublicHealth", "id":"6152903", "taxonomy_id":"1223D0001X"},
+                {"label":"Endodontics", "id":"4744069", "taxonomy_id":"1223E0200X"},
+                {"label":"GeneralPractice", "id":"6057500", "taxonomy_id":"1223G0001X"},
+                {"label":"OralandMaxillofacialPathology", "id":"929427", "taxonomy_id":"1223P0106X"},
+                {"label":"OralandMaxillofacialRadiology", "id":"3903889", "taxonomy_id":"1223X0008X"},
+                {"label":"OralandMaxillofacialSurgery", "id":"8575841", "taxonomy_id":"1223S0112X"},
+                {"label":"OrthodonticsandDentofacialOrthopedics", "id":"7741364", "taxonomy_id":"1223X0400X"},
+                {"label":"PediatricDentistry", "id":"7531818", "taxonomy_id":"1223P0221X"},
+                {"label":"Periodontics", "id":"7145042", "taxonomy_id":"1223P0300X"},
+                {"label":"Prosthodontics", "id":"782461", "taxonomy_id":"1223P0700X"}
+            ]},
+            {"label":"Denturist", "id":"5937891", "taxonomy_id":"122400000X"}
+        ]},
+        {"label":"Diet/Nutr", "id":"355703", "children": [
+            {"label":"DietaryManager", "id":"5602869", "taxonomy_id":"132700000X"},
+            {"label":"DieteticTechnician,Registered", "id":"2481312", "taxonomy_id":"136A00000X"},
+            {"label":"Dietitian,Reg", "id":"220884", "children": [
+                {"label":"Nutrition,Metabolic", "id":"2215009", "taxonomy_id":"133VN1006X"},
+                {"label":"Nutrition,Pediatric", "id":"3712013", "taxonomy_id":"133VN1004X"},
+                {"label":"Nutrition,Renal", "id":"7134859", "taxonomy_id":"133VN1005X"}
+            ]},
+            {"label":"Dietitian,Registered", "id":"7080643", "taxonomy_id":"133V00000X"},
+            {"label":"Nutritionist", "id":"9463660", "taxonomy_id":"133N00000X", "children": [
+                {"label":"Nutrition,Education", "id":"8995653", "taxonomy_id":"133NN1002X"}
+            ]}
+        ]},
+        {"label":"Emrg Med Svc", "id":"1824565", "children": [
+            {"label":"EmergencyMedicalTechnician,Basic", "id":"9184819", "taxonomy_id":"146N00000X"},
+            {"label":"EmergencyMedicalTechnician,Intermediate", "id":"5003048", "taxonomy_id":"146M00000X"},
+            {"label":"EmergencyMedicalTechnician,Paramedic", "id":"7997073", "taxonomy_id":"146L00000X"},
+            {"label":"PersonalEmergencyResponseAttendant", "id":"1160051", "taxonomy_id":"146D00000X"}
+        ]},
+        {"label":"Eye/Vsn", "id":"8555828", "children": [
+            {"label":"Optometrist", "id":"9583210", "taxonomy_id":"152W00000X", "children": [
+                {"label":"CornealandContactManagement", "id":"2823937", "taxonomy_id":"152WC0802X"},
+                {"label":"LowVisionRehabilitation", "id":"4477575", "taxonomy_id":"152WL0500X"},
+                {"label":"OccupationalVision", "id":"866689", "taxonomy_id":"152WX0102X"},
+                {"label":"Pediatrics", "id":"1941932", "taxonomy_id":"152WP0200X"},
+                {"label":"SportsVision", "id":"164042", "taxonomy_id":"152WS0006X"},
+                {"label":"VisionTherapy", "id":"3306938", "taxonomy_id":"152WV0400X"}
+            ]},
+            {"label":"Technician/Technologist", "id":"6265415", "taxonomy_id":"156F00000X"},
+            {"label":"Technicn/Technol", "id":"8472722", "children": [
+                {"label":"ContactLens", "id":"9136069", "taxonomy_id":"156FC0800X"},
+                {"label":"ContactLensFitter", "id":"8962636", "taxonomy_id":"156FC0801X"},
+                {"label":"Ocularist", "id":"6019097", "taxonomy_id":"156FX1700X"},
+                {"label":"Ophthalmic", "id":"8372862", "taxonomy_id":"156FX1100X"},
+                {"label":"OphthalmicAssistant", "id":"4144931", "taxonomy_id":"156FX1101X"},
+                {"label":"Optician", "id":"4841690", "taxonomy_id":"156FX1800X"},
+                {"label":"OptometricAssistant", "id":"9651262", "taxonomy_id":"156FX1201X"},
+                {"label":"OptometricTechnician", "id":"730913", "taxonomy_id":"156FX1202X"},
+                {"label":"Orthoptist", "id":"655888", "taxonomy_id":"156FX1900X"}
+            ]}
+        ]},
+        {"label":"Hosp", "id":"5897595", "children": [
+            {"label":"ChronicDis", "id":"3796276",  "children": [
+                {"label":"Children", "id":"8164494", "taxonomy_id":"281PC2000X"}
+            ]},
+            {"label":"ChronicDiseaseHospital", "id":"5267406", "taxonomy_id":"281P00000X"},
+            {"label":"GenAcuteCare", "id":"8886455", "children": [
+                {"label":"Children", "id":"3161530", "taxonomy_id":"282NC2000X"},
+                {"label":"CriticalAccess", "id":"2385706", "taxonomy_id":"282NC0060X"},
+                {"label":"Rural", "id":"3516253", "taxonomy_id":"282NR1301X"},
+                {"label":"Women", "id":"108426", "taxonomy_id":"282NW0100X"}
+            ]},
+            {"label":"GeneralAcuteCareHospital", "id":"4663590", "taxonomy_id":"282N00000X"},
+            {"label":"LongTermCareHospital", "id":"8073160", "taxonomy_id":"282E00000X"},
+            {"label":"Mil", "id":"8558847", "children": [
+                {"label":"MilitaryGeneralAcuteCareHospital", "id":"8280443", "taxonomy_id":"2865M2000X"},
+                {"label":"MilitaryGeneralAcuteCareHospital.Operational(Transportable)", "id":"917758", "taxonomy_id":"2865X1600X"}
+            ]},
+            {"label":"MilitaryHospital", "id":"7562576", "taxonomy_id":"286500000X"},
+            {"label":"PsychiatricHospital", "id":"9230596", "taxonomy_id":"283Q00000X"},
+            {"label":"Rehab", "id":"463341", "children": [
+                {"label":"Children", "id":"7753639", "taxonomy_id":"283XC2000X"}
+            ]},
+            {"label":"RehabilitationHospital", "id":"2910337", "taxonomy_id":"283X00000X"},
+            {"label":"ReligiousNonmedicalHealthCareInstitution", "id":"7023849", "taxonomy_id":"282J00000X"},
+            {"label":"SpecialHospital", "id":"6552622", "taxonomy_id":"284300000X"}
+        ]},
+        {"label":"Hosp Unit", "id":"8036899", "children": [
+            {"label":"EpilepsyUnit", "id":"2339939", "taxonomy_id":"273100000X"},
+            {"label":"MedicareDefinedSwingBedUnit", "id":"4293970", "taxonomy_id":"275N00000X"},
+            {"label":"PsychiatricUnit", "id":"464335", "taxonomy_id":"273R00000X"},
+            {"label":"Rehabilitation,SubstanceUseDisorderUnit", "id":"6159875", "taxonomy_id":"276400000X"},
+            {"label":"RehabilitationUnit", "id":"2243342", "taxonomy_id":"273Y00000X"}
+        ]},
+        {"label":"Lab", "id":"2755230", "children": [
+            {"label":"ClinicalMedicalLaboratory", "id":"3652010", "taxonomy_id":"291U00000X"},
+            {"label":"DentalLaboratory", "id":"6076902", "taxonomy_id":"292200000X"},
+            {"label":"MilitaryClinicalMedicalLaboratory", "id":"7011749", "taxonomy_id":"291900000X"},
+            {"label":"PhysiologicalLaboratory", "id":"6187033", "taxonomy_id":"293D00000X"}
+        ]},
+        {"label":"MCO", "id":"8929594", "children": [
+            {"label":"ExclusiveProviderOrganization", "id":"7431523", "taxonomy_id":"302F00000X"},
+            {"label":"HealthMaintenanceOrganization", "id":"3421167", "taxonomy_id":"302R00000X"},
+            {"label":"PointofService", "id":"71464", "taxonomy_id":"305S00000X"},
+            {"label":"PreferredProviderOrganization", "id":"9455306", "taxonomy_id":"305R00000X"}
+        ]},
+        {"label":"Nrsg Svc Related", "id":"9347815", "children": [
+            {"label":"AdultCompanion", "id":"8034866", "taxonomy_id":"372600000X"},
+            {"label":"ChoreProvider", "id":"2609754", "taxonomy_id":"372500000X"},
+            {"label":"ChristianSciencePractitioner/Nurse", "id":"8695181", "taxonomy_id":"374T00000X"},
+            {"label":"DayTraining/HabilitationSpecialist", "id":"8978116", "taxonomy_id":"373H00000X"},
+            {"label":"Doula", "id":"1816085", "taxonomy_id":"374J00000X"},
+            {"label":"HomeHealthAide", "id":"3475666", "taxonomy_id":"374U00000X"},
+            {"label":"Homemaker", "id":"26494", "taxonomy_id":"376J00000X"},
+            {"label":"Nurse'sAide", "id":"1078251", "taxonomy_id":"376K00000X"},
+            {"label":"NursingHomeAdministrator", "id":"4361996", "taxonomy_id":"376G00000X"},
+            {"label":"ReligiousNonmedicalPractitioner", "id":"9317030", "taxonomy_id":"374K00000X"},
+            {"label":"Technician", "id":"4419065", "taxonomy_id":"374700000X", "children": [
+                {"label":"AttendantCareProvider", "id":"5391987", "taxonomy_id":"3747A0650X"},
+                {"label":"PersonalCareAttendant", "id":"86889", "taxonomy_id":"3747P1801X"}
+            ]}
+        ]},
+        {"label":"Nrsg/CC Fac", "id":"4259475", "children": [
+            {"label":"AlzheimerCenter(DementiaCenter)", "id":"3162158", "taxonomy_id":"311500000X"},
+            {"label":"AssistedLivingFacility", "id":"3958588", "taxonomy_id":"310400000X"},
+            {"label":"AsstdLivg", "id":"3524957", "children": [
+                {"label":"AssistedLiving,BehavioralDisturbances", "id":"657587", "taxonomy_id":"3104A0630X"},
+                {"label":"AssistedLiving,MentalIllness", "id":"4227378", "taxonomy_id":"3104A0625X"}
+            ]},
+            {"label":"CustodCare", "id":"7069655",  "children": [
+                {"label":"AdultCareHome", "id":"4412250", "taxonomy_id":"311ZA0620X"}
+            ]},
+            {"label":"CustodialCareFacility", "id":"3386949", "taxonomy_id":"311Z00000X"},
+            {"label":"Hospice,Inpatient", "id":"2847770", "taxonomy_id":"315D00000X"},
+            {"label":"IntermediateCareFacility,MentalIllness", "id":"9215942", "taxonomy_id":"310500000X"},
+            {"label":"IntermediateCareFacility,MentallyRetarded", "id":"4633028", "taxonomy_id":"315P00000X"},
+            {"label":"NursingFacility/IntermediateCareFacility", "id":"7205935", "taxonomy_id":"313M00000X"},
+            {"label":"SkilledNursingFacility", "id":"4626699", "taxonomy_id":"314000000X"},
+            {"label":"SNF", "id":"6352419",  "children": [
+                {"label":"NursingCare,Pediatric", "id":"9669585", "taxonomy_id":"3140N1450X"}
+            ]}
+        ]},
+        {"label":"Nursing", "id":"3436209", "children": [
+            {"label":"LicensedPracticalNurse", "id":"2979790", "taxonomy_id":"164W00000X"},
+            {"label":"LicensedPsychiatricTechnician", "id":"8468014", "taxonomy_id":"167G00000X"},
+            {"label":"LicensedVocationalNurse", "id":"9790959", "taxonomy_id":"164X00000X"},
+            {"label":"RegisteredNurse", "id":"2675048", "taxonomy_id":"163W00000X"},
+            {"label":"RN", "id":"7813479", "children": [
+                {"label":"Addiction(SubstanceUseDisorder)", "id":"7407268", "taxonomy_id":"163WA0400X"},
+                {"label":"Administrator", "id":"9512393", "taxonomy_id":"163WA2000X"},
+                {"label":"AmbulatoryCare", "id":"5891157", "taxonomy_id":"163WP2201X"},
+                {"label":"CardiacRehabilitation", "id":"3096346", "taxonomy_id":"163WC3500X"},
+                {"label":"CaseManagement", "id":"885155", "taxonomy_id":"163WC0400X"},
+                {"label":"CollegeHealth", "id":"7564248", "taxonomy_id":"163WC1400X"},
+                {"label":"CommunityHealth", "id":"2242384", "taxonomy_id":"163WC1500X"},
+                {"label":"ContinenceCare", "id":"8098761", "taxonomy_id":"163WC2100X"},
+                {"label":"ContinuingEducation/StaffDevelopment", "id":"2253180", "taxonomy_id":"163WC1600X"},
+                {"label":"CriticalCareMedicine", "id":"8108176", "taxonomy_id":"163WC0200X"},
+                {"label":"DiabetesEducator", "id":"4645527", "taxonomy_id":"163WD0400X"},
+                {"label":"Dialysis,Peritoneal", "id":"2172501", "taxonomy_id":"163WD1100X"},
+                {"label":"Emergency", "id":"126963", "taxonomy_id":"163WE0003X"},
+                {"label":"EnterostomalTherapy", "id":"20139", "taxonomy_id":"163WE0900X"},
+                {"label":"Flight", "id":"8549813", "taxonomy_id":"163WF0300X"},
+                {"label":"Gastroenterology", "id":"5015183", "taxonomy_id":"163WG0100X"},
+                {"label":"GeneralPractice", "id":"8839067", "taxonomy_id":"163WG0000X"},
+                {"label":"Gerontology", "id":"5673683", "taxonomy_id":"163WG0600X"},
+                {"label":"Hemodialysis", "id":"9760364", "taxonomy_id":"163WH0500X"},
+                {"label":"HomeHealth", "id":"6253899", "taxonomy_id":"163WH0200X"},
+                {"label":"Hospice", "id":"508796", "taxonomy_id":"163WH1000X"},
+                {"label":"InfectionControl", "id":"3381936", "taxonomy_id":"163WI0600X"},
+                {"label":"InfusionTherapy", "id":"6177505", "taxonomy_id":"163WI0500X"},
+                {"label":"LactationConsultant", "id":"9982516", "taxonomy_id":"163WL0100X"},
+                {"label":"MaternalNewborn", "id":"1173137", "taxonomy_id":"163WM0102X"},
+                {"label":"Medical-Surgical", "id":"3852349", "taxonomy_id":"163WM0705X"},
+                {"label":"Neonatal,Low-Risk", "id":"5907920", "taxonomy_id":"163WN0003X"},
+                {"label":"NeonatalIntensiveCare", "id":"146536", "taxonomy_id":"163WN0002X"},
+                {"label":"Nephrology", "id":"2053522", "taxonomy_id":"163WN0300X"},
+                {"label":"Neuroscience", "id":"8327851", "taxonomy_id":"163WN0800X"},
+                {"label":"NurseMassageTherapist(NMT)", "id":"8766701", "taxonomy_id":"163WM1400X"},
+                {"label":"NutritionSupport", "id":"5684371", "taxonomy_id":"163WN1003X"},
+                {"label":"Obstetric,High-Risk", "id":"3225564", "taxonomy_id":"163WX0002X"},
+                {"label":"Obstetric,Inpatient", "id":"5044418", "taxonomy_id":"163WX0003X"},
+                {"label":"OccupationalHealth", "id":"9729217", "taxonomy_id":"163WX0106X"},
+                {"label":"Oncology", "id":"417215", "taxonomy_id":"163WX0200X"},
+                {"label":"Ophthalmic", "id":"5518054", "taxonomy_id":"163WX1100X"},
+                {"label":"Orthopedic", "id":"8308826", "taxonomy_id":"163WX0800X"},
+                {"label":"OstomyCare", "id":"9531456", "taxonomy_id":"163WX1500X"},
+                {"label":"Otorhinolaryngology&amp;Head-Neck", "id":"2928191", "taxonomy_id":"163WX0601X"},
+                {"label":"PainManagement", "id":"471170", "taxonomy_id":"163WP0000X"},
+                {"label":"PediatricOncology", "id":"3343330", "taxonomy_id":"163WP0218X"},
+                {"label":"Pediatrics", "id":"6012422", "taxonomy_id":"163WP0200X"},
+                {"label":"Perinatal", "id":"7043905", "taxonomy_id":"163WP1700X"},
+                {"label":"PlasticSurgery", "id":"8150712", "taxonomy_id":"163WS0121X"},
+                {"label":"Psychiatric/MentalHealth", "id":"6036445", "taxonomy_id":"163WP0808X"},
+                {"label":"Psychiatric/MentalHealth,Adult", "id":"4955087", "taxonomy_id":"163WP0809X"},
+                {"label":"Psychiatric/MentalHealth,Child&amp;Adolescent", "id":"3243330", "taxonomy_id":"163WP0807X"},
+                {"label":"RegisteredNurseFirstAssistant", "id":"6105085", "taxonomy_id":"163WR0006X"},
+                {"label":"Rehabilitation", "id":"558313", "taxonomy_id":"163WR0400X"},
+                {"label":"ReproductiveEndocrinology/Infertility", "id":"8534027", "taxonomy_id":"163WR1000X"},
+                {"label":"School", "id":"4622972", "taxonomy_id":"163WS0200X"},
+                {"label":"Urology", "id":"5059821", "taxonomy_id":"163WU0100X"},
+                {"label":"Women'sHealthCare,Ambulatory", "id":"8499980", "taxonomy_id":"163WW0101X"},
+                {"label":"WoundCare", "id":"6688938", "taxonomy_id":"163WW0000X"}
+            ]}
+        ]},
+        {"label":"Other Prov", "id":"17688", "children": [
+            {"label":"Acupuncturist", "id":"1601010", "taxonomy_id":"171100000X"},
+            {"label":"CaseManager/CareCoordinator", "id":"7070166", "taxonomy_id":"171M00000X"},
+            {"label":"ClinicalEthicist", "id":"8338123", "taxonomy_id":"174V00000X"},
+            {"label":"CommunityHealthWorker", "id":"7625033", "taxonomy_id":"172V00000X"},
+            {"label":"Contractor", "id":"243364", "taxonomy_id":"171W00000X", "children": [
+                {"label":"HomeModifications", "id":"5903583", "taxonomy_id":"171WH0202X"},
+                {"label":"VehicleModifications", "id":"4362597", "taxonomy_id":"171WV0202X"}
+            ]},
+            {"label":"Driver", "id":"6606459", "taxonomy_id":"172A00000X"},
+            {"label":"FuneralDirector", "id":"6085993", "taxonomy_id":"176P00000X"},
+            {"label":"GenCounselor,MS", "id":"3134431", "taxonomy_id":"170300000X"},
+            {"label":"HealthEducator", "id":"3983555", "taxonomy_id":"174H00000X"},
+            {"label":"Homeopath", "id":"6559309", "taxonomy_id":"175L00000X"},
+            {"label":"Interpreter", "id":"9230316", "taxonomy_id":"171R00000X"},
+            {"label":"LactationConsultant,Non-RN", "id":"2232437", "taxonomy_id":"174N00000X"},
+            {"label":"LegalMedicine", "id":"3936431", "taxonomy_id":"173000000X"},
+            {"label":"Lodging", "id":"9769140", "taxonomy_id":"177F00000X"},
+            {"label":"Meals", "id":"17878", "taxonomy_id":"174200000X"},
+            {"label":"Mechanotherapist", "id":"6677362", "taxonomy_id":"172M00000X"},
+            {"label":"MedicalGen,PhDMedicalGen", "id":"3096588", "taxonomy_id":"170100000X"},
+            {"label":"Midwife", "id":"8870734", "taxonomy_id":"176B00000X"},
+            {"label":"Midwife,Lay", "id":"7076676", "taxonomy_id":"175M00000X"},
+            {"label":"MilHCProv", "id":"5839160", "children": [
+                {"label":"IndependentDutyCorpsman", "id":"3311534", "taxonomy_id":"1710I1002X"},
+                {"label":"IndependentDutyMedicalTechnicians", "id":"8865829", "taxonomy_id":"1710I1003X"}
+            ]},
+            {"label":"MilitaryHealthCareProvider", "id":"2464942", "taxonomy_id":"171000000X"},
+            {"label":"Naprapath", "id":"7930214", "taxonomy_id":"172P00000X"},
+            {"label":"Naturopath", "id":"8244287", "taxonomy_id":"175F00000X"},
+            {"label":"Reflexologist", "id":"7892126", "taxonomy_id":"173C00000X"},
+            {"label":"SleepSpecialist,PhD", "id":"1726905", "taxonomy_id":"173F00000X"},
+            {"label":"Specialist", "id":"9692762", "taxonomy_id":"174400000X", "children": [
+                {"label":"GraphicsDesigner", "id":"4681917", "taxonomy_id":"1744G0900X"},
+                {"label":"ProstheticsCaseManagement", "id":"8340577", "taxonomy_id":"1744P3200X"},
+                {"label":"ResearchDataAbstracter/Coder", "id":"6268660", "taxonomy_id":"1744R1103X"},
+                {"label":"ResearchStudy", "id":"3390856", "taxonomy_id":"1744R1102X"}
+            ]},
+            {"label":"Veterinarian", "id":"5031680", "taxonomy_id":"174M00000X", "children": [
+                {"label":"MedicalResearch", "id":"5802324", "taxonomy_id":"174MM1900X"}
+            ]}
+        ]},
+        {"label":"PA/APN", "id":"5674283", "children": [
+            {"label":"AdvancedPracticeMidwife", "id":"8770973", "taxonomy_id":"367A00000X"},
+            {"label":"AnesthesiologistAssistant", "id":"3716931", "taxonomy_id":"367H00000X"},
+            {"label":"ClinicalNurseSpecialist", "id":"1751003", "taxonomy_id":"364S00000X"},
+            {"label":"ClinNrsSpec", "id":"56466", "children": [
+                {"label":"AcuteCare", "id":"7960771", "taxonomy_id":"364SA2100X"},
+                {"label":"AdultHealth", "id":"5529261", "taxonomy_id":"364SA2200X"},
+                {"label":"ChronicCare", "id":"8343763", "taxonomy_id":"364SC2300X"},
+                {"label":"CommunityHealth/PublicHealth", "id":"8087697", "taxonomy_id":"364SC1501X"},
+                {"label":"CriticalCareMedicine", "id":"3423804", "taxonomy_id":"364SC0200X"},
+                {"label":"Emergency", "id":"1654268", "taxonomy_id":"364SE0003X"},
+                {"label":"FamilyHealth", "id":"9689910", "taxonomy_id":"364SF0001X"},
+                {"label":"Gerontology", "id":"8234539", "taxonomy_id":"364SG0600X"},
+                {"label":"Holistic", "id":"9810594", "taxonomy_id":"364SH1100X"},
+                {"label":"HomeHealth", "id":"5042601", "taxonomy_id":"364SH0200X"},
+                {"label":"Informatics", "id":"8820769", "taxonomy_id":"364SI0800X"},
+                {"label":"Long-TermCare", "id":"9942384", "taxonomy_id":"364SL0600X"},
+                {"label":"Medical-Surgical", "id":"2709247", "taxonomy_id":"364SM0705X"},
+                {"label":"Neonatal", "id":"7393241", "taxonomy_id":"364SN0000X"},
+                {"label":"Neuroscience", "id":"910843", "taxonomy_id":"364SN0800X"},
+                {"label":"OccupationalHealth", "id":"3567665", "taxonomy_id":"364SX0106X"},
+                {"label":"Oncology", "id":"1575276", "taxonomy_id":"364SX0200X"},
+                {"label":"Oncology,Pediatrics", "id":"8320322", "taxonomy_id":"364SX0204X"},
+                {"label":"Pediatrics", "id":"8342804", "taxonomy_id":"364SP0200X"},
+                {"label":"Perinatal", "id":"8881801", "taxonomy_id":"364SP1700X"},
+                {"label":"Perioperative", "id":"5041881", "taxonomy_id":"364SP2800X"},
+                {"label":"Psychiatric/MentalHealth", "id":"7988517", "taxonomy_id":"364SP0808X"},
+                {"label":"Psychiatric/MentalHealth,Adult", "id":"4631235", "taxonomy_id":"364SP0809X"},
+                {"label":"Psychiatric/MentalHealth,Child&amp;Adolescent", "id":"6919597", "taxonomy_id":"364SP0807X"},
+                {"label":"Psychiatric/MentalHealth,Child&amp;Family", "id":"1645181", "taxonomy_id":"364SP0810X"},
+                {"label":"Psychiatric/MentalHealth,ChronicallyIll", "id":"1234628", "taxonomy_id":"364SP0811X"},
+                {"label":"Psychiatric/MentalHealth,Community", "id":"3920352", "taxonomy_id":"364SP0812X"},
+                {"label":"Psychiatric/MentalHealth,Geropsychiatric", "id":"8938608", "taxonomy_id":"364SP0813X"},
+                {"label":"Rehabilitation", "id":"9909869", "taxonomy_id":"364SR0400X"},
+                {"label":"School", "id":"8738798", "taxonomy_id":"364SS0200X"},
+                {"label":"Transplantation", "id":"2543560", "taxonomy_id":"364ST0500X"},
+                {"label":"Women'sHealth", "id":"4494516", "taxonomy_id":"364SW0102X"}
+            ]},
+            {"label":"NP", "id":"4983801", "children": [
+                {"label":"AcuteCare", "id":"780820", "taxonomy_id":"363LA2100X"},
+                {"label":"AdultHealth", "id":"4901967", "taxonomy_id":"363LA2200X"},
+                {"label":"CommunityHealth", "id":"3640565", "taxonomy_id":"363LC1500X"},
+                {"label":"CriticalCareMedicine", "id":"2262329", "taxonomy_id":"363LC0200X"},
+                {"label":"Family", "id":"5983957", "taxonomy_id":"363LF0000X"},
+                {"label":"Gerontology", "id":"7214010", "taxonomy_id":"363LG0600X"},
+                {"label":"Neonatal", "id":"6217700", "taxonomy_id":"363LN0000X"},
+                {"label":"Neonatal,CriticalCare", "id":"7253524", "taxonomy_id":"363LN0005X"},
+                {"label":"Obstetrics&amp;Gynecology", "id":"8289123", "taxonomy_id":"363LX0001X"},
+                {"label":"OccupationalHealth", "id":"5221826", "taxonomy_id":"363LX0106X"},
+                {"label":"Pediatrics", "id":"9141621", "taxonomy_id":"363LP0200X"},
+                {"label":"Pediatrics,CriticalCare", "id":"157411", "taxonomy_id":"363LP0222X"},
+                {"label":"Perinatal", "id":"7592150", "taxonomy_id":"363LP1700X"},
+                {"label":"PrimaryCare", "id":"2027433", "taxonomy_id":"363LP2300X"},
+                {"label":"Psychiatric/MentalHealth", "id":"6893628", "taxonomy_id":"363LP0808X"},
+                {"label":"School", "id":"1585209", "taxonomy_id":"363LS0200X"},
+                {"label":"Women'sHealth", "id":"5736168", "taxonomy_id":"363LW0102X"}
+            ]},
+            {"label":"NurseAnesthetist,CertifiedRegistered", "id":"5352446", "taxonomy_id":"367500000X"},
+            {"label":"NursePractitioner", "id":"978767", "taxonomy_id":"363L00000X"},
+            {"label":"PA", "id":"2041980", "children": [
+                {"label":"Medical", "id":"3503821", "taxonomy_id":"363AM0700X"},
+                {"label":"Surgical", "id":"7913512", "taxonomy_id":"363AS0400X"}
+            ]},
+            {"label":"PhysicianAssistant", "id":"7059653", "taxonomy_id":"363A00000X"}
+        ]},
+        {"label":"Pharm Svc", "id":"7997189", "children": [
+            {"label":"Pharm", "id":"2779869", "children": [
+                {"label":"Geriatric", "id":"5601602", "taxonomy_id":"1835G0303X"},
+                {"label":"Nuclear", "id":"8193814", "taxonomy_id":"1835N0905X"},
+                {"label":"NutritionSupport", "id":"6390234", "taxonomy_id":"1835N1003X"},
+                {"label":"Oncology", "id":"3799782", "taxonomy_id":"1835X0200X"},
+                {"label":"PharmacistClinician(PhC)/ClinicalPharmacySpecialist", "id":"603363", "taxonomy_id":"1835P0018X"},
+                {"label":"Pharmacotherapy", "id":"8821058", "taxonomy_id":"1835P1200X"},
+                {"label":"Psychiatric", "id":"481270", "taxonomy_id":"1835P1300X"}
+            ]},
+            {"label":"Pharmacist", "id":"5058376", "taxonomy_id":"183500000X"},
+            {"label":"PharmacyTechnician", "id":"7459259", "taxonomy_id":"183700000X"}
+        ]},
+        {"label":"Physician", "id":"3880281", "children": [
+            {"label":"Allerg/Imm", "id":"1275182", "children": [
+                {"label":"Allergy", "id":"2777014", "taxonomy_id":"207KA0200X"},
+                {"label":"Clinical&amp;LaboratoryImmunology", "id":"7686581", "taxonomy_id":"207KI0005X"}
+            ]},
+            {"label":"Allergy&amp;Immunology", "id":"6997488", "taxonomy_id":"207K00000X"},
+            {"label":"Anesthes", "id":"2289038", "children": [
+                {"label":"AddictionMedicine", "id":"1787777", "taxonomy_id":"207LA0401X"},
+                {"label":"CriticalCareMedicine", "id":"7558861", "taxonomy_id":"207LC0200X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"5181997", "taxonomy_id":"207LH0002X"},
+                {"label":"PainMedicine", "id":"1882844", "taxonomy_id":"207LP2900X"},
+                {"label":"PediatricAnesthesiology", "id":"5935869", "taxonomy_id":"207LP3000X"}
+            ]},
+            {"label":"Anesthesiology", "id":"4770427", "taxonomy_id":"207L00000X"},
+            {"label":"ClinicalPharmacology", "id":"5661062", "taxonomy_id":"208U00000X"},
+            {"label":"Colon&amp;RectalSurgery", "id":"5336267", "taxonomy_id":"208C00000X"},
+            {"label":"Dermatol", "id":"9604102", "children": [
+                {"label":"Clinical&amp;LaboratoryDermatologicalImmunology", "id":"6784485", "taxonomy_id":"207NI0002X"},
+                {"label":"Dermatopathology", "id":"6571183", "taxonomy_id":"207ND0900X"},
+                {"label":"MOHS-MicrographicSurgery", "id":"7945288", "taxonomy_id":"207ND0101X"},
+                {"label":"PediatricDermatology", "id":"6686102", "taxonomy_id":"207NP0225X"},
+                {"label":"ProceduralDermatology", "id":"9235547", "taxonomy_id":"207NS0135X"}
+            ]},
+            {"label":"Dermatology", "id":"3553779", "taxonomy_id":"207N00000X"},
+            {"label":"ElectrodiagnosticMedicine", "id":"5576052", "taxonomy_id":"204R00000X"},
+            {"label":"EmergencyMedicine", "id":"1643253", "taxonomy_id":"207P00000X"},
+            {"label":"EmrgMed", "id":"2278472", "children": [
+                {"label":"EmergencyMedicalServices", "id":"6463965", "taxonomy_id":"207PE0004X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"5695017", "taxonomy_id":"207PH0002X"},
+                {"label":"MedicalToxicology", "id":"3146462", "taxonomy_id":"207PT0002X"},
+                {"label":"PediatricEmergencyMedicine", "id":"4696555", "taxonomy_id":"207PP0204X"},
+                {"label":"SportsMedicine", "id":"2218089", "taxonomy_id":"207PS0010X"},
+                {"label":"UnderseaandHyperbaricMedicine", "id":"2156465", "taxonomy_id":"207PE0005X"}
+            ]},
+            {"label":"FamilyMedicine", "id":"7205285", "taxonomy_id":"207Q00000X"},
+            {"label":"FamMed", "id":"7333872", "children": [
+                {"label":"AddictionMedicine", "id":"1915088", "taxonomy_id":"207QA0401X"},
+                {"label":"AdolescentMedicine", "id":"4041830", "taxonomy_id":"207QA0000X"},
+                {"label":"AdultMedicine", "id":"5629318", "taxonomy_id":"207QA0505X"},
+                {"label":"BariatricMedicine", "id":"8956018", "taxonomy_id":"207QB0002X"},
+                {"label":"GeriatricMedicine", "id":"7259363", "taxonomy_id":"207QG0300X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"3426859", "taxonomy_id":"207QH0002X"},
+                {"label":"SleepMedicine", "id":"9757142", "taxonomy_id":"207QS1201X"},
+                {"label":"SportsMedicine", "id":"9806685", "taxonomy_id":"207QS0010X"}
+            ]},
+            {"label":"GeneralPractice", "id":"5448531", "taxonomy_id":"208D00000X"},
+            {"label":"Hospitalist", "id":"273273", "taxonomy_id":"208M00000X"},
+            {"label":"IndependentMedicalExaminer", "id":"3249923", "taxonomy_id":"202C00000X"},
+            {"label":"InternalMed", "id":"704671", "children": [
+                {"label":"AddictionMedicine", "id":"1494762", "taxonomy_id":"207RA0401X"},
+                {"label":"AdolescentMedicine", "id":"6729076", "taxonomy_id":"207RA0000X"},
+                {"label":"Allergy&amp;Immunology", "id":"428828", "taxonomy_id":"207RA0201X"},
+                {"label":"BariatricMedicine", "id":"6705493", "taxonomy_id":"207RB0002X"},
+                {"label":"CardiovascularDisease", "id":"73741", "taxonomy_id":"207RC0000X"},
+                {"label":"Clinical&amp;LaboratoryImmunology", "id":"7467809", "taxonomy_id":"207RI0001X"},
+                {"label":"ClinicalCardiacElectrophysiology", "id":"2195393", "taxonomy_id":"207RC0001X"},
+                {"label":"CriticalCareMedicine", "id":"5952424", "taxonomy_id":"207RC0200X"},
+                {"label":"Endocrinology,Diabetes&amp;Metabolism", "id":"5371890", "taxonomy_id":"207RE0101X"},
+                {"label":"Gastroenterology", "id":"8057191", "taxonomy_id":"207RG0100X"},
+                {"label":"GeriatricMedicine", "id":"2525991", "taxonomy_id":"207RG0300X"},
+                {"label":"Hematology", "id":"5414682", "taxonomy_id":"207RH0000X"},
+                {"label":"Hematology&amp;Oncology", "id":"3918630", "taxonomy_id":"207RH0003X"},
+                {"label":"Hepatology", "id":"3508390", "taxonomy_id":"207RI0008X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"1015668", "taxonomy_id":"207RH0002X"},
+                {"label":"HypertensionSpecialist", "id":"2307232", "taxonomy_id":"207RH0005X"},
+                {"label":"InfectiousDisease", "id":"832723", "taxonomy_id":"207RI0200X"},
+                {"label":"InterventionalCardiology", "id":"2497440", "taxonomy_id":"207RI0011X"},
+                {"label":"MagneticResonanceImaging(MRI)", "id":"3495921", "taxonomy_id":"207RM1200X"},
+                {"label":"MedicalOncology", "id":"1892407", "taxonomy_id":"207RX0202X"},
+                {"label":"Nephrology", "id":"3375810", "taxonomy_id":"207RN0300X"},
+                {"label":"PulmonaryDisease", "id":"8670585", "taxonomy_id":"207RP1001X"},
+                {"label":"Rheumatology", "id":"2711850", "taxonomy_id":"207RR0500X"},
+                {"label":"SleepMedicine", "id":"5858819", "taxonomy_id":"207RS0012X"},
+                {"label":"SportsMedicine", "id":"3178201", "taxonomy_id":"207RS0010X"},
+                {"label":"TransplantHepatology", "id":"1536629", "taxonomy_id":"207RT0003X"}
+            ]},
+            {"label":"InternalMedicine", "id":"4457890", "taxonomy_id":"207R00000X"},
+            {"label":"LegalMedicine", "id":"9387310", "taxonomy_id":"209800000X"},
+            {"label":"MedGenet", "id":"9087754", "children": [
+                {"label":"ClinicalBiochemicalGenetics", "id":"8492929", "taxonomy_id":"207SG0202X"},
+                {"label":"ClinicalCytogenetic", "id":"7536534", "taxonomy_id":"207SC0300X"},
+                {"label":"ClinicalGenetics(M.D.)", "id":"6296926", "taxonomy_id":"207SG0201X"},
+                {"label":"ClinicalMolecularGenetics", "id":"3362524", "taxonomy_id":"207SG0203X"},
+                {"label":"MolecularGeneticPathology", "id":"2394164", "taxonomy_id":"207SM0001X"},
+                {"label":"Ph.D.MedicalGenetics", "id":"681183", "taxonomy_id":"207SG0205X"}
+            ]},
+            {"label":"NeurologicalSurgery", "id":"4934669", "taxonomy_id":"207T00000X"},
+            {"label":"NeuromusculoskeletalMedicine,SportsMedicine", "id":"454911", "taxonomy_id":"204C00000X"},
+            {"label":"NeuromusculoskeletalMedicine&amp;OMM", "id":"391265", "taxonomy_id":"204D00000X"},
+            {"label":"NuclearMedicine", "id":"3529054", "taxonomy_id":"207U00000X"},
+            {"label":"NucMed", "id":"4027506", "children": [
+                {"label":"InVivo&amp;InVitroNuclearMedicine", "id":"5728426", "taxonomy_id":"207UN0903X"},
+                {"label":"NuclearCardiology", "id":"2786300", "taxonomy_id":"207UN0901X"},
+                {"label":"NuclearImaging&amp;Therapy", "id":"8675904", "taxonomy_id":"207UN0902X"}
+            ]},
+            {"label":"Ob/Gyn", "id":"4450591", "children": [
+                {"label":"BariatricMedicine", "id":"4534960", "taxonomy_id":"207VB0002X"},
+                {"label":"CriticalCareMedicine", "id":"3436450", "taxonomy_id":"207VC0200X"},
+                {"label":"GynecologicOncology", "id":"8687580", "taxonomy_id":"207VX0201X"},
+                {"label":"Gynecology", "id":"5010995", "taxonomy_id":"207VG0400X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"2025786", "taxonomy_id":"207VH0002X"},
+                {"label":"Maternal&amp;FetalMedicine", "id":"7493546", "taxonomy_id":"207VM0101X"},
+                {"label":"Obstetrics", "id":"9023019", "taxonomy_id":"207VX0000X"},
+                {"label":"ReproductiveEndocrinology", "id":"1054086", "taxonomy_id":"207VE0102X"}
+            ]},
+            {"label":"Obstetrics&amp;Gynecology", "id":"2572951", "taxonomy_id":"207V00000X"},
+            {"label":"Ophthalmology", "id":"9322606", "taxonomy_id":"207W00000X"},
+            {"label":"Oral&amp;MaxillofacialSurgery", "id":"7443735", "taxonomy_id":"204E00000X"},
+            {"label":"OrthopaedicSurgery", "id":"3536732", "taxonomy_id":"207X00000X"},
+            {"label":"OrthoSurg", "id":"7728107", "children": [
+                {"label":"AdultReconstructiveOrthopaedicSurgery", "id":"3084613", "taxonomy_id":"207XS0114X"},
+                {"label":"FootandAnkleSurgery", "id":"5706876", "taxonomy_id":"207XX0004X"},
+                {"label":"HandSurgery", "id":"2267753", "taxonomy_id":"207XS0106X"},
+                {"label":"OrthopaedicSurgeryoftheSpine", "id":"3038215", "taxonomy_id":"207XS0117X"},
+                {"label":"OrthopaedicTrauma", "id":"936664", "taxonomy_id":"207XX0801X"},
+                {"label":"PediatricOrthopaedicSurgery", "id":"7627151", "taxonomy_id":"207XP3100X"},
+                {"label":"SportsMedicine", "id":"845578", "taxonomy_id":"207XX0005X"}
+            ]},
+            {"label":"Otolaryngology", "id":"4598807", "taxonomy_id":"207Y00000X", "children": [
+                {"label":"FacialPlasticSurgery", "id":"2543231", "taxonomy_id":"207YS0123X"},
+                {"label":"OtolaryngicAllergy", "id":"5811473", "taxonomy_id":"207YX0602X"},
+                {"label":"Otolaryngology/FacialPlasticSurgery", "id":"7659196", "taxonomy_id":"207YX0905X"},
+                {"label":"Otology&amp;Neurotology", "id":"1681138", "taxonomy_id":"207YX0901X"},
+                {"label":"PediatricOtolaryngology", "id":"6854284", "taxonomy_id":"207YP0228X"},
+                {"label":"PlasticSurgerywithintheHead&amp;Neck", "id":"9894666", "taxonomy_id":"207YX0007X"},
+                {"label":"SleepMedicine", "id":"9755567", "taxonomy_id":"207YS0012X"}
+            ]},
+            {"label":"PainMed", "id":"1371687", "children": [
+                {"label":"InterventionalPainMedicine", "id":"7018761", "taxonomy_id":"208VP0014X"},
+                {"label":"PainMedicine", "id":"1120296", "taxonomy_id":"208VP0000X"}
+            ]},
+            {"label":"Pathology", "id":"2979163", "children": [
+                {"label":"AnatomicPathology", "id":"3035882", "taxonomy_id":"207ZP0101X"},
+                {"label":"AnatomicPathology&amp;ClinicalPathology", "id":"2263418", "taxonomy_id":"207ZP0102X"},
+                {"label":"BloodBanking&amp;TransfusionMedicine", "id":"2444300", "taxonomy_id":"207ZB0001X"},
+                {"label":"ChemicalPathology", "id":"5100296", "taxonomy_id":"207ZP0104X"},
+                {"label":"ClinicalPathology", "id":"7311212", "taxonomy_id":"207ZC0006X"},
+                {"label":"ClinicalPathology/LaboratoryMedicine", "id":"30155", "taxonomy_id":"207ZP0105X"},
+                {"label":"Cytopathology", "id":"6417732", "taxonomy_id":"207ZC0500X"},
+                {"label":"Dermatopathology", "id":"7026191", "taxonomy_id":"207ZD0900X"},
+                {"label":"ForensicPathology", "id":"9082682", "taxonomy_id":"207ZF0201X"},
+                {"label":"Hematology", "id":"7775963", "taxonomy_id":"207ZH0000X"},
+                {"label":"Immunopathology", "id":"7340085", "taxonomy_id":"207ZI0100X"},
+                {"label":"MedicalMicrobiology", "id":"6002611", "taxonomy_id":"207ZM0300X"},
+                {"label":"MolecGenPathology", "id":"9989502", "taxonomy_id":"207ZP0007X"},
+                {"label":"Neuropathology", "id":"1011526", "taxonomy_id":"207ZN0500X"},
+                {"label":"PediatricPathology", "id":"339822", "taxonomy_id":"207ZP0213X"}
+            ]},
+            {"label":"Pediatrics", "id":"1312338", "taxonomy_id":"208000000X", "children": [
+                {"label":"AdolescentMedicine", "id":"1789579", "taxonomy_id":"2080A0000X"},
+                {"label":"ChildAbuse", "id":"1604495", "taxonomy_id":"2080C0008X"},
+                {"label":"Clinical&amp;LaboratoryImmunology", "id":"5859154", "taxonomy_id":"2080I0007X"},
+                {"label":"Developmental_BehavioralPediatrics", "id":"9722395", "taxonomy_id":"2080P0006X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"489902", "taxonomy_id":"2080H0002X"},
+                {"label":"MedicalToxicology", "id":"7428999", "taxonomy_id":"2080T0002X"},
+                {"label":"Neonatal-PerinatalMedicine", "id":"3404514", "taxonomy_id":"2080N0001X"},
+                {"label":"NeurodevelopmentalDisabilities", "id":"2137352", "taxonomy_id":"2080P0008X"},
+                {"label":"PediatricAllergy&amp;Immunology", "id":"9787155", "taxonomy_id":"2080P0201X"},
+                {"label":"PediatricCardiology", "id":"3307208", "taxonomy_id":"2080P0202X"},
+                {"label":"PediatricCriticalCareMedicine", "id":"6003908", "taxonomy_id":"2080P0203X"},
+                {"label":"PediatricEmergencyMedicine", "id":"878394", "taxonomy_id":"2080P0204X"},
+                {"label":"PediatricEndocrinology", "id":"3943811", "taxonomy_id":"2080P0205X"},
+                {"label":"PediatricGastroenterology", "id":"5894208", "taxonomy_id":"2080P0206X"},
+                {"label":"PediatricHematology-Oncology", "id":"1890692", "taxonomy_id":"2080P0207X"},
+                {"label":"PediatricInfectiousDiseases", "id":"7192669", "taxonomy_id":"2080P0208X"},
+                {"label":"PediatricNephrology", "id":"429024", "taxonomy_id":"2080P0210X"},
+                {"label":"PediatricPulmonology", "id":"8428881", "taxonomy_id":"2080P0214X"},
+                {"label":"PediatricRheumatology", "id":"972065", "taxonomy_id":"2080P0216X"},
+                {"label":"PediatricTransplantHepatology", "id":"4344635", "taxonomy_id":"2080T0004X"},
+                {"label":"SleepMedicine", "id":"6568904", "taxonomy_id":"2080S0012X"},
+                {"label":"SportsMedicine", "id":"7781210", "taxonomy_id":"2080S0010X"}
+            ]},
+            {"label":"Phlebology", "id":"6105084", "taxonomy_id":"202K00000X"},
+            {"label":"PhysicalMedicine&amp;Rehabilitation", "id":"9317568", "taxonomy_id":"208100000X"},
+            {"label":"PhysMed/Reh", "id":"68913", "children": [
+                {"label":"HospiceandPalliativeMedicine", "id":"9033364", "taxonomy_id":"2081H0002X"},
+                {"label":"NeuromuscularMedicine", "id":"1022715", "taxonomy_id":"2081N0008X"},
+                {"label":"PainMedicine", "id":"6978888", "taxonomy_id":"2081P2900X"},
+                {"label":"PediatricRehabilitationMedicine", "id":"3321991", "taxonomy_id":"2081P0010X"},
+                {"label":"SpinalCordInjuryMedicine", "id":"7597491", "taxonomy_id":"2081P0004X"},
+                {"label":"SportsMedicine", "id":"3167984", "taxonomy_id":"2081S0010X"}
+            ]},
+            {"label":"PlasticSurgery", "id":"5707702", "taxonomy_id":"208200000X"},
+            {"label":"PlstcSurg", "id":"5945370", "children": [
+                {"label":"PlasticSurgeryWithintheHeadandNeck", "id":"9379866", "taxonomy_id":"2082S0099X"},
+                {"label":"SurgeryoftheHand", "id":"685845", "taxonomy_id":"2082S0105X"}
+            ]},
+            {"label":"PreventiveMed", "id":"9987705", "children": [
+                {"label":"AerospaceMedicine", "id":"5795988", "taxonomy_id":"2083A0100X"},
+                {"label":"MedicalToxicology", "id":"9196668", "taxonomy_id":"2083T0002X"},
+                {"label":"OccupationalMedicine", "id":"2450763", "taxonomy_id":"2083X0100X"},
+                {"label":"PreventiveMedicine/OccupationalEnvironmentalMedicine", "id":"1302816", "taxonomy_id":"2083P0500X"},
+                {"label":"PublicHealth&amp;GeneralPreventiveMedicine", "id":"4535288", "taxonomy_id":"2083P0901X"},
+                {"label":"SportsMedicine", "id":"4098225", "taxonomy_id":"2083S0010X"},
+                {"label":"UnderseaandHyperbaricMedicine", "id":"4289451", "taxonomy_id":"2083P0011X"}
+            ]},
+            {"label":"Psych/Neurol", "id":"4637761", "children": [
+                {"label":"AddictionMedicine", "id":"246807", "taxonomy_id":"2084A0401X"},
+                {"label":"AddictionPsychiatry", "id":"7313620", "taxonomy_id":"2084P0802X"},
+                {"label":"BariatricMedicine", "id":"5174339", "taxonomy_id":"2084B0002X"},
+                {"label":"Child&amp;AdolescentPsychiatry", "id":"6348911", "taxonomy_id":"2084P0804X"},
+                {"label":"ClinicalNeurophysiology", "id":"3076067", "taxonomy_id":"2084N0600X"},
+                {"label":"DiagnosticNeuroimaging", "id":"5489599", "taxonomy_id":"2084D0003X"},
+                {"label":"ForensicPsychiatry", "id":"9758118", "taxonomy_id":"2084F0202X"},
+                {"label":"GeriatricPsychiatry", "id":"8289153", "taxonomy_id":"2084P0805X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"9634790", "taxonomy_id":"2084H0002X"},
+                {"label":"NeurodevelopmentalDisabilities", "id":"3180085", "taxonomy_id":"2084P0005X"},
+                {"label":"Neurology", "id":"9724506", "taxonomy_id":"2084N0400X"},
+                {"label":"NeurologywithSpecialQualificationsinChildNeurology", "id":"8799211", "taxonomy_id":"2084N0402X"},
+                {"label":"NeuromuscularMedicine", "id":"8506511", "taxonomy_id":"2084N0008X"},
+                {"label":"PainMedicine", "id":"1228333", "taxonomy_id":"2084P2900X"},
+                {"label":"Psychiatry", "id":"6068172", "taxonomy_id":"2084P0800X"},
+                {"label":"PsychosomaticMedicine", "id":"7623732", "taxonomy_id":"2084P0015X"},
+                {"label":"SleepMedicine", "id":"3147877", "taxonomy_id":"2084S0012X"},
+                {"label":"SportsMedicine", "id":"8181692", "taxonomy_id":"2084S0010X"},
+                {"label":"VascularNeurology", "id":"4522610", "taxonomy_id":"2084V0102X"}
+            ]},
+            {"label":"Radiol", "id":"9960875", "children": [
+                {"label":"BodyImaging", "id":"7962352", "taxonomy_id":"2085B0100X"},
+                {"label":"DiagnosticNeuroimaging", "id":"3146216", "taxonomy_id":"2085D0003X"},
+                {"label":"DiagnosticRadiology", "id":"7516309", "taxonomy_id":"2085R0202X"},
+                {"label":"DiagnosticUltrasound", "id":"6119254", "taxonomy_id":"2085U0001X"},
+                {"label":"HospiceandPalliativeMedicine", "id":"3218403", "taxonomy_id":"2085H0002X"},
+                {"label":"Neuroradiology", "id":"126873", "taxonomy_id":"2085N0700X"},
+                {"label":"NuclearRadiology", "id":"3873872", "taxonomy_id":"2085N0904X"},
+                {"label":"PediatricRadiology", "id":"8005252", "taxonomy_id":"2085P0229X"},
+                {"label":"RadiationOncology", "id":"2546400", "taxonomy_id":"2085R0001X"},
+                {"label":"RadiologicalPhysics", "id":"2304153", "taxonomy_id":"2085R0205X"},
+                {"label":"TherapeuticRadiology", "id":"7853225", "taxonomy_id":"2085R0203X"},
+                {"label":"Vascular&amp;InterventionalRadiology", "id":"1157130", "taxonomy_id":"2085R0204X"}
+            ]},
+            {"label":"Surg", "id":"7232871", "children": [
+                {"label":"HospiceandPalliativeMedicine", "id":"8499495", "taxonomy_id":"2086H0002X"},
+                {"label":"PediatricSurgery", "id":"1234269", "taxonomy_id":"2086S0120X"},
+                {"label":"PlasticandReconstructiveSurgery", "id":"3236639", "taxonomy_id":"2086S0122X"},
+                {"label":"SurgeryoftheHand", "id":"3265377", "taxonomy_id":"2086S0105X"},
+                {"label":"SurgicalCriticalCare", "id":"9212735", "taxonomy_id":"2086S0102X"},
+                {"label":"SurgicalOncology", "id":"6757339", "taxonomy_id":"2086X0206X"},
+                {"label":"TraumaSurgery", "id":"9528440", "taxonomy_id":"2086S0127X"},
+                {"label":"VascularSurgery", "id":"7922514", "taxonomy_id":"2086S0129X"}
+            ]},
+            {"label":"Surgery", "id":"5287514", "taxonomy_id":"208600000X"},
+            {"label":"ThoracicSurgery(CardiothoracicVascularSurgery)", "id":"9127240", "taxonomy_id":"208G00000X"},
+            {"label":"TransplantSurgery", "id":"7497814", "taxonomy_id":"204F00000X"},
+            {"label":"Urol", "id":"5323720", "children": [
+                {"label":"PediatricUrology", "id":"8078856", "taxonomy_id":"2088P0231X"}
+            ]},
+            {"label":"Urology", "id":"8096969", "taxonomy_id":"208800000X"}
+        ]},
+        {"label":"Podiatric", "id":"2378573", "children": [
+            {"label":"Assistant,Podiatric", "id":"7583704", "taxonomy_id":"211D00000X"},
+            {"label":"Podiatrist", "id":"1531443", "taxonomy_id":"213E00000X"},
+            {"label":"Podiatrst", "id":"4875217", "children": [
+                {"label":"Foot&amp;AnkleSurgery", "id":"9902045", "taxonomy_id":"213ES0103X"},
+                {"label":"FootSurgery", "id":"900635", "taxonomy_id":"213ES0131X"},
+                {"label":"PrimaryPodiatricMedicine", "id":"6371457", "taxonomy_id":"213EP1101X"},
+                {"label":"PublicMedicine", "id":"9939935", "taxonomy_id":"213EP0504X"},
+                {"label":"Radiology", "id":"8098347", "taxonomy_id":"213ER0200X"},
+                {"label":"SportsMedicine", "id":"4059047", "taxonomy_id":"213ES0000X"}
+            ]}
+        ]},
+        {"label":"Res Trt Fac", "id":"865908", "children": [
+            {"label":"CommunityBasedResidentialTreatmentFacility,MentalIllness", "id":"9520965", "taxonomy_id":"320800000X"},
+            {"label":"CommunityBasedResidentialTreatmentFacility,MentalRetardationand/orDevelopmentalDisabilities", "id":"5712248", "taxonomy_id":"320900000X"},
+            {"label":"PsychiatricResidentialTreatmentFacility", "id":"2264053", "taxonomy_id":"323P00000X"},
+            {"label":"ResidentialTreatmentFacility,EmotionallyDisturbedChildren", "id":"6534197", "taxonomy_id":"322D00000X"},
+            {"label":"ResidentialTreatmentFacility,MentalRetardationand/orDevelopmentalDisabilities", "id":"3836001", "taxonomy_id":"320600000X"},
+            {"label":"ResidentialTreatmentFacility,PhysicalDisabilities", "id":"7973979", "taxonomy_id":"320700000X"},
+            {"label":"SubstAbsRehab", "id":"6502974", "children": [
+                {"label":"SubstanceAbuseTreatment,Children", "id":"4652619", "taxonomy_id":"3245S0500X"}
+            ]},
+            {"label":"SubstanceAbuseRehabilitationFacility", "id":"4747238", "taxonomy_id":"324500000X"}
+        ]},
+        {"label":"Resp Care Fac", "id":"3878137", "children": [
+            {"label":"RespCare", "id":"7984209", "children": [
+                {"label":"RespiteCare,MentalIllness,Child", "id":"6448986", "taxonomy_id":"385HR2055X"},
+                {"label":"RespiteCare,MentalRetardationand/orDevelopmentalDisabilities", "id":"728381", "taxonomy_id":"385HR2060X"},
+                {"label":"RespiteCare,PhysicalDisabilities,Child", "id":"8049925", "taxonomy_id":"385HR2065X"},
+                {"label":"RespiteCareCamp", "id":"3846653", "taxonomy_id":"385HR2050X"}
+            ]},
+            {"label":"RespiteCare", "id":"388831", "taxonomy_id":"385H00000X"}
+        ]},
+        {"label":"Resp/Dev/Reh/Rstr", "id":"1533785", "children": [
+            {"label":"Anaplastologist", "id":"6275479", "taxonomy_id":"229N00000X"},
+            {"label":"ArtTherapist", "id":"908780", "taxonomy_id":"221700000X"},
+            {"label":"ClinicalExercisePhysiologist", "id":"8690402", "taxonomy_id":"224Y00000X"},
+            {"label":"CRT", "id":"2580123", "children": [
+                {"label":"CriticalCare", "id":"4968023", "taxonomy_id":"2278C0205X"},
+                {"label":"Educational", "id":"8904257", "taxonomy_id":"2278E1000X"},
+                {"label":"EmergencyCare", "id":"5460811", "taxonomy_id":"2278E0002X"},
+                {"label":"GeneralCare", "id":"3178588", "taxonomy_id":"2278G1100X"},
+                {"label":"GeriatricCare", "id":"4919807", "taxonomy_id":"2278G0305X"},
+                {"label":"HomeHealth", "id":"4401149", "taxonomy_id":"2278H0200X"},
+                {"label":"Neonatal/Pediatrics", "id":"3851008", "taxonomy_id":"2278P3900X"},
+                {"label":"Palliative/Hospice", "id":"7613241", "taxonomy_id":"2278P3800X"},
+                {"label":"PatientTransport", "id":"6929438", "taxonomy_id":"2278P4000X"},
+                {"label":"PulmonaryDiagnostics", "id":"5497322", "taxonomy_id":"2278P1004X"},
+                {"label":"PulmonaryFunctionTechnologist", "id":"8667168", "taxonomy_id":"2278P1006X"},
+                {"label":"PulmonaryRehabilitation", "id":"2860723", "taxonomy_id":"2278P1005X"},
+                {"label":"SNF/SubacuteCare", "id":"2722153", "taxonomy_id":"2278S1500X"}
+            ]},
+            {"label":"DanceTherapist", "id":"5150946", "taxonomy_id":"225600000X"},
+            {"label":"DevelopmentalTherapist", "id":"1901445", "taxonomy_id":"222Q00000X"},
+            {"label":"Kinesiotherapist", "id":"76078", "taxonomy_id":"226300000X"},
+            {"label":"MassageTherapist", "id":"1924479", "taxonomy_id":"225700000X"},
+            {"label":"MastectomyFitter", "id":"986732", "taxonomy_id":"224900000X"},
+            {"label":"MusicTherapist", "id":"7446902", "taxonomy_id":"225A00000X"},
+            {"label":"OccTherAsst", "id":"4463993", "children": [
+                {"label":"DrivingandCommunityMobility", "id":"8959602", "taxonomy_id":"224ZR0403X"},
+                {"label":"EnvironmentalModification", "id":"7609051", "taxonomy_id":"224ZE0001X"},
+                {"label":"Feeding,Eating&amp;Swallowing", "id":"7601685", "taxonomy_id":"224ZF0002X"},
+                {"label":"LowVision", "id":"575970", "taxonomy_id":"224ZL0004X"}
+            ]},
+            {"label":"OccupationalTherapist", "id":"7180", "taxonomy_id":"225X00000X"},
+            {"label":"OccupationalTherapyAssistant", "id":"1079323", "taxonomy_id":"224Z00000X"},
+            {"label":"OccupTher", "id":"3758367", "children": [
+                {"label":"DrivingandCommunityMobility", "id":"4080992", "taxonomy_id":"225XR0403X"},
+                {"label":"EnvironmentalModification", "id":"1590829", "taxonomy_id":"225XE0001X"},
+                {"label":"Ergonomics", "id":"6144729", "taxonomy_id":"225XE1200X"},
+                {"label":"Feeding,Eating&amp;Swallowing", "id":"6279860", "taxonomy_id":"225XF0002X"},
+                {"label":"Gerontology", "id":"5180007", "taxonomy_id":"225XG0600X"},
+                {"label":"Hand", "id":"6241857", "taxonomy_id":"225XH1200X"},
+                {"label":"HumanFactors", "id":"5934925", "taxonomy_id":"225XH1300X"},
+                {"label":"LowVision", "id":"2094613", "taxonomy_id":"225XL0004X"},
+                {"label":"MentalHealth", "id":"3109776", "taxonomy_id":"225XM0800X"},
+                {"label":"Neurorehabilitation", "id":"5698619", "taxonomy_id":"225XN1300X"},
+                {"label":"Pediatrics", "id":"1878922", "taxonomy_id":"225XP0200X"},
+                {"label":"PhysicalRehabilitation", "id":"2476777", "taxonomy_id":"225XP0019X"}
+            ]},
+            {"label":"Orthotics/ProstheticsFitter", "id":"4287517", "taxonomy_id":"225000000X"},
+            {"label":"Orthotist", "id":"6247574", "taxonomy_id":"222Z00000X"},
+            {"label":"Pedorthist", "id":"6204699", "taxonomy_id":"224L00000X"},
+            {"label":"PhysicalTherapist", "id":"6008721", "taxonomy_id":"225100000X"},
+            {"label":"PhysicalTherapyAssistant", "id":"6969254", "taxonomy_id":"225200000X"},
+            {"label":"Prosthetist", "id":"5477159", "taxonomy_id":"224P00000X"},
+            {"label":"PT", "id":"433221", "children": [
+                {"label":"Cardiopulmonary", "id":"3342268", "taxonomy_id":"2251C2600X"},
+                {"label":"Electrophysiology,Clinical", "id":"3173620", "taxonomy_id":"2251E1300X"},
+                {"label":"Ergonomics", "id":"2907205", "taxonomy_id":"2251E1200X"},
+                {"label":"Geriatrics", "id":"5697176", "taxonomy_id":"2251G0304X"},
+                {"label":"Hand", "id":"5368676", "taxonomy_id":"2251H1200X"},
+                {"label":"HumanFactors", "id":"6726829", "taxonomy_id":"2251H1300X"},
+                {"label":"Neurology", "id":"1784484", "taxonomy_id":"2251N0400X"},
+                {"label":"Orthopedic", "id":"4228794", "taxonomy_id":"2251X0800X"},
+                {"label":"Pediatrics", "id":"8694146", "taxonomy_id":"2251P0200X"},
+                {"label":"Sports", "id":"4707901", "taxonomy_id":"2251S0007X"}
+            ]},
+            {"label":"PulmonaryFunctionTechnologist", "id":"6586342", "taxonomy_id":"225B00000X"},
+            {"label":"RecreationTherapist", "id":"6461626", "taxonomy_id":"225800000X"},
+            {"label":"RehabCouns", "id":"4496658", "children": [
+                {"label":"AssistiveTechnologyPractitioner", "id":"4066803", "taxonomy_id":"225CA2400X"},
+                {"label":"AssistiveTechnologySupplier", "id":"6086072", "taxonomy_id":"225CA2500X"},
+                {"label":"OrientationandMobilityTrainingProvider", "id":"8130238", "taxonomy_id":"225CX0006X"}
+            ]},
+            {"label":"RehabilitationCounselor", "id":"2265510", "taxonomy_id":"225C00000X"},
+            {"label":"RehabilitationPractitioner", "id":"7993053", "taxonomy_id":"225400000X"},
+            {"label":"RespiratoryTherapist,Certified", "id":"3177076", "taxonomy_id":"227800000X"},
+            {"label":"RespiratoryTherapist,Registered", "id":"5196761", "taxonomy_id":"227900000X"},
+            {"label":"RRT", "id":"7775860", "children": [
+                {"label":"CriticalCare", "id":"6851900", "taxonomy_id":"2279C0205X"},
+                {"label":"Educational", "id":"819644", "taxonomy_id":"2279E1000X"},
+                {"label":"EmergencyCare", "id":"8953084", "taxonomy_id":"2279E0002X"},
+                {"label":"GeneralCare", "id":"5915018", "taxonomy_id":"2279G1100X"},
+                {"label":"GeriatricCare", "id":"9608115", "taxonomy_id":"2279G0305X"},
+                {"label":"HomeHealth", "id":"6600364", "taxonomy_id":"2279H0200X"},
+                {"label":"Neonatal/Pediatrics", "id":"7070824", "taxonomy_id":"2279P3900X"},
+                {"label":"Palliative/Hospice", "id":"3438120", "taxonomy_id":"2279P3800X"},
+                {"label":"PatientTransport", "id":"4593470", "taxonomy_id":"2279P4000X"},
+                {"label":"PulmonaryDiagnostics", "id":"6958138", "taxonomy_id":"2279P1004X"},
+                {"label":"PulmonaryFunctionTechnologist", "id":"5458545", "taxonomy_id":"2279P1006X"},
+                {"label":"PulmonaryRehabilitation", "id":"9844013", "taxonomy_id":"2279P1005X"},
+                {"label":"SNF/SubacuteCare", "id":"1000238", "taxonomy_id":"2279S1500X"}
+            ]},
+            {"label":"Spec/Technol", "id":"6514242", "children": [
+                {"label":"AthleticTrainer", "id":"6360874", "taxonomy_id":"2255A2300X"},
+                {"label":"Rehabilitation,Blind", "id":"2626350", "taxonomy_id":"2255R0406X"}
+            ]},
+            {"label":"Specialist/Technologist", "id":"1539380", "taxonomy_id":"225500000X"}
+        ]},
+        {"label":"Spch/Lang/Hrg", "id":"4553095", "children": [
+            {"label":"Audiol", "id":"2345776", "children": [
+                {"label":"AssistiveTechnologyPractitioner", "id":"1629650", "taxonomy_id":"231HA2400X"},
+                {"label":"AssistiveTechnologySupplier", "id":"8848879", "taxonomy_id":"231HA2500X"}
+            ]},
+            {"label":"Audiologist", "id":"1617700", "taxonomy_id":"231H00000X"},
+            {"label":"Audiologist-HearingAidFitter", "id":"9907797", "taxonomy_id":"237600000X"},
+            {"label":"HearingInstrumentSpecialist", "id":"260372", "taxonomy_id":"237700000X"},
+            {"label":"Spec/Technol", "id":"6966911", "children": [
+                {"label":"AudiologyAssistant", "id":"5743575", "taxonomy_id":"2355A2700X"},
+                {"label":"Speech-LanguageAssistant", "id":"442406", "taxonomy_id":"2355S0801X"}
+            ]},
+            {"label":"Specialist/Technologist", "id":"6771516", "taxonomy_id":"235500000X"},
+            {"label":"Speech-LanguagePathologist", "id":"5333749", "taxonomy_id":"235Z00000X"}
+        ]},
+        {"label":"Student", "id":"1809914", "children": [
+            {"label":"StudentinanOrganizedHealthCareEducation/TrainingProgram", "id":"2465333", "taxonomy_id":"390200000X"}
+        ]},
+        {"label":"Supplier", "id":"579870", "children": [
+            {"label":"BloodBank", "id":"8612311", "taxonomy_id":"331L00000X"},
+            {"label":"DepartmentofVeteransAffairs(VA)Pharmacy", "id":"4165898", "taxonomy_id":"332100000X"},
+            {"label":"DME/MedSpls", "id":"2847188", "children": [
+                {"label":"CustomizedEquipment", "id":"9189681", "taxonomy_id":"332BC3200X"},
+                {"label":"DialysisEquipment&amp;Supplies", "id":"4043643", "taxonomy_id":"332BD1200X"},
+                {"label":"NursingFacilitySupplies", "id":"3868702", "taxonomy_id":"332BN1400X"},
+                {"label":"OxygenEquipment&amp;Supplies", "id":"6897006", "taxonomy_id":"332BX2000X"},
+                {"label":"Parenteral&amp;EnteralNutrition", "id":"470319", "taxonomy_id":"332BP3500X"}
+            ]},
+            {"label":"DurableMedicalEquipment&amp;MedicalSupplies", "id":"236747", "taxonomy_id":"332B00000X"},
+            {"label":"EmergencyResponseSystemCompanies", "id":"7997539", "taxonomy_id":"333300000X"},
+            {"label":"EyeBank", "id":"8977498", "taxonomy_id":"332G00000X"},
+            {"label":"EyewearSupplier(Equipment,nottheservice)", "id":"1489531", "taxonomy_id":"332H00000X"},
+            {"label":"HearingAidEquipment", "id":"8730412", "taxonomy_id":"332S00000X"},
+            {"label":"HomeDeliveredMeals", "id":"9308735", "taxonomy_id":"332U00000X"},
+            {"label":"IndianHealthService/Tribal/UrbanIndianHealth(I/T/U)Pharmacy", "id":"2690686", "taxonomy_id":"332800000X"},
+            {"label":"MedicalFoodsSupplier", "id":"9918090", "taxonomy_id":"335G00000X"},
+            {"label":"Military/U.S.CoastGuardPharmacy", "id":"6937504", "taxonomy_id":"332000000X"},
+            {"label":"Non-PharmacyDispensingSite", "id":"2009341", "taxonomy_id":"332900000X"},
+            {"label":"OrganProcurementOrganization", "id":"2526140", "taxonomy_id":"335U00000X"},
+            {"label":"Pharm", "id":"8136538", "children": [
+                {"label":"ClinicPharmacy", "id":"3376621", "taxonomy_id":"3336C0002X"},
+                {"label":"Community/RetailPharmacy", "id":"4814059", "taxonomy_id":"3336C0003X"},
+                {"label":"CompoundingPharmacy", "id":"6747724", "taxonomy_id":"3336C0004X"},
+                {"label":"HomeInfusionTherapyPharmacy", "id":"2802562", "taxonomy_id":"3336H0001X"},
+                {"label":"InstitutionalPharmacy", "id":"3989029", "taxonomy_id":"3336I0012X"},
+                {"label":"LongTermCarePharmacy", "id":"4658651", "taxonomy_id":"3336L0003X"},
+                {"label":"MailOrderPharmacy", "id":"2673209", "taxonomy_id":"3336M0002X"},
+                {"label":"ManagedCareOrganizationPharmacy", "id":"5923307", "taxonomy_id":"3336M0003X"},
+                {"label":"NuclearPharmacy", "id":"8947355", "taxonomy_id":"3336N0007X"},
+                {"label":"labelPharmacy", "id":"8177714", "taxonomy_id":"3336S0011X"}
+            ]},
+            {"label":"Pharmacy", "id":"8507526", "taxonomy_id":"333600000X"},
+            {"label":"PortableX-RaySupplier", "id":"9499732", "taxonomy_id":"335V00000X"},
+            {"label":"Prosthetic/OrthoticSupplier", "id":"6569892", "taxonomy_id":"335E00000X"}
+        ]},
+        {"label":"Technologist", "id":"4511469", "children": [
+            {"label":"Perfusionist", "id":"3712739", "taxonomy_id":"242T00000X"},
+            {"label":"RadiologicTechnologist", "id":"221030", "taxonomy_id":"247100000X"},
+            {"label":"RadiologyPractitionerAssistant", "id":"3986286", "taxonomy_id":"243U00000X"},
+            {"label":"RadiolTech", "id":"9332753", "children": [
+                {"label":"BoneDensitometry", "id":"2476319", "taxonomy_id":"2471B0102X"},
+                {"label":"Cardiac-InterventionalTechnology", "id":"9146241", "taxonomy_id":"2471C1106X"},
+                {"label":"Cardiovascular-InterventionalTechnology", "id":"1698070", "taxonomy_id":"2471C1101X"},
+                {"label":"ComputedTomography", "id":"143845", "taxonomy_id":"2471C3401X"},
+                {"label":"MagneticResonanceImaging", "id":"6755664", "taxonomy_id":"2471M1202X"},
+                {"label":"Mammography", "id":"1891223", "taxonomy_id":"2471M2300X"},
+                {"label":"NuclearMedicineTechnology", "id":"1637287", "taxonomy_id":"2471N0900X"},
+                {"label":"QualityManagement", "id":"5179288", "taxonomy_id":"2471Q0001X"},
+                {"label":"RadiationTherapy", "id":"3977256", "taxonomy_id":"2471R0002X"},
+                {"label":"Radiography", "id":"1750047", "taxonomy_id":"2471C3402X"},
+                {"label":"Sonography", "id":"3758513", "taxonomy_id":"2471S1302X"},
+                {"label":"Vascular-InterventionalTechnology", "id":"9271900", "taxonomy_id":"2471V0106X"},
+                {"label":"VascularSonography", "id":"9713411", "taxonomy_id":"2471V0105X"}
+            ]},
+            {"label":"Spec/TechCardio", "id":"4873990", "children": [
+                {"label":"CardiovascularInvasiveSpecialist", "id":"7753816", "taxonomy_id":"246XC2901X"},
+                {"label":"Sonography", "id":"5567046", "taxonomy_id":"246XS1301X"},
+                {"label":"VascularSpecialist", "id":"9565674", "taxonomy_id":"246XC2903X"}
+            ]},
+            {"label":"Spec/TechHlthInfo", "id":"6698228", "children": [
+                {"label":"CodingSpecialist,HospitalBased", "id":"7450177", "taxonomy_id":"246YC3301X"},
+                {"label":"CodingSpecialist,PhysicianOfficeBased", "id":"6787033", "taxonomy_id":"246YC3302X"},
+                {"label":"RegisteredRecordAdministrator", "id":"7708997", "taxonomy_id":"246YR1600X"}
+            ]},
+            {"label":"Spec/TechOther", "id":"3166982", "children": [
+                {"label":"Art,Medical", "id":"2629503", "taxonomy_id":"246ZA2600X"},
+                {"label":"Biochemist", "id":"5958926", "taxonomy_id":"246ZB0500X"},
+                {"label":"BiomedicalEngineering", "id":"7889838", "taxonomy_id":"246ZB0301X"},
+                {"label":"BiomedicalPhotographer", "id":"9729312", "taxonomy_id":"246ZB0302X"},
+                {"label":"Biostatistician", "id":"7824529", "taxonomy_id":"246ZB0600X"},
+                {"label":"CertifiedFirstAssistant", "id":"9485611", "taxonomy_id":"246ZC0007X"},
+                {"label":"EEG", "id":"3711001", "taxonomy_id":"246ZE0500X"},
+                {"label":"Electroneurodiagnostic", "id":"6918710", "taxonomy_id":"246ZE0600X"},
+                {"label":"Genist,Medical(PhD)", "id":"2212939", "taxonomy_id":"246ZG1000X"},
+                {"label":"GraphicsMethods", "id":"1572072", "taxonomy_id":"246ZG0701X"},
+                {"label":"Illustration,Medical", "id":"2555640", "taxonomy_id":"246ZI1000X"},
+                {"label":"Nephrology", "id":"4609557", "taxonomy_id":"246ZN0300X"},
+                {"label":"Surgical", "id":"1644867", "taxonomy_id":"246ZS0400X"}
+            ]},
+            {"label":"Spec/TechPath", "id":"5987324", "children": [
+                {"label":"BloodBanking", "id":"7373917", "taxonomy_id":"246QB0000X"},
+                {"label":"Chemistry", "id":"8817539", "taxonomy_id":"246QC1000X"},
+                {"label":"Cytotechnology", "id":"5119520", "taxonomy_id":"246QC2700X"},
+                {"label":"HemapheresisPractitioner", "id":"3703339", "taxonomy_id":"246QH0401X"},
+                {"label":"Hematology", "id":"6742998", "taxonomy_id":"246QH0000X"},
+                {"label":"Histology", "id":"2963158", "taxonomy_id":"246QH0600X"},
+                {"label":"Immunology", "id":"4978593", "taxonomy_id":"246QI0000X"},
+                {"label":"LaboratoryManagement", "id":"4531081", "taxonomy_id":"246QL0900X"},
+                {"label":"LaboratoryManagement,Diplomate", "id":"700940", "taxonomy_id":"246QL0901X"},
+                {"label":"MedicalTechnologist", "id":"5588524", "taxonomy_id":"246QM0706X"},
+                {"label":"Microbiology", "id":"6558795", "taxonomy_id":"246QM0900X"}
+            ]},
+            {"label":"Specialist/Technologist,HealthInformation", "id":"380130", "taxonomy_id":"246Y00000X"},
+            {"label":"Specialist/Technologist,Other", "id":"7526302", "taxonomy_id":"246Z00000X"},
+            {"label":"Specialist/Technologist,Pathology", "id":"5738307", "taxonomy_id":"246Q00000X"},
+            {"label":"Specialist/TechnologistCardiovascular", "id":"9026365", "taxonomy_id":"246X00000X"},
+            {"label":"Tech,HlthInf", "id":"3723262", "children": [
+                {"label":"AssistantRecordTechnician", "id":"2052878", "taxonomy_id":"2470A2800X"}
+            ]},
+            {"label":"Tech,Other", "id":"6567932", "children": [
+                {"label":"BiomedicalEngineering", "id":"4539098", "taxonomy_id":"2472B0301X"},
+                {"label":"Darkroom", "id":"9011820", "taxonomy_id":"2472D0500X"},
+                {"label":"EEG", "id":"7462595", "taxonomy_id":"2472E0500X"},
+                {"label":"RenalDialysis", "id":"3004385", "taxonomy_id":"2472R0900X"},
+                {"label":"Veterinary", "id":"5644108", "taxonomy_id":"2472V0600X"}
+            ]},
+            {"label":"Tech,Pathol", "id":"315311", "children": [
+                {"label":"ClinicalLaboratoryDirector,Non-physician", "id":"2785872", "taxonomy_id":"247ZC0005X"},
+                {"label":"Histology", "id":"4261769", "taxonomy_id":"246RH0600X"},
+                {"label":"MedicalLaboratory", "id":"3929350", "taxonomy_id":"246RM2200X"},
+                {"label":"Phlebotomy", "id":"3343465", "taxonomy_id":"246RP1900X"}
+            ]},
+            {"label":"Technician,Cardiology", "id":"3802198", "taxonomy_id":"246W00000X"},
+            {"label":"Technician,HealthInformation", "id":"671352", "taxonomy_id":"247000000X"},
+            {"label":"Technician,Other", "id":"5379869", "taxonomy_id":"247200000X"},
+            {"label":"Technician,Pathology", "id":"4280200", "taxonomy_id":"246R00000X"}
+        ]},
+        {"label":"Transport", "id":"2181614", "children": [
+            {"label":"AirCarrier", "id":"9146865", "taxonomy_id":"344800000X"},
+            {"label":"Ambulance", "id":"1546777", "taxonomy_id":"341600000X", "children": [
+                {"label":"AirTransport", "id":"8882062", "taxonomy_id":"3416A0800X"},
+                {"label":"LandTransport", "id":"5522213", "taxonomy_id":"3416L0300X"},
+                {"label":"WaterTransport", "id":"9101329", "taxonomy_id":"3416S0300X"}
+            ]},
+            {"label":"Bus", "id":"8114259", "taxonomy_id":"347B00000X"},
+            {"label":"Mil/USCGTrans", "id":"5298094", "children": [
+                {"label":"MilitaryorU.S.CoastGuardAmbulance,AirTransport", "id":"2847297", "taxonomy_id":"3418M1120X"},
+                {"label":"MilitaryorU.S.CoastGuardAmbulance,GroundTransport", "id":"5314218", "taxonomy_id":"3418M1110X"}
+            ]},
+            {"label":"Military/U.S.CoastGuardTransport", "id":"5461716", "taxonomy_id":"341800000X"},
+            {"label":"Non-emergencyMedicalTransport(VAN)", "id":"4072154", "taxonomy_id":"343900000X"},
+            {"label":"PrivateVehicle", "id":"5507424", "taxonomy_id":"347C00000X"},
+            {"label":"SecuredMedicalTransport(VAN)", "id":"3179002", "taxonomy_id":"343800000X"},
+            {"label":"Taxi", "id":"4932507", "taxonomy_id":"344600000X"},
+            {"label":"Train", "id":"6455107", "taxonomy_id":"347D00000X"},
+            {"label":"TransportationBroker", "id":"2461350", "taxonomy_id":"347E00000X"}
+        ]}
+    ]
+}
