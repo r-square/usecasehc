@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.rsquare.usecasehc.model.ProviderReferralResult;
+import com.rsquare.usecasehc.util.Util;
 
 public class Neo4jClient {
 	
@@ -33,7 +34,7 @@ public class Neo4jClient {
 				"jdbc:neo4j://localhost:7474", "", "");
 	}
 	
-	public List<ProviderReferralResult> getReferralsByProvider(String pid, int option) throws SQLException
+	public List<ProviderReferralResult> getReferralsByProvider(String pid, int option, String limit) throws SQLException
 	{
 		Connection c = null;
 		Statement s = null;
@@ -43,7 +44,7 @@ public class Neo4jClient {
 		{
 			c = getConnection();
 			s = c.createStatement();
-			String sql = makeCypherQuery(pid, option);
+			String sql = makeCypherQuery(pid, option, limit);
 			logger.info(sql);
 			rs = s.executeQuery(sql);
 			while(rs.next())
@@ -72,62 +73,83 @@ public class Neo4jClient {
 		return results;
 	}
 	
-	private String makeReferralCypherQuery(String pid)
+	private String makeReferralCypherQuery(String pid, String limit)
 	{
 		StringBuilder builder = new StringBuilder("START a=node(*) match (a)-[r:REFERRAL]->(b)  WHERE a.pid = \"");
 		builder.append(pid);
-		builder.append("\" RETURN a as provider,b as referral,r.count as count,\"0\" as reverse_count,\"referred\" as direction");
+		builder.append("\" RETURN a as provider,b as referral,r.count as count,\"0\" as reverse_count,\"referred\" as direction order by r.count desc");
+		if(Util.isInteger(limit))
+		{
+			builder.append(addLimitCypher(limit));
+		}
 		return builder.toString();
 	}
 	
-	private String makeReferredByCypherQuery(String pid)
+	private String makeReferredByCypherQuery(String pid, String limit)
 	{
 		StringBuilder builder = new StringBuilder("START a=node(*) match (a)<-[r:REFERRAL]-(b)  WHERE a.pid = \"");
 		builder.append(pid);
-		builder.append("\" RETURN a as provider,b as referral,\"0\" as count,r.count as reverse_count,\"was referred by\" as direction");
+		builder.append("\" RETURN a as provider,b as referral,\"0\" as count,r.count as reverse_count,\"was referred by\" as direction order by r.count desc");
+		if(Util.isInteger(limit))
+		{
+			builder.append(addLimitCypher(limit));
+		}
 		return builder.toString();
 	}
 	
-	private String makeAllRelationsCypherQuery(String pid)
+	private String makeAllRelationsCypherQuery(String pid, String limit)
 	{
 		StringBuilder builder = new StringBuilder("START a=node(*) match (a)<-[r1:REFERRAL]->(b) WHERE a.pid = \"");
 		builder.append(pid);
-		builder.append("\" OPTIONAL MATCH (a)-[r2:REFERRAL]->(b) OPTIONAL MATCH (a)<-[r3:REFERRAL]-(b) RETURN DISTINCT a as provider,b as referral,r2.count as count,r3.count as reverse_count,CASE WHEN TYPE(r3) = 'REFERRAL' AND TYPE(r2) IS NULL THEN \"was referred by\" WHEN TYPE(r2) = 'REFERRAL' AND TYPE(r3) IS NULL THEN \"referred\" ELSE \"bidirectional\" END as direction");
+		builder.append("\" OPTIONAL MATCH (a)-[r2:REFERRAL]->(b) OPTIONAL MATCH (a)<-[r3:REFERRAL]-(b) RETURN DISTINCT a as provider,b as referral,r2.count as count,r3.count as reverse_count,CASE WHEN TYPE(r3) = 'REFERRAL' AND TYPE(r2) IS NULL THEN \"was referred by\" WHEN TYPE(r2) = 'REFERRAL' AND TYPE(r3) IS NULL THEN \"referred\" ELSE \"bidirectional\" END as direction order by r2.count,r3.count desc");
+		if(Util.isInteger(limit))
+		{
+			builder.append(addLimitCypher(limit));
+		}
 		return builder.toString();
 	}
 	
-	private String makeBidirectionalOnlyCypherQuery(String pid)
+	private String makeBidirectionalOnlyCypherQuery(String pid, String limit)
 	{
 		StringBuilder builder = new StringBuilder("START a=node(*) match (a)-[r1:REFERRAL]->(b)-[r2:REFERRAL]->(a)  WHERE a.pid = \"");
 		builder.append(pid);
-		builder.append("\" RETURN a as provider,b as referral,r1.count as count,r2.count as reverse_count,\"bidirectional\" as direction");
+		builder.append("\" RETURN a as provider,b as referral,r1.count as count,r2.count as reverse_count,\"bidirectional\" as direction order by r1.count,r2.count desc");
+		if(Util.isInteger(limit))
+		{
+			builder.append(addLimitCypher(limit));
+		}
 		return builder.toString();
 	}
 	
 	
-	private String makeCypherQuery(String pid, int option)
+	private String makeCypherQuery(String pid, int option, String limit)
 	{
 		String retString = null;
 		switch(option)
 		{
 		case 0:
 		case 1:
-			retString = makeReferralCypherQuery(pid);
+			retString = makeReferralCypherQuery(pid, limit);
 			break;
 		case 2:
-			retString = makeReferredByCypherQuery(pid);
+			retString = makeReferredByCypherQuery(pid, limit);
 			break;
 		case 3:
 		case 7:
-			retString = makeAllRelationsCypherQuery(pid);
+			retString = makeAllRelationsCypherQuery(pid, limit);
 			break;
 		case 4:
 		case 5:
 		case 6:
-			retString = makeBidirectionalOnlyCypherQuery(pid);
+			retString = makeBidirectionalOnlyCypherQuery(pid, limit);
 			break;
 		}
 		return retString;
+	}
+	
+	private String addLimitCypher(String limit)
+	{
+		return (" LIMIT " + limit);
 	}
 
 }

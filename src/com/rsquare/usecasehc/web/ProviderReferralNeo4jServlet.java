@@ -49,6 +49,7 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		String pid = (request.getParameter("pid"));
 		int option = Integer.parseInt(request.getParameter("params"), 2);
 		String format = request.getParameter("format");
+		String limit = request.getParameter("limit");
 		PrintWriter out = response.getWriter();
 		List<ProviderReferralResult> results = new ArrayList<ProviderReferralResult>();
 		if(pid==null)
@@ -58,7 +59,7 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		}
 		Neo4jClient client = new Neo4jClient();
 		try {
-			results = client.getReferralsByProvider(pid, option);
+			results = client.getReferralsByProvider(pid, option, limit);
 			
 			HiveClient hc = new HiveClient();
 			long t1 = System.currentTimeMillis();
