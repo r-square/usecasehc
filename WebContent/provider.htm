@@ -139,9 +139,7 @@ h1 {
 	font-size:48px;
 }
 
-html, body, #constellation {
-	height:100%;
-	overflow:hidden;
+html, body {
 	margin:0;
 	padding:0;
 }
@@ -375,6 +373,7 @@ function showProviderListLeftPanel() {
 	$("#lft-div-geo-graph").hide();
 	$("#lft-div-questions").hide();
 	$("#divFindProvider").show();
+	$('#rightcolumn').hide();
 }
 
 function showNetworkGraphLeftPanel() {
@@ -383,6 +382,7 @@ function showNetworkGraphLeftPanel() {
 	$("#lft-div-map-view").hide();
 	$("#lft-div-questions").hide();
 	$("#divFindProvider").show();
+	$('#rightcolumn').show();
 }
 function showGeoGraphLeftPanel() {
 	$("#lft-div-provider-list").hide();
@@ -390,6 +390,7 @@ function showGeoGraphLeftPanel() {
 	$("#lft-div-geo-graph").show();
 	$("#lft-div-investigator-list").hide();
 	$("#divFindProvider").show();
+	$('#rightcolumn').hide();
 	//initializeMap();
 	/*setTimeout(function() {
 		var center = map.getCenter();
@@ -405,6 +406,7 @@ function showQuestionsLeftPanel() {
 	$("#lft-div-geo-graph").hide();
 	$("#lft-div-questions").show();
 	$("#divFindProvider").show();
+	$('#rightcolumn').hide();
 }
 
 function loadGraph(pid) {
@@ -623,7 +625,9 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 <div id="header" >
 	<h1><nobr><center>Provider Network Analysis</center></nobr></h1>
 </div>
-<div id="leftcolumn" >	
+<div style="width:100%;position:relative;">
+<!-- <div id="leftcolumn" >-->
+	<table width="100%" cellspacing="20"><tr><td id="leftcolumn">
 	<fieldset>
 	<legend id="leg-exp-prov-net" >Explore Provider Network</legend>
 	<div id="leftinner">
@@ -722,8 +726,9 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 		</div>
 	</div>
 	</fieldset>
-</div>
-<div id="content" >
+<!-- </div> -->
+</td><td valign="top" id="content">
+<!-- <div id="content" > -->
 <div id="divFindProvider" style="display:none; " >
 	<input type="text" placeholder="Find provider..." style="float:right; margin-right:0; " /><br><br>
 </div>
@@ -786,10 +791,13 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 			</div>-->
 		</div>
 	</div>
-</div>
-<div id="rightcolumn" >
+<!-- </div> -->
+</td><td id="rightcolumn">
+<!-- <div id="rightcolumn" > -->
 (Details)
+<!-- </div>
+<div style="clear:both"></div>-->
+</td></tr></table>
 </div>
-
 
 </body></html>

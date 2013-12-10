@@ -25,12 +25,12 @@ body {
  margin: 10px 0px 5px 0px;
  text-align:center; 
  margin-top:10px;
- width:100%; min-width:620px;
+ width:100%; 
+ min-width:620px;
 }
 #leftcolumn {
  border: 0px solid #ccc;
  margin: 0px 5px 5px 0px;
- padding: 10px;
  float: left;
 }
 #leftinner {
@@ -39,13 +39,14 @@ body {
  float: left;
 }
 #content { 
+ position:relative;
  float: left;
  border: 0px solid #ccc;
  margin: 0px 5px 5px 0px;
  padding: 5px;
  display: inline;
 }
-#rightcolumn { 
+#rightcolumn {
  border: 1px solid #ccc;
  margin: 0px 0px 5px 0px;
  margin-top: 80px;
@@ -57,4 +58,11 @@ body {
  border: 0px solid #ccc;
  margin: 0px 0px 10px 0px;
  padding: 5px;
+}
+#constellation {
+ min-width:800px;
+ overflow:hidden;
+ margin:0;
+ padding:0;
+ height:75%;
 }
