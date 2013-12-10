@@ -468,6 +468,14 @@ function loadGraph(pid) {
         	this.setSelectedNodeId(nodeId);
         });
     	constellation.setSelectedNodeId(pid);
+    	
+    	$(constellation).bind('nodeselect', function(evt, nodeId) {
+			var node = constellation.getModel().getNode(nodeId);
+			if (node) {
+				$('#rightcolumn').html(node.data.label ? node.data.label : '');
+			}
+		});
+    	
     }
    /* if(pid!=$('#pid_network_graph').val())
     {
