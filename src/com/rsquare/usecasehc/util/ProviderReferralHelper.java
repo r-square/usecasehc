@@ -27,7 +27,7 @@ public class ProviderReferralHelper {
 		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
 		Iterator<ProviderReferralResult> iterator = results.iterator();
 		Provider p = providers.get(pid);
-		ProviderGraphNodeData nData = new ProviderGraphNodeData((p.getName() + "\\n" + p.getGeneral_area() + "-" + p.getSpecialty()), 
+		ProviderGraphNodeData nData = new ProviderGraphNodeData(p.getName(), 
 				"2", p.getName(), "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "");
 		ProviderGraphNode node = new ProviderGraphNode(pid, nData);
 		nodes.add(node);
@@ -41,7 +41,7 @@ public class ProviderReferralHelper {
 	        }
 	        rNodes.add(result);
 	        p = providers.get(result.getReferredDoctor());
-	        nData = new ProviderGraphNodeData((p.getName() + "\\n" + p.getGeneral_area() + "-" + p.getSpecialty()), 
+	        nData = new ProviderGraphNodeData(p.getName(), 
 					"1", p.getName(), "", "", "image", "images/doctor_icon.png", "50", "50");
 	        node = new ProviderGraphNode(result.getReferredDoctor(), nData);
 	        nodes.add(node);

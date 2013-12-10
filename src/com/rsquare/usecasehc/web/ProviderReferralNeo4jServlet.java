@@ -61,11 +61,22 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		try {
 			results = client.getReferralsByProvider(pid, option, limit);
 			
-			HiveClient hc = new HiveClient();
-			long t1 = System.currentTimeMillis();
-		    Map<String, Provider> providers = hc.getProvidersByReferrals(results, pid);
-		    long t2 = System.currentTimeMillis();
-		    logger.info("getProviders() took time(mSec): " + (t2-t1));
+			Iterator<ProviderReferralResult> iterator = results.iterator();
+			Map<String, Provider> providers = new HashMap<String, Provider>();
+			Provider p = new Provider(pid, pid, null, null, null, null, null);
+			providers.put(pid, p);
+			while(iterator.hasNext())
+			{
+				ProviderReferralResult pr = iterator.next();
+				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
+				providers.put(pr.getReferredDoctor(), p);
+			}
+			
+//			HiveClient hc = new HiveClient();
+//			long t1 = System.currentTimeMillis();
+//		    Map<String, Provider> providers = hc.getProvidersByReferrals(results, pid);
+//		    long t2 = System.currentTimeMillis();
+//		    logger.info("getProviders() took time(mSec): " + (t2-t1));
 		   
 		    if("json".equalsIgnoreCase(format))
 		    {

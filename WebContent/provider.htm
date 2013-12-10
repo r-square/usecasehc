@@ -429,7 +429,7 @@ function loadGraph(pid) {
     if(!constellation || pid!=constellation.getSelectedNodeId())
     {
     	$('#pid_network_graph').val(pid);
-    	var newURL = 'usecase_hc?pid=:' + pid + '&params=' + params + '&format=json';
+    	var newURL = 'referral?pid=' + pid + '&params=' + params + '&format=json';
     	if(constellation)
     	{
     		constellation.getModel().clear();
