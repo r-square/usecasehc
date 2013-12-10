@@ -20,6 +20,7 @@ import com.rsquare.usecasehc.model.ProviderSpecialtyNode;
 public class HiveClient {
 
 	private Logger logger = Logger.getLogger(HiveClient.class);
+	private Connection conn;
 	
 	public HiveClient() {
 		String driver = "org.apache.hive.jdbc.HiveDriver"; //org.apache.hadoop.hive.jdbc.HiveDriver";
@@ -32,8 +33,11 @@ public class HiveClient {
 	}
 
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(
-				"jdbc:hive2://localhost:10000/default", "", "");
+		if(conn==null)
+		{
+			conn = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "", "");
+		}
+		return conn;
 	}
 	
 	public Provider getProviderById(String npi) throws SQLException {

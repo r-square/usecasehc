@@ -1,11 +1,9 @@
 package com.rsquare.usecasehc.web;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,41 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.google.gson.Gson;
-import com.rsquare.usecasehc.model.ProviderSpecialtyNodes;
+import com.rsquare.usecasehc.hive.HiveClient;
+import com.rsquare.usecasehc.model.Provider;
 
 /**
  * Servlet implementation class ProviderNodeServlet
  */
-@WebServlet("/provider_nodes")
+@WebServlet("/provider_details")
 public class ProviderNodeServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(ProviderNodeServlet.class);
-	public static ProviderSpecialtyNodes nodes;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ProviderNodeServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-    @Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		String path = getServletContext().getRealPath("/");
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(path + "/sources/provider_taxonomy_specialty.json"));
-			Gson gson = new Gson();
-			nodes = gson.fromJson(reader, ProviderSpecialtyNodes.class);
-			System.out.println(nodes);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			logger.error(e);
-		}
-    }
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -65,8 +38,42 @@ public class ProviderNodeServlet extends HttpServlet {
 	}
 	
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Gson gson = new Gson();
-		response.getWriter().println(gson.toJson(nodes.getNodes()));
+		String pid = (request.getParameter("pid"));
+		PrintWriter out = response.getWriter();
+		StringBuilder sb = new StringBuilder();
+		HiveClient hc = new HiveClient();
+		try {
+		   long t1 = System.currentTimeMillis();
+		   Provider p = hc.getProviderById(pid);
+		   long t2 = System.currentTimeMillis();
+		   logger.info("getProviders() took time(mSec): " + (t2-t1));
+		   sb.append("<html><body><b>PID:</b> ");
+		   sb.append(p.getNpi());
+		   sb.append("<br/><b>Name:</b> ");
+		   sb.append(p.getName());
+		   sb.append("<br/><b>General Area:</b> ");
+		   sb.append(p.getGeneral_area());
+		   sb.append("<br/><b>Specialty:</b> ");
+		   sb.append(p.getSpecialty());
+		   sb.append("<br/><b>City:</b> ");
+		   sb.append(p.getCity());
+		   sb.append("<br/><b>State:</b> ");
+		   sb.append(p.getState());
+		   sb.append("</body></html>");
+		}
+		catch(SQLException exception)
+		{
+			sb.append("<html><body>Could not find details for this provider</body></html>");
+		}
+		finally
+		{
+			out.println(sb.toString());
+			try {
+				hc.getConnection().close();
+			} catch (SQLException e) {
+				logger.error(e);
+			}
+		}
 	}
 
 }

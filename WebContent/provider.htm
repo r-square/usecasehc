@@ -150,7 +150,7 @@ html, body, #constellation {
 <script type="text/javascript" >
 
 
-var providerNodeName;
+var providerNodeName = 'undefined';
 var states = new Array;
 var styles = [
 	['node', {
@@ -427,7 +427,7 @@ function loadGraph(pid) {
     if(!constellation || pid!=constellation.getSelectedNodeId())
     {
     	$('#pid_network_graph').val(pid);
-    	var newURL = 'referral?pid=' + pid + '&params=' + params + '&format=json';
+    	var newURL = 'usecase_hc?pid=:' + pid + '&params=' + params + '&format=json';
     	if(constellation)
     	{
     		constellation.getModel().clear();
@@ -475,6 +475,13 @@ function loadGraph(pid) {
 				$('#rightcolumn').html(node.data.label ? node.data.label : '');
 			}
 		});
+    	
+    	 $(constellation).bind('nodeselect', function(evt, nodeId) {
+    		var node = constellation.getModel().getNode(nodeId);
+    		if (node) {
+    			$('#rightcolumn').load('provider_details?pid=' + nodeId);
+    			}
+    		});
     	
     }
    /* if(pid!=$('#pid_network_graph').val())

@@ -137,7 +137,7 @@ public class ProviderGridServlet extends HttpServlet {
 				HiveClient hc = new HiveClient();
 				try {
 					//get provider by state & specialty
-					list = hc.getProvidersByStateAndSpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderNodeServlet.nodes.getNodes(), specialty), state);
+					list = hc.getProvidersByStateAndSpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderSpecialtyTreeServlet.nodes.getNodes(), specialty), state);
 				}
 				catch(SQLException exception)
 				{
@@ -149,7 +149,7 @@ public class ProviderGridServlet extends HttpServlet {
 				HiveClient hc = new HiveClient();
 				try {
 					//get provider by specialty
-					list = hc.getProvidersBySpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderNodeServlet.nodes.getNodes(), specialty));
+					list = hc.getProvidersBySpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderSpecialtyTreeServlet.nodes.getNodes(), specialty));
 				}
 				catch(SQLException exception)
 				{
@@ -161,7 +161,7 @@ public class ProviderGridServlet extends HttpServlet {
 				HiveClient hc = new HiveClient();
 				try {
 					//get provider by specialty
-					list = hc.getProvidersByStateAndCityAndSpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderNodeServlet.nodes.getNodes(), specialty), state, city);
+					list = hc.getProvidersByStateAndCityAndSpecialty(PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderSpecialtyTreeServlet.nodes.getNodes(), specialty), state, city);
 				}
 				catch(SQLException exception)
 				{
