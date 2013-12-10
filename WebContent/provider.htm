@@ -474,7 +474,7 @@ function loadGraph(pid) {
     	$(constellation).bind('nodeselect', function(evt, nodeId) {
 			var node = constellation.getModel().getNode(nodeId);
 			if (node) {
-				$('#rightcolumn').html(node.data.label ? node.data.label : '');
+				$('#rightcolumn').html("<b>Loading...</b><br/><br/><b>PID:</b><br/><b>Name:</b><br/><b>General Area:</b><br/><b>Specialty:</b><br/><b>City:</b><br/><b>State:</b>");
 			}
 		});
     	
@@ -623,7 +623,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 
 <body>
 <div id="header" >
-	<h1><nobr><center>Provider Network Analysis</center></nobr></h1>
+	<h1><nobr>Provider Network Analysis</nobr></h1>
 </div>
 <div style="width:100%;position:relative;">
 <div id="leftcolumn" >
@@ -729,9 +729,9 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 </div>
 <!-- </td><td valign="top" id="content" valign="top"> -->
 <div id="content" >
-<div id="divFindProvider" style="display:none; " >
+<!-- <div id="divFindProvider" style="display:none; " >
 	<input type="text" placeholder="Find provider..." style="float:right; margin-right:0; " /><br><br>
-</div>
+</div>-->
 	<div id="tabs" >
 		<ul>
 		   <li class="tab" ><a href="#provider-list-tab" >Provider List</a></li>
@@ -794,7 +794,17 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 </div>
 <!-- </td><td valign="top"> -->
 <div id="rightcolumn" >
-(Details)
+	<b>PID:</b>
+	<br/>
+	<b>Name:</b>
+	<br/>
+	<b>General Area:</b>
+	<br/>
+	<b>Specialty:</b>
+	<br/>
+	<b>City:</b>
+	<br/>
+	<b>State:</b>
 </div>
 <!-- </td></tr></table> -->
 </div>

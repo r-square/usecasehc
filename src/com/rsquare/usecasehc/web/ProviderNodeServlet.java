@@ -47,7 +47,7 @@ public class ProviderNodeServlet extends HttpServlet {
 		   Provider p = hc.getProviderById(pid);
 		   long t2 = System.currentTimeMillis();
 		   logger.info("getProviders() took time(mSec): " + (t2-t1));
-		   sb.append("<html><body><b>PID:</b> ");
+		   sb.append("<b>PID:</b> ");
 		   sb.append(p.getNpi());
 		   sb.append("<br/><b>Name:</b> ");
 		   sb.append(p.getName());
@@ -59,7 +59,6 @@ public class ProviderNodeServlet extends HttpServlet {
 		   sb.append(p.getCity());
 		   sb.append("<br/><b>State:</b> ");
 		   sb.append(p.getState());
-		   sb.append("</body></html>");
 		}
 		catch(SQLException exception)
 		{
