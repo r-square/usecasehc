@@ -63,18 +63,17 @@ body {
  overflow:hidden;
  margin:0;
  padding:0;
- width:700px;
- height:700px;
+ min-width:700px;
+ min-height:700px;
 }
 .ui-tabs .ui-tabs-panel {
 padding: 0em;
 }
 #provider-list-tab {
-	min-width:475px;
-	min-height:175px;
+	min-width:706px;
 }
 #provider-graph-tab {
-	width:706px;
-	height:706px;
+	min-width:706px;
+	min-height:706px;
 }
 
