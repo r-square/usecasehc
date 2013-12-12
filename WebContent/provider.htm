@@ -44,7 +44,7 @@ body {
 }
 
 .panel-container {
-	margin-bottom:10px;
+	margin-bottom:0px;
 }
 
 .city {
@@ -198,6 +198,8 @@ var servererror=false;
 
 $('#city').hide();
 
+$( "#constellation" ).resizable();
+$( "#provider-list-tab" ).resizable();
 
 var a=$.ajax({
 					type: "GET"
@@ -775,6 +777,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 		</ul>
 		<div class="panel-container" >
 			<div id="provider-list-tab" >
+			<div style="padding:10px">
 				<table cellpadding="0" cellspacing="0" border="0" class="display grid-list" id="provider-list" >
 					<thead>
 						<tr>
@@ -789,6 +792,8 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 					<tbody>
 					</tbody>
 				</table>
+			</div>
+			<br/><br/>
 			</div>
 			<div id="network-graph-tab" >
 				<div id="constellation" ></div>
