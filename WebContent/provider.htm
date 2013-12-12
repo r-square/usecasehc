@@ -300,18 +300,18 @@ for(var index = 0; index < states.length; index++){
   $(".tab > a").click(function(event) {
        if($(this).attr("href") == "#provider-list-tab") {
 	   		showProviderListLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network');
+			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
 	   else if($(this).attr("href") == "#network-graph-tab") {
 	   		showNetworkGraphLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network');
+			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
 	   else if($(this).attr("href") == "#geo-graph-tab") {
 	   		showGeoGraphLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network');
+			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
 	   else if($(this).attr("href") == "#questions-tab") {
-	   		$("#leg-exp-prov-net").html('Question Builder');
+	   		$("#leg-exp-prov-net").html('Question Builder &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   		showQuestionsLeftPanel();
 	   }
   });
@@ -407,6 +407,35 @@ function showQuestionsLeftPanel() {
 	$("#lft-div-questions").show();
 	$("#divFindProvider").show();
 	$('#rightcolumn').hide();
+}
+
+function hidenav() {
+	$("#lft-div-provider-list").hide();
+	$("#lft-div-network-graph").hide();
+	$("#lft-div-geo-graph").hide();
+	$("#lft-div-questions").hide();
+	$("#lft-div-hidden").show();
+	$("#leg-exp-prov-net").html('<a href="javascript:shownav()">[show]</a>');
+}
+
+function shownav() {
+		var selected = $("#tabs").tabs('option', 'active');
+       if(selected===0) {
+	   		showProviderListLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   }
+       if(selected===1) {
+	   		showNetworkGraphLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   }
+       if(selected===2) {
+	   		showGeoGraphLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   }
+       if(selected===3) {
+	   		$("#leg-exp-prov-net").html('Question Builder &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   		showQuestionsLeftPanel();
+	   }
 }
 
 function loadGraph(pid) {
@@ -629,7 +658,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 <div id="leftcolumn" >
 	<!-- <table width="100%" cellspacing="20"><tr><td id="leftcolumn"  valign="top"> -->
 	<fieldset>
-	<legend id="leg-exp-prov-net" >Explore Provider Network</legend>
+	<legend id="leg-exp-prov-net" >Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a></legend>
 	<div id="leftinner">
 		<div id="lft-div-provider-list" style="display:none; " >
 			<input id="pid_provider_list" placeholder="Enter Provider Id..." name="pid_provider_list" type="text" onchange="javascript:pid_provider_list_change();" onkeydown="javascript:pid_provider_list_smallchange();" />
@@ -724,6 +753,11 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 		<div id="lft-div-questions" style="display:none; " >
 			<strong>Report Generator</strong>
 		</div>
+		
+		<div id="lft-div-hidden" style="display:none; " >
+		Explore
+		</div>
+
 	</div>
 	</fieldset>
 </div>
