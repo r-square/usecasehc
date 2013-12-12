@@ -63,8 +63,10 @@ body {
  overflow:hidden;
  margin:0;
  padding:0;
- min-width:700px;
- min-height:700px;
+ background-color: gray;
+ z-index:1;
+ width:700px;
+ height:700px;
 }
 .ui-tabs .ui-tabs-panel {
 padding: 0em;
@@ -73,7 +75,11 @@ padding: 0em;
 	min-width:706px;
 }
 #provider-graph-tab {
-	min-width:706px;
-	min-height:706px;
+	overflow:hidden;
+	width:720px;
+	height:720px;
+	min-width:720px;
+	min-height:720px;
+	z-index:2;
 }
 

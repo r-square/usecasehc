@@ -2875,8 +2875,8 @@ Constellation.prototype.defaultStyles = [
 ];
 
 Constellation.prototype.resize = function() {
-	var w = this.container.width();
-	var h = this.container.height();
+            var w = $("#network-graph-tab").width()-10;
+            var h = $("#network-graph-tab").height()-10;
 	if (w != this.viewportWidth || h != this.viewportHeight) {
 		this.viewportWidth = w;
 		this.viewportHeight = h;
@@ -2887,6 +2887,19 @@ Constellation.prototype.resize = function() {
 	}
 };
 Constellation.prototype['resize'] = Constellation.prototype.resize;
+
+Constellation.prototype.resize2 = function(w,h) {
+	if (w != this.viewportWidth || h != this.viewportHeight) {
+		this.viewportWidth = w;
+		this.viewportHeight = h;
+		$(this['svg']['_svg'])
+			.attr('width', w)
+			.attr('height', h);
+		this.refreshZui();
+	}
+};
+Constellation.prototype['resize2'] = Constellation.prototype.resize;
+
 
 /// Accessors
 

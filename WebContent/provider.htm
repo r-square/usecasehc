@@ -202,11 +202,12 @@ $('#city').hide();
 
 $( "#network-graph-tab" ).resizable();
 
-    $("#network-graph-tab ").bind("resize", function (event, ui) {
-            var setWidth = $("#network-graph-tab").width()-10;
-            var setHeight = $("#network-graph-tab").height()-10;
-            $('#constellation').width(setWidth);
-            $('#constellation').height(setHeight);            
+    $("#network-graph-tab").bind("resize", function (event, ui) {
+            var setWidth = $("#network-graph-tab").width();
+            var setHeight = $("#network-graph-tab").height();
+            $('#constellation').width(setWidth-10);
+            $('#constellation').height(setHeight-10);
+            //Constellation.prototype.resize2(setWidth, setHeight);             
         });
 
 var a=$.ajax({
