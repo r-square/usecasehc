@@ -60,15 +60,21 @@ body {
  padding: 5px;
 }
 #constellation {
- min-width:700px;
  overflow:hidden;
  margin:0;
  padding:0;
- min-height:700px;
+ width:700px;
+ height:700px;
 }
 .ui-tabs .ui-tabs-panel {
 padding: 0em;
 }
 #provider-list-tab {
 	min-width:475px;
+	min-height:175px;
 }
+#provider-graph-tab {
+	width:706px;
+	height:706px;
+}
+
