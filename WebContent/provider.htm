@@ -214,9 +214,12 @@ $('#city').hide();
             Constellation.prototype.resize2(setWidth, setHeight);             
         });  */
         
-        $(window).bind("resize", function(event,ui){
-	       resizeit(); 
-        });
+        /* $(window).bind("resize", function(event,ui){
+	       resizeit(0); 
+        }); */ 
+        
+        $(window).resize(function() { resizeit(0); });
+
 
 var a=$.ajax({
 					type: "GET"
@@ -262,6 +265,7 @@ var statelist = $("#state_provider_list");
 statelist.append('<option>All States</option>')
 states['All States'] = new Array;
 states['All States'].push("");
+    resizeit(200);
 
 for (var key in states) { if (key!='All States') statelist.append('<option>'+key+'</option>') }
 
@@ -270,7 +274,6 @@ var b = $('#city').autocomplete({
 maxHeight:400,
 lookup: states["All States"]
 });
-
 
 /*var statelist = '';
 for(var index = 0; index < states.length; index++){
@@ -317,6 +320,7 @@ for(var index = 0; index < states.length; index++){
   }
   
   $(".tab > a").click(function(event) {
+  	resizeit(200);
        if($(this).attr("href") == "#provider-list-tab") {
 	   		showProviderListLeftPanel();
 			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
@@ -338,6 +342,7 @@ for(var index = 0; index < states.length; index++){
 	   		$("#leg-exp-prov-net").html('Question Builder &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   		showQuestionsLeftPanel();
 	   }
+	   resizeit(0);
   });
   
   $('#providerTree').bind(
@@ -391,17 +396,32 @@ jQuery.fn.dataTableExt.aTypes.push(
     }
 );
 
-function resizeit() {
+function resizeit(modifier) {
 	var minWidth=700;
 	var minHeight=200
-	var setWidth=$(window).width()-$("#leftcolumn").width()-80;
+	
+	
+var winH = 460;
+if (document.body && document.body.offsetWidth) {
+ winH = document.body.offsetHeight;
+}
+if (document.compatMode=='CSS1Compat' &&
+    document.documentElement &&
+    document.documentElement.offsetWidth ) {
+ winH = document.documentElement.offsetHeight;
+}
+if (window.innerWidth && window.innerHeight) {
+ winH = window.innerHeight;
+}
+	var setWidth=$(window).width()-$("#leftcolumn").width()-80-modifier;
 	if (setWidth<minWidth) setWidth=minWidth;
-	var setHeight=$(window).height()-130;
+	var setHeight=winH-150-modifier;
 	if (setHeight<minHeight) setHeight=minHeight;
-	$('#tabs').height(setHeight);
-	$('#constellation').height($("#tabs").height()-40);
 	$('#tabs').width(setWidth);
 	$('#constellation').width($("#tabs").width()-5);
+	$('#tabs').height(setHeight);
+	$('#constellation').height($("#tabs").height()-40);
+
 }
 
 function showProviderListLeftPanel() {
@@ -412,7 +432,6 @@ function showProviderListLeftPanel() {
 	$("#divFindProvider").show();
 	$('#rightcolumn').hide();
 	$("#lft-div-hidden").hide();
-	resizeit();
 }
 
 function showNetworkGraphLeftPanel() {
@@ -423,7 +442,6 @@ function showNetworkGraphLeftPanel() {
 	$("#divFindProvider").show();
 	$('#rightcolumn').show();
 	$("#lft-div-hidden").hide();
-	resizeit();
 }
 function showGeoGraphLeftPanel() {
 	$("#lft-div-provider-list").hide();
@@ -433,7 +451,6 @@ function showGeoGraphLeftPanel() {
 	$("#divFindProvider").show();
 	$('#rightcolumn').hide();
 	$("#lft-div-hidden").hide();
-	resizeit();
 
 	//initializeMap();
 	/*setTimeout(function() {
@@ -452,20 +469,21 @@ function showQuestionsLeftPanel() {
 	$("#divFindProvider").show();
 	$('#rightcolumn').hide();
 	$("#lft-div-hidden").hide();
-	resizeit();
 }
 
 function hidenav() {
+    resizeit(200);
 	$("#lft-div-provider-list").hide();
 	$("#lft-div-network-graph").hide();
 	$("#lft-div-geo-graph").hide();
 	$("#lft-div-questions").hide();
 	$("#lft-div-hidden").show();
 	$("#leg-exp-prov-net").html('<a href="javascript:shownav()">[show]</a>');
-	resizeit();
+	resizeit(0);
 }
 
 function shownav() {
+    resizeit(200);
 		var selected = $("#tabs").tabs('option', 'active');
        if(selected===0) {
 	   		showProviderListLeftPanel();
@@ -483,7 +501,7 @@ function shownav() {
 	   		$("#leg-exp-prov-net").html('Question Builder &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   		showQuestionsLeftPanel();
 	   }
-	resizeit();
+	resizeit(0);
 }
 
 function loadGraph(pid) {
@@ -609,6 +627,7 @@ function loadGraph(pid) {
 }
 
 function loadGridFromProviderId() {
+    resizeit(200);
     $('.dataTables_filter input').val('');
     $('#provider-list').dataTable( {
 		"bServerSide": true,
@@ -640,10 +659,11 @@ function loadGridFromProviderId() {
       if (e.keyCode != 13) return;
       $('#provider-list').dataTable().fnFilter($(this).val());
     });
-    resizeit();
+    resizeit(0);
 }
 
 function pid_provider_list_change() {
+    resizeit(200);
 	$('#state_provider_list').val(0);
 	$('#city').val('');
 	$('#providerTree').tree('selected_node',null);
@@ -653,18 +673,19 @@ function pid_provider_list_change() {
 		"bDestroy": true,
 		"aaData": []		
 	});
-    resizeit();	
+    resizeit(0);	
 }
 
 function pid_provider_list_smallchange() {
+    resizeit(200);
 	$('#state_provider_list').val("All States");
 	$('#city').hide();
-	    resizeit();
-
+	resizeit(0);
 }
 
 
 function state_provider_list_change() {
+    resizeit(200);
 	$('#pid_provider_list').val('');
 	$('#providerTree').tree('selected_node',null);
 	$('#provider-list').dataTable( {
@@ -680,7 +701,7 @@ function state_provider_list_change() {
 	$('#city').autocomplete().setOptions({
 lookup: states[$('#state_provider_list').val()] //local lookup values
 });
-    resizeit();
+    resizeit(0);
 
 }
 
@@ -706,7 +727,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 <div id="header" >
 	<h1><nobr>Provider Network Analysis</nobr></h1>
 </div>
-<div style="width:100%; min-width:100px; position:relative; " >
+<div style="width:100%; min-width:1500px; position:relative; " >
 <div id="leftcolumn" >
 	<!-- <table width="100%" cellspacing="20"><tr><td id="leftcolumn"  valign="top"> -->
 	<fieldset>
@@ -900,7 +921,5 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 
 <!-- </td></tr></table> -->
 </div>
-
-<script>resizeit();</script>
 
 </body></html>
