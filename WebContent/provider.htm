@@ -265,7 +265,6 @@ var statelist = $("#state_provider_list");
 statelist.append('<option>All States</option>')
 states['All States'] = new Array;
 states['All States'].push("");
-    resizeit(200);
 
 for (var key in states) { if (key!='All States') statelist.append('<option>'+key+'</option>') }
 
@@ -274,6 +273,8 @@ var b = $('#city').autocomplete({
 maxHeight:400,
 lookup: states["All States"]
 });
+
+resizeit(0);
 
 /*var statelist = '';
 for(var index = 0; index < states.length; index++){
@@ -320,7 +321,6 @@ for(var index = 0; index < states.length; index++){
   }
   
   $(".tab > a").click(function(event) {
-  	resizeit(200);
        if($(this).attr("href") == "#provider-list-tab") {
 	   		showProviderListLeftPanel();
 			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
@@ -472,7 +472,6 @@ function showQuestionsLeftPanel() {
 }
 
 function hidenav() {
-    resizeit(200);
 	$("#lft-div-provider-list").hide();
 	$("#lft-div-network-graph").hide();
 	$("#lft-div-geo-graph").hide();
@@ -483,7 +482,6 @@ function hidenav() {
 }
 
 function shownav() {
-    resizeit(200);
 		var selected = $("#tabs").tabs('option', 'active');
        if(selected===0) {
 	   		showProviderListLeftPanel();
@@ -627,7 +625,6 @@ function loadGraph(pid) {
 }
 
 function loadGridFromProviderId() {
-    resizeit(200);
     $('.dataTables_filter input').val('');
     $('#provider-list').dataTable( {
 		"bServerSide": true,
@@ -663,7 +660,6 @@ function loadGridFromProviderId() {
 }
 
 function pid_provider_list_change() {
-    resizeit(200);
 	$('#state_provider_list').val(0);
 	$('#city').val('');
 	$('#providerTree').tree('selected_node',null);
@@ -677,7 +673,6 @@ function pid_provider_list_change() {
 }
 
 function pid_provider_list_smallchange() {
-    resizeit(200);
 	$('#state_provider_list').val("All States");
 	$('#city').hide();
 	resizeit(0);
@@ -685,7 +680,6 @@ function pid_provider_list_smallchange() {
 
 
 function state_provider_list_change() {
-    resizeit(200);
 	$('#pid_provider_list').val('');
 	$('#providerTree').tree('selected_node',null);
 	$('#provider-list').dataTable( {
@@ -727,7 +721,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 <div id="header" >
 	<h1><nobr>Provider Network Analysis</nobr></h1>
 </div>
-<div style="width:100%; min-width:1500px; position:relative; " >
+<div style="width:100%; min-width:1200px; position:relative; " >
 <div id="leftcolumn" >
 	<!-- <table width="100%" cellspacing="20"><tr><td id="leftcolumn"  valign="top"> -->
 	<fieldset>
@@ -791,6 +785,9 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 			<ul id="investigator-specialty-network-graph-tv" class="filetree"></ul>
 			-->
 			<br><br>
+			<br><br>
+			<input type="button" value="Run Analysis" onclick="javascript:loadGraph($('#pid_network_graph').val())" />
+			<br><br>
 			<div id="rightcolumn" >
 				<b>PID:</b>
 				<br>
@@ -804,8 +801,6 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 				<br>
 				<b>State:</b>
 			</div>
-			<br><br>
-			<input type="button" value="Run Analysis" onclick="javascript:loadGraph($('#pid_network_graph').val())" />
 		</div>
 		
 		<div id="lft-div-geo-graph" style="display:none; " >
