@@ -13,7 +13,7 @@
 <script src="js/jquery-ui-1.10.3.custom.min.js" ></script>
 <script type="text/javascript" src="js/jquery.autocomplete.min.js" ></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script> -->
-<link href='https://fonts.googleapis.com/css?family=Kameron:700|Kameron:400|PT+Serif:400' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/css?family=Kameron:700|Kameron:400|PT+Serif:400" rel="stylesheet" type="text/css" >
 
 <link href="css/demo_page.css" type="text/css" rel="stylesheet" >
 <link href="css/demo_table.css" type="text/css" rel="stylesheet" >
@@ -44,7 +44,7 @@ body {
 }
 
 .panel-container {
-	margin-bottom:0px;
+	margin-bottom:0;
 }
 
 .city {
@@ -198,21 +198,30 @@ var servererror=false;
 
 $('#city').hide();
 
+//alert($( window ).width())
+//alert($( window ).height())
+//alert($( "#lft-div-provider-list").width());
+
+
 //$( "#provider-list-tab" ).resizable();
 
-$( "#network-graph-tab" ).resizable();
 
-    $("#network-graph-tab").bind("resize", function (event, ui) {
+/*    $("#network-graph-tab").bind("resize", function (event, ui) {
             var setWidth = $("#network-graph-tab").width();
             var setHeight = $("#network-graph-tab").height();
             $('#constellation').width(setWidth-10);
             $('#constellation').height(setHeight-10);
             Constellation.prototype.resize2(setWidth, setHeight);             
+        });  */
+        
+        $(window).bind("resize", function(event,ui){
+	       resizeit(); 
         });
 
 var a=$.ajax({
 					type: "GET"
-					,url: 'sources/city_listing.json'
+					//,url: 'sources/city_listing.json'
+					,url: 'js/graph2.json'
 					,cache: false
 					,datatype:'json'
 					,success:function(json){
@@ -315,6 +324,11 @@ for(var index = 0; index < states.length; index++){
 	   }
 	   else if($(this).attr("href") == "#network-graph-tab") {
 	   		showNetworkGraphLeftPanel();
+    //$( "#constellation" ).dialog({
+    //  height: 700, width:700, 
+    //  modal: true
+    //});
+	
 			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
 	   else if($(this).attr("href") == "#geo-graph-tab") {
@@ -378,6 +392,19 @@ jQuery.fn.dataTableExt.aTypes.push(
     }
 );
 
+function resizeit() {
+	var minWidth=700;
+	var minHeight=200
+	var setWidth=$( window ).width()-$("#leftcolumn").width()-80;
+	if (setWidth<minWidth) setWidth=minWidth;
+	var setHeight=$( window ).height()-150;
+	if (setHeight<minHeight) setHeight=minHeight;
+	$('#tabs').height(setHeight);
+	$('#constellation').height($("#tabs").height()-40);
+	$('#tabs').width(setWidth);
+	$('#constellation').width($("#tabs").width()-5);
+}
+
 function showProviderListLeftPanel() {
 	$("#lft-div-provider-list").show();
 	$("#lft-div-network-graph").hide();
@@ -385,6 +412,8 @@ function showProviderListLeftPanel() {
 	$("#lft-div-questions").hide();
 	$("#divFindProvider").show();
 	$('#rightcolumn').hide();
+	$("#lft-div-hidden").hide();
+	resizeit();
 }
 
 function showNetworkGraphLeftPanel() {
@@ -394,6 +423,8 @@ function showNetworkGraphLeftPanel() {
 	$("#lft-div-questions").hide();
 	$("#divFindProvider").show();
 	$('#rightcolumn').show();
+	$("#lft-div-hidden").hide();
+	resizeit();
 }
 function showGeoGraphLeftPanel() {
 	$("#lft-div-provider-list").hide();
@@ -402,6 +433,9 @@ function showGeoGraphLeftPanel() {
 	$("#lft-div-investigator-list").hide();
 	$("#divFindProvider").show();
 	$('#rightcolumn').hide();
+	$("#lft-div-hidden").hide();
+	resizeit();
+
 	//initializeMap();
 	/*setTimeout(function() {
 		var center = map.getCenter();
@@ -418,6 +452,8 @@ function showQuestionsLeftPanel() {
 	$("#lft-div-questions").show();
 	$("#divFindProvider").show();
 	$('#rightcolumn').hide();
+	$("#lft-div-hidden").hide();
+	resizeit();
 }
 
 function hidenav() {
@@ -427,6 +463,7 @@ function hidenav() {
 	$("#lft-div-questions").hide();
 	$("#lft-div-hidden").show();
 	$("#leg-exp-prov-net").html('<a href="javascript:shownav()">[show]</a>');
+	resizeit();
 }
 
 function shownav() {
@@ -447,6 +484,7 @@ function shownav() {
 	   		$("#leg-exp-prov-net").html('Question Builder &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   		showQuestionsLeftPanel();
 	   }
+	resizeit();
 }
 
 function loadGraph(pid) {
@@ -665,12 +703,12 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 <div id="header" >
 	<h1><nobr>Provider Network Analysis</nobr></h1>
 </div>
-<div style="width:100%;position:relative;">
+<div style="width:100%; min-Width:1000px; position:relative; " >
 <div id="leftcolumn" >
 	<!-- <table width="100%" cellspacing="20"><tr><td id="leftcolumn"  valign="top"> -->
 	<fieldset>
-	<legend id="leg-exp-prov-net" >Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a></legend>
-	<div id="leftinner">
+	<legend id="leg-exp-prov-net" >Explore Provider Network — <a href="javascript:hidenav();" >[hide]</a></legend>
+	<div id="leftinner" >
 		<div id="lft-div-provider-list" style="display:none; " >
 			<input id="pid_provider_list" placeholder="Enter Provider Id..." name="pid_provider_list" type="text" onchange="javascript:pid_provider_list_change();" onkeydown="javascript:pid_provider_list_smallchange();" />
 			<br><br>
@@ -689,7 +727,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 			<br><br>
 			<div style="vertical-align:bottom; " >
 			<button id="button" type="button" value="Filter Results" onclick="javascript:loadGridFromProviderId()" >Filter Results</button></div>
-			<br/>
+			<br>
 			<hr width="100%" style="float:left; " />
 			<br>
 			<strong>Select Investigator Speciality</strong>
@@ -728,7 +766,21 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 			<!--  <strong>Select Investigator Speciality</strong>
 			<ul id="investigator-specialty-network-graph-tv" class="filetree"></ul>
 			-->
-			<br><br><br><br>
+			<br><br>
+			<div id="rightcolumn" >
+				<b>PID:</b>
+				<br>
+				<b>Name:</b>
+				<br>
+				<b>General Area:</b>
+				<br>
+				<b>Specialty:</b>
+				<br>
+				<b>City:</b>
+				<br>
+				<b>State:</b>
+			</div>
+			<br><br>
 			<input type="button" value="Run Analysis" onclick="javascript:loadGraph($('#pid_network_graph').val())" />
 		</div>
 		
@@ -758,7 +810,8 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 			<!--  <strong>Select Investigator Speciality</strong>
 			<ul id="investigator-specialty-geo-graph-tv" class="filetree"></ul>
 			-->
-			<br><br><br><br>
+			<br><br>
+			<br><br>
 			<input type="button" value="Run Analysis" />
 		</div>
 		
@@ -786,7 +839,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 		</ul>
 		<div class="panel-container" >
 			<div id="provider-list-tab" >
-			<div style="padding:10px">
+			<div style="padding:10px; " >
 				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="display grid-list" id="provider-list" >
 					<thead>
 						<tr>
@@ -802,7 +855,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 					</tbody>
 				</table>
 			</div>
-			<br/><br/>
+			<br><br>
 			</div>
 			<div id="network-graph-tab" >
 				<div id="constellation" ></div>
@@ -841,20 +894,10 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 	</div>
 </div>
 <!-- </td><td valign="top"> -->
-<div id="rightcolumn" >
-	<b>PID:</b>
-	<br/>
-	<b>Name:</b>
-	<br/>
-	<b>General Area:</b>
-	<br/>
-	<b>Specialty:</b>
-	<br/>
-	<b>City:</b>
-	<br/>
-	<b>State:</b>
-</div>
+
 <!-- </td></tr></table> -->
 </div>
+
+<script>resizeit();</script>
 
 </body></html>
