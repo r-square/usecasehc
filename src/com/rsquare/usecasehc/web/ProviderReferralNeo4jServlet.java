@@ -54,7 +54,7 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		}
 		Neo4jClient client = new Neo4jClient();
 		try {
-			results = client.getReferralsByProvider(pid, option, limit);
+//			results = client.getReferralsByProvider(pid, option, limit);
 			
 //			Iterator<ProviderReferralResult> iterator = results.iterator();
 //			Map<String, Provider> providers = new HashMap<String, Provider>();
@@ -75,7 +75,9 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		   
 		    if("json".equalsIgnoreCase(format))
 		    {
-		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, pid));
+		    	String output = client.getGraphDataByProvider(pid, option, limit);
+		    	out.println(output);
+		    	logger.info(output);
 		    }
 		    else
 		    {
@@ -85,6 +87,7 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		catch(SQLException exception)
 		{
 			logger.error(exception);
+			out.println("couldn't fetch data...");
 //			Iterator<ProviderReferralResult> iterator = results.iterator();
 //			Map<String, Provider> providers = new HashMap<String, Provider>();
 //			Provider p = new Provider(pid, pid, null, null, null, null, null);
@@ -95,14 +98,14 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 //				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
 //				providers.put(pr.getReferredDoctor(), p);
 //			}
-			if("json".equalsIgnoreCase(format))
-		    {
-		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, pid));
-		    }
-		    else
-		    {
-		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, pid));
-		    }
+//			if("json".equalsIgnoreCase(format))
+//		    {
+//		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, pid));
+//		    }
+//		    else
+//		    {
+//		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, pid));
+//		    }
 		}
 		finally { 
 		}

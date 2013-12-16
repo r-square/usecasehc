@@ -11,11 +11,16 @@ public class ProviderGraphNodeData {
 	private String leftIconUrl;
 	private String graphicSize;
 	private String selectedgraphicsize;
+	private String name;
+	private String specialty;
+	private String generalArea;
+	private String city;
+	private String state;
 	
 	public ProviderGraphNodeData(String label, String depth_loaded, String tooltip,
 			String labelFontFamily, String selectedgraphicfillcolor,
 			String graphictype, String leftIconUrl, String graphicSize,
-			String selectedgraphicsize) {
+			String selectedgraphicsize, String name, String specialty, String generalArea, String city, String state) {
 		super();
 		this.label = label;
 		this.depth_loaded = depth_loaded;
@@ -26,6 +31,11 @@ public class ProviderGraphNodeData {
 		this.leftIconUrl = leftIconUrl;
 		this.graphicSize = graphicSize;
 		this.selectedgraphicsize = selectedgraphicsize;
+		this.name = name;
+		this.specialty = specialty;
+		this.generalArea = generalArea;
+		this.city = city;
+		this.state = state;
 	}
 	public String getLabel() {
 		return label;
@@ -81,6 +91,36 @@ public class ProviderGraphNodeData {
 	public void setSelectedgraphicsize(String selectedgraphicsize) {
 		this.selectedgraphicsize = selectedgraphicsize;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSpecialty() {
+		return specialty;
+	}
+	public void setSpecialty(String specialty) {
+		this.specialty = specialty;
+	}
+	public String getGeneralArea() {
+		return generalArea;
+	}
+	public void setGeneralArea(String generalArea) {
+		this.generalArea = generalArea;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -102,8 +142,17 @@ public class ProviderGraphNodeData {
 		builder.append(graphicSize);
 		builder.append(", selectedgraphicsize=");
 		builder.append(selectedgraphicsize);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", specialty=");
+		builder.append(specialty);
+		builder.append(", generalArea=");
+		builder.append(generalArea);
+		builder.append(", city=");
+		builder.append(city);
+		builder.append(", state=");
+		builder.append(state);
 		builder.append("]");
 		return builder.toString();
 	}
-	
 }

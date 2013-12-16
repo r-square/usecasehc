@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.rsquare.usecasehc.model.ProviderReferralResult;
+import com.rsquare.usecasehc.util.ProviderReferralHelper;
 import com.rsquare.usecasehc.util.Util;
 
 public class Neo4jClient {
@@ -32,6 +33,35 @@ public class Neo4jClient {
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(
 				"jdbc:neo4j://localhost:7474", "", "");
+	}
+	
+	public String getGraphDataByProvider(String npi, int option, String limit) throws SQLException
+	{
+		Connection c = null;
+		Statement s = null;
+		ResultSet rs = null;
+		String results = "";
+		try
+		{
+			c = getConnection();
+			s = c.createStatement();
+			String sql = makeCypherQuery(npi, option, limit);
+			logger.info(sql);
+			rs = s.executeQuery(sql);
+			results = ProviderReferralHelper.getUIGraphResultOutputJSON(rs, npi);
+		}
+        catch(SQLException sqe)
+        {
+            throw sqe;
+        }
+		finally
+		{
+			logger.debug(results);
+			if(rs!=null) rs.close();
+			if(s!=null) s.close();
+			if(c!=null) c.close();
+		}
+		return results;
 	}
 	
 	public List<ProviderReferralResult> getReferralsByProvider(String npi, int option, String limit) throws SQLException
