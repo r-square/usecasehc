@@ -3,7 +3,6 @@ package com.rsquare.usecasehc.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -13,22 +12,22 @@ import com.rsquare.usecasehc.dto.ProviderGraphEdge;
 import com.rsquare.usecasehc.dto.ProviderGraphEdgeData;
 import com.rsquare.usecasehc.dto.ProviderGraphNode;
 import com.rsquare.usecasehc.dto.ProviderGraphNodeData;
-import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 
 public class ProviderReferralHelper {
 	
 	private static Logger logger = Logger.getLogger(ProviderReferralHelper.class);
 	
-	public static String getUIGraphResultOutputJSON(List<ProviderReferralResult> results, Map<String, Provider> providers, String pid)
+	public static String getUIGraphResultOutputJSON(List<ProviderReferralResult> results, String pid)
 	{
 		List<ProviderGraphNode> nodes = new ArrayList<ProviderGraphNode>();
 		List<ProviderGraphEdge> edges = new ArrayList<ProviderGraphEdge>();
 		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
 		Iterator<ProviderReferralResult> iterator = results.iterator();
-		Provider p = providers.get(pid);
-		ProviderGraphNodeData nData = new ProviderGraphNodeData(p.getName(), 
-				"2", p.getName(), "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "");
+		int maxCount = 0;
+//		Provider p = providers.get(pid);
+		ProviderGraphNodeData nData = new ProviderGraphNodeData(pid, 
+				"2", pid, "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "");
 		ProviderGraphNode node = new ProviderGraphNode(pid, nData);
 		nodes.add(node);
 		while ( iterator.hasNext() )
@@ -40,15 +39,20 @@ public class ProviderReferralHelper {
 	        	continue;
 	        }
 	        rNodes.add(result);
-	        p = providers.get(result.getReferredDoctor());
-	        nData = new ProviderGraphNodeData(p.getName(), 
-					"1", p.getName(), "", "", "image", "images/doctor_icon.png", "50", "50");
+	        
+	        int fCount = Util.isInteger(result.getReferralCount()) ? Integer.parseInt(result.getReferralCount()) : 0;
+	        int rCount = Util.isInteger(result.getReverseCount()) ? Integer.parseInt(result.getReverseCount()) : 0;
+	        int count = Math.max(fCount, rCount);
+//	        p = providers.get(result.getReferredDoctor());
+	        nData = new ProviderGraphNodeData(result.getReferredDoctor(), 
+					"1", result.getReferredDoctor(), "", "", "image", "images/doctor_icon.png", "50", "50");
 	        node = new ProviderGraphNode(result.getReferredDoctor(), nData);
+	        node.setRefCount(count);
 	        nodes.add(node);
 	        
 	        if("\"referred\"".equalsIgnoreCase(result.getDirection()) || "referred".equalsIgnoreCase(result.getDirection()))
 		    {
-	        	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("provided " + result.getReferralCount() + " referrals", 
+	        	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("provided " + count + " referrals", 
 	        			"#2262A0", null);
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode())), 
 	        			result.getReferredDoctor(), result.getDoctor(), eData);
@@ -64,20 +68,32 @@ public class ProviderReferralHelper {
 		    }
 		    else
 		    {
-		    	String tooltip = "provided " + result.getReferralCount() + " referrals\\n" + "received " + result.getReverseCount() + " referrals";
+		    	String tooltip = "provided " + count + " referrals\\n" + "received " + result.getReverseCount() + " referrals";
 		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#FF0000", "true");
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((result.getDoctor() + result.getReferredDoctor()).hashCode())), 
 	        			result.getReferredDoctor(), result.getDoctor(), eData);
 	        	edges.add(edge);
 		    }
+	        
+	        if(maxCount < count) maxCount = count;
+	        			
 	    }
+		
+		Iterator<ProviderGraphNode> iterator2 = nodes.iterator();
+		while(iterator2.hasNext())
+		{
+			ProviderGraphNode n = iterator2.next();
+			int graphicSize = 20 + (int) (n.getRefCount() * 1d / maxCount * 50);
+			n.getData().setGraphicSize(String.valueOf(graphicSize));
+			n.getData().setSelectedgraphicsize(String.valueOf(graphicSize));
+		}
 		
 		ProviderGraph graph = new ProviderGraph(nodes, edges);
 		Gson gson = new Gson();
 		return gson.toJson(graph);
 	}
 	
-	public static String getUIGraphResultOutputXML(List<ProviderReferralResult> results, Map<String, Provider> providers, String pid)
+	public static String getUIGraphResultOutputXML(List<ProviderReferralResult> results, String pid)
 	{
 		final String begin = "<graph_data>";
 		StringBuilder nodes = new StringBuilder();
@@ -85,10 +101,10 @@ public class ProviderReferralHelper {
 		final String end = "</graph_data>";
 		List<ProviderReferralResult> rNodes = new ArrayList<ProviderReferralResult>();
 		Iterator<ProviderReferralResult> iterator = results.iterator();
-		Provider p = providers.get(pid);
-		String name = p.getName();
-		nodes.append("<nodes>\n<node id=\"" + pid + "\" label=\"" + name + "\\n" + p.getGeneral_area() + " - " + p.getSpecialty() + "\" depth_loaded=\"2\" tooltip=\"" + 
-				name + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
+//		Provider p = providers.get(pid);
+//		String name = p.getName();
+		nodes.append("<nodes>\n<node id=\"" + pid + "\" label=\"" + pid + "\" depth_loaded=\"2\" tooltip=\"" + 
+				pid + "\" label_font_family=\"Impact, Charcoal, sans-serif\" selected_graphic_fill_color=\"#CC0000\" />\n");
 		edges.append("<edges>\n");
 		while ( iterator.hasNext() )
 	    {
@@ -100,13 +116,13 @@ public class ProviderReferralHelper {
 	      }
 	      rNodes.add(result);
 	      
-	      p = providers.get(result.getReferredDoctor());
-	      name = p.getName();
+//	      p = providers.get(result.getReferredDoctor());
+	      String name = result.getReferredDoctor(); //p.getName();
 	      nodes.append("<node id=\"");
 	      nodes.append(result.getReferredDoctor());
 	      nodes.append("\" label=\"");
 	      nodes.append(name);
-	      nodes.append("\\n" + p.getGeneral_area() + " - " + p.getSpecialty());
+//	      nodes.append("\\n" + p.getGeneral_area() + " - " + p.getSpecialty());
 	      nodes.append("\" depth_loaded=\"1\" tooltip=\"");
 	      nodes.append(name);
 	      nodes.append("\" graphic_type=\"image\" graphic_image_url=\"images/doctor_icon.png\" graphic_size=\"50\" selected_graphic_size=\"50\" />\n");

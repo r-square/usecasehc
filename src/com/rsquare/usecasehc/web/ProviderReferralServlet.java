@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -38,7 +37,6 @@ import com.hp.hpl.jena.sparql.util.FmtUtils;
 import com.hp.hpl.jena.sparql.util.NodeFactoryExtra;
 import com.hp.hpl.jena.tdb.TDBFactory;
 import com.hp.hpl.jena.util.FileManager;
-import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 import com.rsquare.usecasehc.util.ProviderReferralHelper;
 
@@ -153,16 +151,16 @@ public class ProviderReferralServlet extends HttpServlet {
 		   t2 = System.currentTimeMillis();
 		   logger.info("getResultCollection() took time(mSec): " + (t2-t1));
 		   
-		   Iterator<ProviderReferralResult> iterator = results.iterator();
-		   Map<String, Provider> providers = new HashMap<String, Provider>();
-		   Provider p = new Provider(tempId, tempId, null, null, null, null, null);
-		   providers.put(tempId, p);
-		   while(iterator.hasNext())
-		   {
-			   ProviderReferralResult pr = iterator.next();
-			   p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
-			   providers.put(pr.getReferredDoctor(), p);
-			}
+//		   Iterator<ProviderReferralResult> iterator = results.iterator();
+//		   Map<String, Provider> providers = new HashMap<String, Provider>();
+//		   Provider p = new Provider(tempId, tempId, null, null, null, null, null);
+//		   providers.put(tempId, p);
+//		   while(iterator.hasNext())
+//		   {
+//			   ProviderReferralResult pr = iterator.next();
+//			   p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
+//			   providers.put(pr.getReferredDoctor(), p);
+//			}
 		   
 //		   HiveClient hc = new HiveClient();
 //		   t1 = System.currentTimeMillis();
@@ -172,11 +170,11 @@ public class ProviderReferralServlet extends HttpServlet {
 		   
 		   if("json".equalsIgnoreCase(format))
 		   {
-		   	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, providers, tempId));
+		   	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, tempId));
 		   }
 		   else
 		   {
-		   	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, providers, tempId));
+		   	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, tempId));
 		   }
 		   
 		}

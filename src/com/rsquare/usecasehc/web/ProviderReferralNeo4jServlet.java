@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.rsquare.usecasehc.hive.HiveClient;
-import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 import com.rsquare.usecasehc.neo4j.Neo4jClient;
 import com.rsquare.usecasehc.util.ProviderReferralHelper;
@@ -61,16 +56,16 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		try {
 			results = client.getReferralsByProvider(pid, option, limit);
 			
-			Iterator<ProviderReferralResult> iterator = results.iterator();
-			Map<String, Provider> providers = new HashMap<String, Provider>();
-			Provider p = new Provider(pid, pid, null, null, null, null, null);
-			providers.put(pid, p);
-			while(iterator.hasNext())
-			{
-				ProviderReferralResult pr = iterator.next();
-				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
-				providers.put(pr.getReferredDoctor(), p);
-			}
+//			Iterator<ProviderReferralResult> iterator = results.iterator();
+//			Map<String, Provider> providers = new HashMap<String, Provider>();
+//			Provider p = new Provider(pid, pid, null, null, null, null, null);
+//			providers.put(pid, p);
+//			while(iterator.hasNext())
+//			{
+//				ProviderReferralResult pr = iterator.next();
+//				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
+//				providers.put(pr.getReferredDoctor(), p);
+//			}
 			
 //			HiveClient hc = new HiveClient();
 //			long t1 = System.currentTimeMillis();
@@ -80,33 +75,33 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		   
 		    if("json".equalsIgnoreCase(format))
 		    {
-		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, providers, pid));
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, pid));
 		    }
 		    else
 		    {
-		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, providers, pid));
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, pid));
 		    }
 		} 
 		catch(SQLException exception)
 		{
 			logger.error(exception);
-			Iterator<ProviderReferralResult> iterator = results.iterator();
-			Map<String, Provider> providers = new HashMap<String, Provider>();
-			Provider p = new Provider(pid, pid, null, null, null, null, null);
-			providers.put(pid, p);
-			while(iterator.hasNext())
-			{
-				ProviderReferralResult pr = iterator.next();
-				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
-				providers.put(pr.getReferredDoctor(), p);
-			}
+//			Iterator<ProviderReferralResult> iterator = results.iterator();
+//			Map<String, Provider> providers = new HashMap<String, Provider>();
+//			Provider p = new Provider(pid, pid, null, null, null, null, null);
+//			providers.put(pid, p);
+//			while(iterator.hasNext())
+//			{
+//				ProviderReferralResult pr = iterator.next();
+//				p = new Provider(pr.getReferredDoctor(), pr.getReferredDoctor(), null, null, null, null, null);
+//				providers.put(pr.getReferredDoctor(), p);
+//			}
 			if("json".equalsIgnoreCase(format))
 		    {
-		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, providers, pid));
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputJSON(results, pid));
 		    }
 		    else
 		    {
-		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, providers, pid));
+		    	out.println(ProviderReferralHelper.getUIGraphResultOutputXML(results, pid));
 		    }
 		}
 		finally { 

@@ -4,6 +4,7 @@ public class ProviderGraphNode {
 	
 	private String id;
 	private ProviderGraphNodeData data;
+	private int refCount;
 	public ProviderGraphNode(String id, ProviderGraphNodeData data) {
 		super();
 		this.id = id;
@@ -21,6 +22,12 @@ public class ProviderGraphNode {
 	public void setData(ProviderGraphNodeData data) {
 		this.data = data;
 	}
+	public int getRefCount() {
+		return refCount;
+	}
+	public void setRefCount(int refCount) {
+		this.refCount = refCount;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -28,6 +35,8 @@ public class ProviderGraphNode {
 		builder.append(id);
 		builder.append(", data=");
 		builder.append(data);
+		builder.append(", refCount=");
+		builder.append(refCount);
 		builder.append("]");
 		return builder.toString();
 	}
