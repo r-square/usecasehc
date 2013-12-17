@@ -149,6 +149,7 @@ html, body {
 
 
 var providerNodeName = 'undefined';
+var graphicSpecialtyName = 'undefined';
 var states = new Array;
 var styles = [
 	['node', {
@@ -305,6 +306,10 @@ for(var index = 0; index < states.length; index++){
 	   dataUrl: "provider_nodes",
 	   autoOpen: false
   });
+  $('#providerTree1').tree({
+	   dataUrl: "provider_nodes",
+	   autoOpen: false
+ });
   if(!window.location.hash || window.location.hash == "#sources-list-tab") {
   	showSourcesListLeftPanel();
   }
@@ -359,7 +364,7 @@ for(var index = 0; index < states.length; index++){
 		        if (event.node) {
 		            // node was selected
 		            providerNodeName = event.node.id;
-		            //alert(event.node.taxonomy_id);
+		            //alert(event.node.id);
 		        }
 		        else {
 		        	providerNodeName = 'undefined';
@@ -374,6 +379,21 @@ for(var index = 0; index < states.length; index++){
 		    		"bDestroy": true,
 		    		"aaData": []		
 		    	});
+		    }
+		);
+  
+  $('#providerTree1').bind(
+		    'tree.select',
+		    function(event) {
+		        if (event.node) {
+		            // node was selected
+		            graphicSpecialtyName = event.node.id;
+		            //alert(graphicSpecialtyName);
+		        }
+		        else {
+		        	graphicSpecialtyName = 'undefined';
+		        	//alert('node in the event is null');
+		        }
 		    }
 		);
   
@@ -438,7 +458,6 @@ function showSourcesListLeftPanel() {
 	$("#lft-div-geo-graph").hide();
 	$("#lft-div-questions").hide();
 	$("#divFindProvider").show();
-	$('#rightcolumn').hide();
 	$("#lft-div-hidden").hide();
 }
 
@@ -450,7 +469,6 @@ function showProviderListLeftPanel() {
 	$("#lft-div-geo-graph").hide();
 	$("#lft-div-questions").hide();
 	$("#divFindProvider").show();
-	$('#rightcolumn').hide();
 	$("#lft-div-hidden").hide();
 }
 
@@ -461,7 +479,6 @@ function showNetworkGraphLeftPanel() {
 	$("#lft-div-map-view").hide();
 	$("#lft-div-questions").hide();
 	$("#divFindProvider").show();
-	$('#rightcolumn').show();
 	$("#lft-div-hidden").hide();
 }
 function showGeoGraphLeftPanel() {
@@ -471,7 +488,6 @@ function showGeoGraphLeftPanel() {
 	$("#lft-div-geo-graph").show();
 	$("#lft-div-investigator-list").hide();
 	$("#divFindProvider").show();
-	$('#rightcolumn').hide();
 	$("#lft-div-hidden").hide();
 
 	//initializeMap();
@@ -490,7 +506,6 @@ function showQuestionsLeftPanel() {
 	$("#lft-div-geo-graph").hide();
 	$("#lft-div-questions").show();
 	$("#divFindProvider").show();
-	$('#rightcolumn').hide();
 	$("#lft-div-hidden").hide();
 }
 
@@ -550,7 +565,7 @@ function loadGraph(pid) {
     if(!constellation || pid!=constellation.getSelectedNodeId())
     {
     	$('#pid_network_graph').val(pid);
-    	var newURL = 'referral?pid=' + pid + '&params=' + params + '&format=json&limit=' + $('#top_referrals_network_graph').val();
+    	var newURL = 'referral?pid=' + pid + '&params=' + params + '&format=json&limit=' + $('#top_referrals_network_graph').val() + '&specialty=' + graphicSpecialtyName;
     	if(constellation)
     	{
     		constellation.getModel().clear();
@@ -592,22 +607,6 @@ function loadGraph(pid) {
         });
     	constellation.setSelectedNodeId(pid);
     	
-    	$(constellation).bind('nodeselect', function(evt, nodeId) {
-			var node = constellation.getModel().getNode(nodeId);
-			if (node) {
-				var htmlString = "<b>PID:</b> " + nodeId + "<br/><b>Name:</b> " + node.data.name + "<br/><b>General Area:</b> " + node.data.generalArea + 
-				"<br/><b>Specialty:</b> " + node.data.specialty + "<br/><b>City:</b> " + node.data.city + "<br/><b>State:</b> " + node.data.state;
-				$('#rightcolumn').html(htmlString);
-			}
-		});
-    	
-    	/* $(constellation).bind('nodeselect', function(evt, nodeId) {
-    		var node = constellation.getModel().getNode(nodeId);
-    		if (node) {
-    			$('#rightcolumn').load('provider_details?pid=' + nodeId);
-    			}
-    		});
-    	*/
     }
 }
 
@@ -761,12 +760,6 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 			 <strong>View only top k referrals</strong><br />
 			<input id="top_referrals_network_graph" value="100" name="top_referrals_network_graph" type="text" />
 			<br />
-			<!-- <select>
-				<option>10</option>
-				<option>50</option>
-				<option>100</option>
-			</select>
-			<br /><br />-->
 			<hr width="200" style="float:left; " />
 			<br>
 			<strong>Select Direction of Referral</strong>
@@ -782,23 +775,11 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 			<!--  <strong>Select Investigator Speciality</strong>
 			<ul id="investigator-specialty-network-graph-tv" class="filetree"></ul>
 			-->
-			<br><br>
-			<br><br>
+			<br>
 			<input type="button" value="Run Analysis" onclick="javascript:loadGraph($('#pid_network_graph').val())" />
 			<br><br>
-			<div id="rightcolumn" >
-				<b>PID:</b>
-				<br>
-				<b>Name:</b>
-				<br>
-				<b>General Area:</b>
-				<br>
-				<b>Specialty:</b>
-				<br>
-				<b>City:</b>
-				<br>
-				<b>State:</b>
-			</div>
+			<strong>Select Investigator Speciality</strong>
+			<div id="providerTree1" ></div>
 		</div>
 		
 		<div id="lft-div-geo-graph" style="display:none; " >
