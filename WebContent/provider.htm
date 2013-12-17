@@ -305,8 +305,10 @@ for(var index = 0; index < states.length; index++){
 	   dataUrl: "provider_nodes",
 	   autoOpen: false
   });
-  
-  if(!window.location.hash || window.location.hash == "#provider-list-tab") {
+  if(!window.location.hash || window.location.hash == "#sources-list-tab") {
+  	showSourcesListLeftPanel();
+  }
+  else if(window.location.hash || window.location.hash == "#provider-list-tab") {
   	showProviderListLeftPanel();
   }
   else if(window.location.hash == "#network-graph-tab") {
@@ -321,9 +323,14 @@ for(var index = 0; index < states.length; index++){
   }
   
   $(".tab > a").click(function(event) {
-       if($(this).attr("href") == "#provider-list-tab") {
+  
+       if($(this).attr("href") == "#sources-list-tab") {
+	   		showSourcesListLeftPanel()
+			$("#leg-exp-prov-net").html('Choose Sources &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   }
+       else if($(this).attr("href") == "#provider-list-tab") {
 	   		showProviderListLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+			$("#leg-exp-prov-net").html('Explore Investigator Database &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
 	   else if($(this).attr("href") == "#network-graph-tab") {
 	   		showNetworkGraphLeftPanel();
@@ -332,11 +339,11 @@ for(var index = 0; index < states.length; index++){
     //  modal: true
     //});
 	
-			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+			$("#leg-exp-prov-net").html('Explore Investigator Database &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
 	   else if($(this).attr("href") == "#geo-graph-tab") {
 	   		showGeoGraphLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+			$("#leg-exp-prov-net").html('Explore Investigator Database &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
 	   else if($(this).attr("href") == "#questions-tab") {
 	   		$("#leg-exp-prov-net").html('Question Builder &#151; <a href="javascript:hidenav();">[hide]</a>');
@@ -424,7 +431,20 @@ if (window.innerWidth && window.innerHeight) {
 
 }
 
+function showSourcesListLeftPanel() {
+	$("#lft-div-sources-list").show();
+	$("#lft-div-provider-list").hide();
+	$("#lft-div-network-graph").hide();
+	$("#lft-div-geo-graph").hide();
+	$("#lft-div-questions").hide();
+	$("#divFindProvider").show();
+	$('#rightcolumn').hide();
+	$("#lft-div-hidden").hide();
+}
+
+
 function showProviderListLeftPanel() {
+	$("#lft-div-sources-list").hide();
 	$("#lft-div-provider-list").show();
 	$("#lft-div-network-graph").hide();
 	$("#lft-div-geo-graph").hide();
@@ -435,6 +455,7 @@ function showProviderListLeftPanel() {
 }
 
 function showNetworkGraphLeftPanel() {
+	$("#lft-div-sources-list").hide();
 	$("#lft-div-provider-list").hide();
 	$("#lft-div-network-graph").show();
 	$("#lft-div-map-view").hide();
@@ -444,6 +465,7 @@ function showNetworkGraphLeftPanel() {
 	$("#lft-div-hidden").hide();
 }
 function showGeoGraphLeftPanel() {
+	$("#lft-div-sources-list").hide();
 	$("#lft-div-provider-list").hide();
 	$("#lft-div-network-graph").hide();
 	$("#lft-div-geo-graph").show();
@@ -462,6 +484,7 @@ function showGeoGraphLeftPanel() {
 }
 
 function showQuestionsLeftPanel() {
+	$("#lft-div-sources-list").hide();
 	$("#lft-div-provider-list").hide();
 	$("#lft-div-network-graph").hide();
 	$("#lft-div-geo-graph").hide();
@@ -472,6 +495,7 @@ function showQuestionsLeftPanel() {
 }
 
 function hidenav() {
+	$("#lft-div-sources-list").hide();
 	$("#lft-div-provider-list").hide();
 	$("#lft-div-network-graph").hide();
 	$("#lft-div-geo-graph").hide();
@@ -484,18 +508,22 @@ function hidenav() {
 function shownav() {
 		var selected = $("#tabs").tabs('option', 'active');
        if(selected===0) {
-	   		showProviderListLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
-	   }
+	   		showSourcesListLeftPanel();
+			$("#leg-exp-prov-net").html('Choose Sources &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   }		
        if(selected===1) {
-	   		showNetworkGraphLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   		showProviderListLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Investigator Database &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
        if(selected===2) {
-	   		showGeoGraphLeftPanel();
-			$("#leg-exp-prov-net").html('Explore Provider Network &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   		showNetworkGraphLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Investigator Database &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   }
        if(selected===3) {
+	   		showGeoGraphLeftPanel();
+			$("#leg-exp-prov-net").html('Explore Investigator Database &#151; <a href="javascript:hidenav();">[hide]</a>');
+	   }
+       if(selected===4) {
 	   		$("#leg-exp-prov-net").html('Question Builder &#151; <a href="javascript:hidenav();">[hide]</a>');
 	   		showQuestionsLeftPanel();
 	   }
@@ -678,14 +706,25 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 
 <body>
 <div id="header" >
-	<h1><nobr>Provider Network Analysis</nobr></h1>
+	<h1><nobr>Investigator Database System</nobr></h1>
 </div>
 <div style="width:100%; min-width:1200px; position:relative; " >
 <div id="leftcolumn" >
 	<!-- <table width="100%" cellspacing="20"><tr><td id="leftcolumn"  valign="top"> -->
 	<fieldset>
-	<legend id="leg-exp-prov-net" >Explore Provider Network &#151; <a href="javascript:hidenav();" >[hide]</a></legend>
+	<legend id="leg-exp-prov-net" >Choose Sources &#151; <a href="javascript:hidenav();" >[hide]</a></legend>
 	<div id="leftinner" >
+	    <div id="lft-div-sources-list" style="display:none; " >
+			<strong>Select the data sources<br/>that will be applied to the<br/>searches of investigators.</strong>
+			<br><br>
+			<hr width="200" style="float:left; " />
+			<br>
+			<br><br>
+			<br><br>
+			<div style="vertical-align:bottom; " >
+			<button id="button" type="button" value="Apply Filtering">Apply Filtering</button></div>
+		</div>
+		
 		<div id="lft-div-provider-list" style="display:none; " >
 			<input id="pid_provider_list" placeholder="Enter Provider Id..." name="pid_provider_list" type="text" onchange="javascript:pid_provider_list_change();" onkeydown="javascript:pid_provider_list_smallchange();" />
 			<br><br>
@@ -810,12 +849,52 @@ google.maps.event.addDomListener(window, 'load', initializeMap);*/
 </div>-->
 	<div id="tabs" >
 		<ul>
-		   <li class="tab" ><a href="#provider-list-tab" >Provider List</a></li>
+		   <li class="tab" ><a href="#sources-list-tab" >Sources of Data</a></li>
+		   <li class="tab" ><a href="#provider-list-tab" >Investigator List</a></li>
 		   <li class="tab" ><a href="#network-graph-tab" >Network Graph</a></li>
 		   <!--<li class='tab'><a href="#geo-graph-tab">Geo Graph</a></li>
 		   <li class='tab'><a href="#questions-tab">Questions</a></li>-->
 		</ul>
 		<div class="panel-container" >
+			<div id="sources-list-tab" >
+			<div style="padding:10px; " >
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="display grid-list" id="sources-list" >
+					<thead>
+						<tr>
+							<th width="20%" >Source ID</th>
+							<th width="35%" >Data Source</th>
+							<th width="15%" >Last Update</th>
+							<th width="15%" >Internal/External</th>
+							<th width="15%" >Include</th>
+						</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td align="center">1</td>
+						<td align="center">BMIS</td>
+						<td align="center">09/30/2013</td>
+						<td align="center">external</td>
+						<td align="center"><input type="checkbox" checked></td>
+					</tr>
+					<tr>
+						<td align="center">2</td>
+						<td align="center">Excel File</td>
+						<td align="center">01/01/2013</td>
+						<td align="center">internal</td>
+						<td align="center"><input type="checkbox"></td>
+					</tr>
+					<tr>
+						<td align="center">3</td>
+						<td align="center">CMS PEDS</td>
+						<td align="center">10/01/2012</td>
+						<td align="center">external</td>
+						<td align="center"><input type="checkbox"></td>
+					</tr>					
+					</tbody>
+				</table>
+			</div>
+			<br><br>
+			</div>
 			<div id="provider-list-tab" >
 			<div style="padding:10px; " >
 				<table width="100%" cellpadding="0" cellspacing="0" border="0" class="display grid-list" id="provider-list" >
