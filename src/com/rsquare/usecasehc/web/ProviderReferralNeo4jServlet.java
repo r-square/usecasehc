@@ -45,6 +45,7 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		int option = Integer.parseInt(request.getParameter("params"), 2);
 		String format = request.getParameter("format");
 		String limit = request.getParameter("limit");
+		final String specialty = request.getParameter("specialty");
 		PrintWriter out = response.getWriter();
 		List<ProviderReferralResult> results = new ArrayList<ProviderReferralResult>();
 		if(pid==null)
@@ -75,7 +76,7 @@ public class ProviderReferralNeo4jServlet extends HttpServlet {
 		   
 		    if("json".equalsIgnoreCase(format))
 		    {
-		    	String output = client.getGraphDataByProvider(pid, option, limit);
+		    	String output = client.getGraphDataByProvider(pid, option, limit, specialty);
 		    	out.println(output);
 		    	logger.info(output);
 		    }

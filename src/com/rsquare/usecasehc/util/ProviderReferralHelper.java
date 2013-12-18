@@ -86,7 +86,7 @@ public class ProviderReferralHelper {
 		    }
 		    else
 		    {
-		    	String tooltip = "provided " + count + " referrals\\n" + "received " + reverse_count + " referrals";
+		    	String tooltip = "provided " + count + " referrals&#13;" + "received " + reverse_count + " referrals";
 		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#FF0000", "true");
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((doctor_pid + refdoctor_pid).hashCode())), 
 	        			doctor_pid, refdoctor_pid, eData);
@@ -101,7 +101,7 @@ public class ProviderReferralHelper {
 		while(iterator2.hasNext())
 		{
 			ProviderGraphNode n = iterator2.next();
-			int graphicSize = 20 + (int) (n.getRefCount() * 1d / maxCount * 50);
+			int graphicSize = 40 + (int) (n.getRefCount() * 1d / maxCount * 150);
 			n.getData().setGraphicSize(String.valueOf(graphicSize));
 			n.getData().setSelectedgraphicsize(String.valueOf(graphicSize));
 		}

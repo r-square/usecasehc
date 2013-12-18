@@ -24,7 +24,7 @@ public class ProviderGraphNodeData {
 		super();
 		this.label = label;
 		this.depth_loaded = depth_loaded;
-		this.tooltip = tooltip;
+//		this.tooltip = tooltip;
 		this.labelFontFamily = labelFontFamily;
 		this.selectedgraphicfillcolor = selectedgraphicfillcolor;
 		this.graphictype = graphictype;
@@ -36,6 +36,7 @@ public class ProviderGraphNodeData {
 		this.generalArea = generalArea;
 		this.city = city;
 		this.state = state;
+		this.tooltip = makeHTMLToolTip();
 	}
 	public String getLabel() {
 		return label;
@@ -120,6 +121,20 @@ public class ProviderGraphNodeData {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	
+	private String makeHTMLToolTip()
+	{
+		StringBuilder s = new StringBuilder("<b>Provider:</b> " + name);
+		s.append("&#13;");
+		s.append("<b>General Area:</b> " + generalArea);
+		s.append("&#13;");
+		s.append("<b>Specialty:</b> " + specialty);
+		s.append("&#13;");
+		s.append("<b>City:</b> " + city);
+		s.append("&#13;");
+		s.append("<b>State:</b> " + state);
+		return s.toString();
 	}
 	@Override
 	public String toString() {
