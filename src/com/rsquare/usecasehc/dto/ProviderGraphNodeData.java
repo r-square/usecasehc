@@ -16,11 +16,12 @@ public class ProviderGraphNodeData {
 	private String generalArea;
 	private String city;
 	private String state;
+	private String graphicFillColor;
 	
 	public ProviderGraphNodeData(String label, String depth_loaded, String tooltip,
 			String labelFontFamily, String selectedgraphicfillcolor,
 			String graphictype, String leftIconUrl, String graphicSize,
-			String selectedgraphicsize, String name, String specialty, String generalArea, String city, String state) {
+			String selectedgraphicsize, String name, String specialty, String generalArea, String city, String state, String graphicFillColor) {
 		super();
 		this.label = label;
 		this.depth_loaded = depth_loaded;
@@ -36,6 +37,7 @@ public class ProviderGraphNodeData {
 		this.generalArea = generalArea;
 		this.city = city;
 		this.state = state;
+		this.graphicFillColor = graphicFillColor;
 		this.tooltip = makeHTMLToolTip();
 	}
 	public String getLabel() {
@@ -136,6 +138,12 @@ public class ProviderGraphNodeData {
 		s.append("<b>State:</b> " + state);
 		return s.toString();
 	}
+	public String getGraphicFillColor() {
+		return graphicFillColor;
+	}
+	public void setGraphicFillColor(String graphicFillColor) {
+		this.graphicFillColor = graphicFillColor;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -167,7 +175,10 @@ public class ProviderGraphNodeData {
 		builder.append(city);
 		builder.append(", state=");
 		builder.append(state);
+		builder.append(", graphicFillColor=");
+		builder.append(graphicFillColor);
 		builder.append("]");
 		return builder.toString();
 	}
+	
 }
