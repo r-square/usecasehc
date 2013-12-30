@@ -4,12 +4,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 
 public class Neo4jClientTest {
@@ -97,6 +100,18 @@ public class Neo4jClientTest {
 		List<ProviderReferralResult> results = nc.getReferralsByProvider("1164464541", 4, "10");
 		assertNotNull(results);
 		assertTrue(results.size()==0);
+		System.out.println(results);
+	}
+	
+	@Test
+	public void testGetReferralCountByProvider() throws SQLException{
+		Neo4jClient nc = new Neo4jClient();
+		Provider p1 = new Provider("1043377500", "", "", "", "", "", "");
+		Provider p2 = new Provider("1851613178", "", "", "", "", "", "");
+		List<Provider> results = new ArrayList<Provider>(Arrays.asList(p1, p2));
+		nc.getReferralCountByProvider(results);
+		assertNotNull(results);
+//		assertTrue(results.size()==0);
 		System.out.println(results);
 	}
 

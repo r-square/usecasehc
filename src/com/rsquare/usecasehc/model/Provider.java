@@ -16,6 +16,7 @@ public class Provider implements Serializable {
 	private String graphViewButtonHTML;
 	private String city;
 	private String state;
+	private String count;
 	private static final long serialVersionUID = 100L;
 
 	public Provider(ResultSet rs) throws SQLException {
@@ -28,6 +29,7 @@ public class Provider implements Serializable {
 		makeSpecialtyHTML(rs.getString("specialty"));
 		state = rs.getString("provider_business_mailing_address_state_name");
 		city = rs.getString("provider_business_mailing_address_city_name");
+		this.count = "0";
 		this.graphViewButtonHTML = makeGraphViewButtonHTML();
 		this.name = makeNameString();
 	}
@@ -42,6 +44,7 @@ public class Provider implements Serializable {
 		this.taxonomy = taxonomy;
 		this.general_area = general_area;
 		this.specialty = specialty;
+		this.count = "0";
 		this.graphViewButtonHTML = makeGraphViewButtonHTML();
 		this.name = makeNameString();
 	}
@@ -98,6 +101,22 @@ public class Provider implements Serializable {
 		this.state = state;
 	}
 
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		if("null".equalsIgnoreCase(count) || count=="")
+		{
+			this.count = "0";
+		}
+		else
+		{
+			this.count = count;
+		}
+		this.graphViewButtonHTML = makeGraphViewButtonHTML();
+	}
+
 	public String getGraphViewButtonHTML() {
 		if(graphViewButtonHTML==null)
 		{
@@ -107,10 +126,17 @@ public class Provider implements Serializable {
 	}
 	
 	private String makeGraphViewButtonHTML() {
-		StringBuilder s = new StringBuilder("<input type='button' value='View' onclick=\"javascript:loadGraph('");
-		s.append(npi);
-		s.append("');\" />");
-		return s.toString();
+		
+		if(count!=null && !("0".equals(count)))
+		{
+			StringBuilder s = new StringBuilder("<input type='button' value='View " + count + " relationships' ");
+//			s.append("disabled=\"true\" ");
+			s.append("onclick=\"javascript:loadGraph('");
+			s.append(npi);
+			s.append("');\" />");
+			return s.toString();
+		}
+		return " ";
 	}
 	
 	private void makeSpecialtyHTML(String s) {

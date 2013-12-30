@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 import com.rsquare.usecasehc.model.ProviderSpecialtyNode;
 import com.rsquare.usecasehc.util.PredicateHelper;
@@ -66,6 +68,48 @@ public class Neo4jClient {
 			if(c!=null) c.close();
 		}
 		return results;
+	}
+	
+	public void getReferralCountByProvider(List<Provider> results) throws SQLException
+	{
+		Connection c = null;
+		Statement s = null;
+		ResultSet rs = null;
+		try
+		{
+			c = getConnection();
+			s = c.createStatement();
+			StringBuilder sql = new StringBuilder("START n=node:lucidxprov(\"npi:");
+			Iterator<Provider> iterator = results.iterator();
+			Map<String, Provider> providers = new HashMap<String, Provider>();
+			while(iterator.hasNext())
+			{
+				Provider p = iterator.next();
+				providers.put(p.getNpi(), p);
+				sql.append(p.getNpi());
+				sql.append(" npi:");
+			}
+			sql.delete(sql.length()-5, sql.length());
+			sql.append("\") MATCH n<-[r:REFERRAL]->m OPTIONAL MATCH n-[r2]->m OPTIONAL MATCH n<-[r3]-m return distinct n.npi, count(*), m.npi");
+			logger.info(sql);
+			rs = s.executeQuery(sql.toString());
+			while(rs.next())
+			{
+				Provider p = providers.get(rs.getString(1));
+				if(p!=null)	p.setCount(rs.getString(2));
+			}
+		}
+        catch(SQLException sqe)
+        {
+            throw sqe;
+        }
+		finally
+		{
+			logger.debug(results);
+			if(rs!=null) rs.close();
+			if(s!=null) s.close();
+			if(c!=null) c.close();
+		}
 	}
 	
 	public List<ProviderReferralResult> getReferralsByProvider(String npi, int option, String limit) throws SQLException

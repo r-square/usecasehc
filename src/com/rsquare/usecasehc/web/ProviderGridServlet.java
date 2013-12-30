@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.rsquare.usecasehc.hive.HiveClient;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderGridResult;
+import com.rsquare.usecasehc.neo4j.Neo4jClient;
 import com.rsquare.usecasehc.util.PredicateHelper;
 import com.rsquare.usecasehc.util.ProviderSortHelper;
 
@@ -204,12 +205,26 @@ public class ProviderGridServlet extends HttpServlet {
 			if(filterResults)
 			{
 				List<Provider> filteredList = Lists.newArrayList(Collections2.filter(list, PredicateHelper.getFilterPredicate(searchString)));
-				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(filteredList.size()), getProviders(startIndex, records, filteredList));
+				List<Provider> pagedList = getProviders(startIndex, records, filteredList);
+				Neo4jClient nc = new Neo4jClient();
+				try {
+					nc.getReferralCountByProvider(pagedList);
+				} catch (SQLException e) {
+					logger.error(e);
+				}
+				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(filteredList.size()), pagedList);
 				writeJSON(pgr1, out);
 			}
 			else
 			{
-				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), getProviders(startIndex, records, list));
+				List<Provider> pagedList = getProviders(startIndex, records, list);
+				Neo4jClient nc = new Neo4jClient();
+				try {
+					nc.getReferralCountByProvider(pagedList);
+				} catch (SQLException e) {
+					logger.error(e);
+				}
+				ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(list.size()), String.valueOf(list.size()), pagedList);
 				writeJSON(pgr1, out);
 			}
 		}
@@ -232,12 +247,26 @@ public class ProviderGridServlet extends HttpServlet {
 				if(filterResults)
 				{
 					List<Provider> filteredList = Lists.newArrayList(Collections2.filter(pgr.getAaData(), PredicateHelper.getFilterPredicate(searchString)));
-					ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(filteredList.size()), getProviders(startIndex, records, filteredList));
+					List<Provider> pagedList = getProviders(startIndex, records, filteredList);
+					Neo4jClient nc = new Neo4jClient();
+					try {
+						nc.getReferralCountByProvider(pagedList);
+					} catch (SQLException e) {
+						logger.error(e);
+					}
+					ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(filteredList.size()), pagedList);
 					writeJSON(pgr1, out);
 				}
 				else
 				{
-					ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(pgr.getAaData().size()), getProviders(startIndex, records, pgr.getAaData()));
+					List<Provider> pagedList = getProviders(startIndex, records, pgr.getAaData());
+					Neo4jClient nc = new Neo4jClient();
+					try {
+						nc.getReferralCountByProvider(pagedList);
+					} catch (SQLException e) {
+						logger.error(e);
+					}
+					ProviderGridResult pgr1 = new ProviderGridResult(String.valueOf(pgr.getAaData().size()), String.valueOf(pgr.getAaData().size()), pagedList);
 					writeJSON(pgr1, out);
 				}
 			} catch (ClassNotFoundException e) {
