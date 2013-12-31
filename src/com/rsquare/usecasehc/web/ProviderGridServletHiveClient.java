@@ -34,16 +34,16 @@ import com.rsquare.usecasehc.util.ProviderSortHelper;
 /**
  * Servlet implementation class ProviderGridServlet
  */
-@WebServlet("/providerdata")
-public class ProviderGridServlet extends HttpServlet {
+@WebServlet("/providerdatahive")
+public class ProviderGridServletHiveClient extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(ProviderGridServlet.class);
+	private static Logger logger = Logger.getLogger(ProviderGridServletHiveClient.class);
 	private static String tempFilePath = "./tmp";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProviderGridServlet() {
+    public ProviderGridServletHiveClient() {
         super();
         // TODO Auto-generated constructor stub
     }
