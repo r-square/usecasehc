@@ -43,7 +43,7 @@ public class ImpalaClient {
 	public Provider getProviderById(String npi) throws SQLException {
         Statement stmt = getConnection().createStatement();
         String sql = "" +
-        		"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM csv_providers p join csv_provider_specialty ps"
+        		"SELECT p.npi, p.provider_organization_name_legal_business_name,p.provider_first_name,p.provider_last_name_legal_name,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM parquet_providers_table p join parquet_providers_specialty_table ps"
         		 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and p.npi = '" + npi + "' limit 1";
         logger.info(sql);
         ResultSet res = stmt.executeQuery(sql);
@@ -77,7 +77,7 @@ public class ImpalaClient {
 		List<Provider> list = new ArrayList<Provider>();
         Statement stmt = getConnection().createStatement();
         String sql = "" +
-        		"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,ps.general_area,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name, ps.specialty FROM csv_providers p join csv_provider_specialty ps"
+        		"SELECT p.npi, p.provider_organization_name_legal_business_name,p.provider_first_name,p.provider_last_name_legal_name,p.healthcare_provider_taxonomy_code_1,ps.general_area,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name, ps.specialty FROM parquet_providers_table p join parquet_providers_specialty_table ps"
         		 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and UPPER(p.provider_business_mailing_address_state_name) = '" + state + "'";
         logger.info(sql);
         ResultSet res = stmt.executeQuery(sql);
@@ -92,7 +92,7 @@ public class ImpalaClient {
 		List<Provider> list = new ArrayList<Provider>();
         Statement stmt = getConnection().createStatement();
         String sql = "" +
-        		"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,ps.general_area,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name, ps.specialty FROM csv_providers p join csv_provider_specialty ps"
+        		"SELECT p.npi, p.provider_organization_name_legal_business_name,p.provider_first_name,p.provider_last_name_legal_name,p.healthcare_provider_taxonomy_code_1,ps.general_area,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name, ps.specialty FROM parquet_providers_table p join parquet_providers_specialty_table ps"
         		 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and UPPER(p.provider_business_mailing_address_state_name) = '" + state + "' and UPPER(p.provider_business_mailing_address_city_name) LIKE '%" + city.toUpperCase() + "%'";
         logger.info(sql);
         ResultSet res = stmt.executeQuery(sql);
@@ -145,7 +145,7 @@ public class ImpalaClient {
 	private StringBuilder makeQueryStringForProviderId(List<ProviderReferralResult> results, String pid)
 	{
 		StringBuilder sql = new StringBuilder(
-                "SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM csv_providers p join csv_provider_specialty ps"
+                "SELECT p.npi, p.provider_organization_name_legal_business_name,p.provider_first_name,p.provider_last_name_legal_name,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM parquet_providers_table p join parquet_providers_specialty_table ps"
                 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and p.npi in ('" + pid + "','" );
         Iterator<ProviderReferralResult> iterator = results.iterator();
         
@@ -164,7 +164,7 @@ public class ImpalaClient {
 	private StringBuilder makeQueryStringForTaxonomy(Map<String, ProviderSpecialtyNode> nodes)
 	{
 		StringBuilder sql = new StringBuilder(
-				 "SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM csv_providers p join csv_provider_specialty ps"
+				 "SELECT p.npi, p.provider_organization_name_legal_business_name,p.provider_first_name,p.provider_last_name_legal_name,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM parquet_providers_table p join parquet_providers_specialty_table ps"
                 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and p.healthcare_provider_taxonomy_code_1 in ('");
         Iterator<String> iterator = nodes.keySet().iterator();
         
@@ -182,7 +182,7 @@ public class ImpalaClient {
 	private StringBuilder makeQueryStringForTaxonomyAndState(Map<String, ProviderSpecialtyNode> nodes, String state)
 	{
 		StringBuilder sql = new StringBuilder(
-				"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM csv_providers p join csv_provider_specialty ps"
+				"SELECT p.npi, p.provider_organization_name_legal_business_name,p.provider_first_name,p.provider_last_name_legal_name,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM parquet_providers_table p join parquet_providers_specialty_table ps"
                 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and UPPER(p.provider_business_mailing_address_state_name) = '" + state + "' and p.healthcare_provider_taxonomy_code_1 in ('");
 		Iterator<String> iterator = nodes.keySet().iterator();
         
@@ -200,7 +200,7 @@ public class ImpalaClient {
 	private StringBuilder makeQueryStringForTaxonomyAndStateAndCity(Map<String, ProviderSpecialtyNode> nodes, String state, String city)
 	{
 		StringBuilder sql = new StringBuilder(
-				"SELECT p.npi, p.provider_organization_name_legal_business_name_,p.provider_first_name,p.provider_last_name_legal_name_,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM csv_providers p join csv_provider_specialty ps"
+				"SELECT p.npi, p.provider_organization_name_legal_business_name,p.provider_first_name,p.provider_last_name_legal_name,p.healthcare_provider_taxonomy_code_1,p.provider_business_mailing_address_city_name,p.provider_business_mailing_address_state_name,ps.general_area, ps.specialty FROM parquet_providers_table p join parquet_providers_specialty_table ps"
                 + " WHERE p.healthcare_provider_taxonomy_code_1 = ps.taxonomy and UPPER(p.provider_business_mailing_address_state_name) = '" + state 
                 + "' and UPPER(p.provider_business_mailing_address_city_name) LIKE '%" + city.toUpperCase() + "%'and p.healthcare_provider_taxonomy_code_1 in ('");
 		Iterator<String> iterator = nodes.keySet().iterator();

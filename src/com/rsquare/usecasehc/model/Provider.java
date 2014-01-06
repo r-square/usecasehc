@@ -21,9 +21,9 @@ public class Provider implements Serializable {
 
 	public Provider(ResultSet rs) throws SQLException {
 		npi = rs.getString("npi");
-		organization = rs.getString("provider_organization_name_legal_business_name_");
+		organization = rs.getString("provider_organization_name_legal_business_name");
 		first = rs.getString("provider_first_name");
-		last = rs.getString("provider_last_name_legal_name_");
+		last = rs.getString("provider_last_name_legal_name");
 		taxonomy = rs.getString("healthcare_provider_taxonomy_code_1");
 		general_area = rs.getString("general_area");
 		makeSpecialtyHTML(rs.getString("specialty"));

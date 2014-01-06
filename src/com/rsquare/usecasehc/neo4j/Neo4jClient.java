@@ -90,7 +90,8 @@ public class Neo4jClient {
 				sql.append(" npi:");
 			}
 			sql.delete(sql.length()-5, sql.length());
-			sql.append("\") MATCH n<-[r:REFERRAL]->m OPTIONAL MATCH n-[r2]->m OPTIONAL MATCH n<-[r3]-m return distinct n.npi, count(*), m.npi");
+			sql.append("\") MATCH n-[r]-m return distinct n.npi, count(n)");
+//					+ "OPTIONAL MATCH n-[r2:REFERRAL]->m OPTIONAL MATCH n<-[r3:REFERRAL]-m return distinct n.npi, count(n)");
 			logger.info(sql);
 			rs = s.executeQuery(sql.toString());
 			while(rs.next())
