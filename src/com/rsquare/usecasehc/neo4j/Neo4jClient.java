@@ -90,8 +90,7 @@ public class Neo4jClient {
 				sql.append(" npi:");
 			}
 			sql.delete(sql.length()-5, sql.length());
-			sql.append("\") MATCH n-[r]-m return distinct n.npi, count(n)");
-//					+ "OPTIONAL MATCH n-[r2:REFERRAL]->m OPTIONAL MATCH n<-[r3:REFERRAL]-m return distinct n.npi, count(n)");
+			sql.append("\") MATCH n<-[r:REFERRAL]->m RETURN n.npi, count(DISTINCT m.npi)");
 			logger.info(sql);
 			rs = s.executeQuery(sql.toString());
 			while(rs.next())
@@ -160,7 +159,7 @@ public class Neo4jClient {
 		builder.append(npi);
 		if(specialtyPresent(specialty))
 		{
-			appendSpecialtyCypher(specialty, builder);
+			appendSpecialtyCypher(specialty, builder, true);
 		}
 		builder.append(" RETURN a as provider,b as referral,r.count as count,\"0\" as reverse_count,\"referred\" as direction order by r.count desc");
 		if(Util.isInteger(limit))
@@ -176,7 +175,7 @@ public class Neo4jClient {
 		builder.append(npi);
 		if(specialtyPresent(specialty))
 		{
-			appendSpecialtyCypher(specialty, builder);
+			appendSpecialtyCypher(specialty, builder, true);
 		}
 		builder.append(" RETURN a as provider,b as referral,\"0\" as count,r.count as reverse_count,\"was referred by\" as direction order by r.count desc");
 		if(Util.isInteger(limit))
@@ -186,13 +185,36 @@ public class Neo4jClient {
 		return builder.toString();
 	}
 	
+	private String makeAllRelationsCypherQueryOptimized(String npi, String limit, String specialty)
+	{
+		StringBuilder builder = new StringBuilder("MATCH (a:provider {npi:");
+		builder.append(npi);
+		builder.append("})<-[r1:REFERRAL]->(b:provider)");
+		if(specialtyPresent(specialty))
+		{
+			builder.append(" WHERE ");
+			appendSpecialtyCypher(specialty, builder, false);
+		}
+		builder.append(" WITH a, b ORDER BY r1.count DESC");
+		if(Util.isInteger(limit))
+		{
+			builder.append(addLimitCypher(limit));
+		}
+		builder.append(" OPTIONAL MATCH (a:provider {npi:");
+		builder.append(npi);
+		builder.append("})-[r2:REFERRAL]->(b:provider) OPTIONAL MATCH (a:provider {npi:");
+		builder.append(npi);
+		builder.append("})<-[r3:REFERRAL]-(b:provider) RETURN DISTINCT a as provider,b as referral,r2.count as count,r3.count as reverse_count,CASE WHEN TYPE(r3) = 'REFERRAL' AND TYPE(r2) IS NULL THEN \"was referred by\" WHEN TYPE(r2) = 'REFERRAL' AND TYPE(r3) IS NULL THEN \"referred\" ELSE \"bidirectional\" END as direction");
+		return builder.toString();
+	}
+	
 	private String makeAllRelationsCypherQuery(String npi, String limit, String specialty)
 	{
 		StringBuilder builder = new StringBuilder("MATCH (a:provider)<-[r1:REFERRAL]->(b:provider) WHERE a.npi = ");
 		builder.append(npi);
 		if(specialtyPresent(specialty))
 		{
-			appendSpecialtyCypher(specialty, builder);
+			appendSpecialtyCypher(specialty, builder, true);
 		}
 		builder.append(" OPTIONAL MATCH (a:provider)-[r2:REFERRAL]->(b:provider) OPTIONAL MATCH (a:provider)<-[r3:REFERRAL]-(b:provider) WITH r2, r2.count IS NULL AS count_is_null, r3, r3.count IS NULL AS count_is_null_3, a, b WITH r2, STR(count_is_null) as null_count, r3, STR(count_is_null_3) as null_count_3, a, b ORDER BY null_count, null_count_3, CASE WHEN r2.count > r3.count THEN r2.count ELSE r3.count END DESC");
 		if(Util.isInteger(limit))
@@ -209,7 +231,7 @@ public class Neo4jClient {
 		builder.append(npi);
 		if(specialtyPresent(specialty))
 		{
-			appendSpecialtyCypher(specialty, builder);
+			appendSpecialtyCypher(specialty, builder, true);
 		}
 		builder.append(" RETURN a as provider,b as referral,r1.count as count,r2.count as reverse_count,\"bidirectional\" as direction order by r1.count,r2.count desc");
 		if(Util.isInteger(limit))
@@ -234,7 +256,7 @@ public class Neo4jClient {
 			break;
 		case 3:
 		case 7:
-			retString = makeAllRelationsCypherQuery(npi, limit, specialty);
+			retString = makeAllRelationsCypherQueryOptimized(npi, limit, specialty); //makeAllRelationsCypherQuery(npi, limit, specialty);
 			break;
 		case 4:
 		case 5:
@@ -259,10 +281,14 @@ public class Neo4jClient {
 		return false;
 	}
 	
-	private void appendSpecialtyCypher(String specialty, StringBuilder builder)
+	private void appendSpecialtyCypher(String specialty, StringBuilder builder, boolean appendAnd)
 	{
 		Map<String, ProviderSpecialtyNode> nodes = PredicateHelper.getFlatFilteredProviderSpecialtyNodes(ProviderSpecialtyTreeServlet.nodes.getNodes(), specialty);
-		builder.append(" AND a.healthcare_provider_taxonomy_code_1 IN [\"");
+		if(appendAnd)
+		{
+			builder.append(" AND ");
+		}
+		builder.append("a.healthcare_provider_taxonomy_code_1 IN [\"");
 		Iterator<String> iterator = nodes.keySet().iterator();
         
         while(iterator.hasNext())
