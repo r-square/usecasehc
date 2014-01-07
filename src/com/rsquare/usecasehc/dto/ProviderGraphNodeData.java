@@ -17,15 +17,18 @@ public class ProviderGraphNodeData {
 	private String city;
 	private String state;
 	private String graphicFillColor;
+	private String referralCountToolTip;
+	private String pid;
 	
-	public ProviderGraphNodeData(String label, String depth_loaded, String tooltip,
+	public ProviderGraphNodeData(String label, String depth_loaded, String pid,
 			String labelFontFamily, String selectedgraphicfillcolor,
 			String graphictype, String leftIconUrl, String graphicSize,
-			String selectedgraphicsize, String name, String specialty, String generalArea, String city, String state, String graphicFillColor) {
+			String selectedgraphicsize, String name, String specialty, String generalArea, 
+			String city, String state, String graphicFillColor, String referralCountToolTip) {
 		super();
 		this.label = label;
 		this.depth_loaded = depth_loaded;
-//		this.tooltip = tooltip;
+		this.pid = pid;
 		this.labelFontFamily = labelFontFamily;
 		this.selectedgraphicfillcolor = selectedgraphicfillcolor;
 		this.graphictype = graphictype;
@@ -38,6 +41,7 @@ public class ProviderGraphNodeData {
 		this.city = city;
 		this.state = state;
 		this.graphicFillColor = graphicFillColor;
+		this.referralCountToolTip = referralCountToolTip;
 		this.tooltip = makeHTMLToolTip();
 	}
 	public String getLabel() {
@@ -127,15 +131,25 @@ public class ProviderGraphNodeData {
 	
 	private String makeHTMLToolTip()
 	{
-		StringBuilder s = new StringBuilder("<b>Provider:</b> " + name);
+		StringBuilder s = new StringBuilder("<b>PID:</b> ");
+		s.append(pid);
 		s.append("&#13;");
-		s.append("<b>General Area:</b> " + generalArea);
+		s.append("<b>Provider:</b> ");
+		s.append(name);
 		s.append("&#13;");
-		s.append("<b>Specialty:</b> " + specialty);
+		s.append("<b>General Area:</b> ");
+		s.append(generalArea);
 		s.append("&#13;");
-		s.append("<b>City:</b> " + city);
+		s.append("<b>Specialty:</b> ");
+		s.append(specialty);
 		s.append("&#13;");
-		s.append("<b>State:</b> " + state);
+		s.append("<b>City:</b> ");
+		s.append(city);
+		s.append("&#13;");
+		s.append("<b>State:</b> ");
+		s.append(state);
+		s.append("&#13;");
+		s.append(referralCountToolTip);
 		return s.toString();
 	}
 	public String getGraphicFillColor() {
@@ -143,6 +157,18 @@ public class ProviderGraphNodeData {
 	}
 	public void setGraphicFillColor(String graphicFillColor) {
 		this.graphicFillColor = graphicFillColor;
+	}
+	public String getReferralCountToolTip() {
+		return referralCountToolTip;
+	}
+	public void setReferralCountToolTip(String referralCountToolTip) {
+		this.referralCountToolTip = referralCountToolTip;
+	}
+	public String getPid() {
+		return pid;
+	}
+	public void setPid(String pid) {
+		this.pid = pid;
 	}
 	@Override
 	public String toString() {
@@ -177,6 +203,10 @@ public class ProviderGraphNodeData {
 		builder.append(state);
 		builder.append(", graphicFillColor=");
 		builder.append(graphicFillColor);
+		builder.append(", referralCountToolTip=");
+		builder.append(referralCountToolTip);
+		builder.append(", pid=");
+		builder.append(pid);
 		builder.append("]");
 		return builder.toString();
 	}

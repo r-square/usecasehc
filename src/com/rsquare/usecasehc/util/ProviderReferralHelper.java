@@ -46,7 +46,7 @@ public class ProviderReferralHelper {
             if(maxCount==0)
             {
             	String name = makeNameString(doctor);
-            	nData = new ProviderGraphNodeData(name,"2", name, "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#ffffcc");
+            	nData = new ProviderGraphNodeData(name,"2", pid, "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#ffffcc", "");
         		node = new ProviderGraphNode(pid, nData);
         		nodes.add(node);
             }
@@ -56,7 +56,7 @@ public class ProviderReferralHelper {
 	        	logger.info("==== Node Already present ====== " + refdoctor_pid);
 	        	continue;
 	        }
-	        rNodes.add(doctor_pid);
+	        rNodes.add(refdoctor_pid);
 	        
 	        int fCount = Util.isInteger(count) ? Integer.parseInt(count) : 0;
 	        int rCount = Util.isInteger(reverse_count) ? Integer.parseInt(reverse_count) : 0;
@@ -66,27 +66,27 @@ public class ProviderReferralHelper {
 	        
 	        if("\"referred\"".equalsIgnoreCase(direction) || "referred".equalsIgnoreCase(direction))
 		    {
-	        	nData = new ProviderGraphNodeData(name,"1", name, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#2262A0");
+	        	String tooltip = "provided " + count + " referrals";
+	        	nData = new ProviderGraphNodeData(name,"1", refdoctor_pid, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#2262A0", tooltip);
 	        	
-	        	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("provided " + count + " referrals", 
-	        			"#2262A0", null);
+	        	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#2262A0", null);
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((doctor_pid + refdoctor_pid).hashCode())), 
 	        			refdoctor_pid, doctor_pid, eData);
 	        	edges.add(edge);
 		    }
 		    else if("\"was referred by\"".equalsIgnoreCase(direction) || "was referred by".equalsIgnoreCase(direction))
 		    {
-		    	nData = new ProviderGraphNodeData(name,"1", name, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#DA6315");
-		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData("received " + reverse_count + " referrals", 
-	        			"#DA6315", null);
+		    	String tooltip = "received " + reverse_count + " referrals";
+		    	nData = new ProviderGraphNodeData(name,"1", refdoctor_pid, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#DA6315", tooltip);
+		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#DA6315", null);
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((doctor_pid + refdoctor_pid).hashCode())), 
 	        			doctor_pid, refdoctor_pid, eData);
 	        	edges.add(edge);
 		    }
 		    else
 		    {
-		    	nData = new ProviderGraphNodeData(name,"1", name, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#FF0000");
 		    	String tooltip = "provided " + count + " referrals&#13;" + "received " + reverse_count + " referrals";
+		    	nData = new ProviderGraphNodeData(name,"1", refdoctor_pid, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#FF0000", tooltip);
 		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#FF0000", "true");
 	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((doctor_pid + refdoctor_pid).hashCode())), 
 	        			doctor_pid, refdoctor_pid, eData);
@@ -117,9 +117,9 @@ public class ProviderReferralHelper {
 	
 	private static String makeNameString(Map<String, String> referredDoctor) {
 		StringBuilder builder = new StringBuilder();
-		String organization = referredDoctor.get("provider_organization_name_legal_business_name_");
+		String organization = referredDoctor.get("provider_organization_name_legal_business_name");
 		String first = referredDoctor.get("provider_first_name");
-		String last = referredDoctor.get("provider_last_name_legal_name_");
+		String last = referredDoctor.get("provider_last_name_legal_name");
 		if(organization==null || organization.equals(""))
 		{
 			builder.append((first==null || first.equals("")) ? "" : first);
@@ -142,7 +142,7 @@ public class ProviderReferralHelper {
 		int maxCount = 0;
 //		Provider p = providers.get(pid);
 		ProviderGraphNodeData nData = new ProviderGraphNodeData(pid, 
-				"2", pid, "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "", "", "", "", "", "", "#ffffcc");
+				"2", pid, "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "", "", "", "", "", "", "#ffffcc", "");
 		ProviderGraphNode node = new ProviderGraphNode(pid, nData);
 		nodes.add(node);
 		while ( iterator.hasNext() )
@@ -160,7 +160,7 @@ public class ProviderReferralHelper {
 	        int count = Math.max(fCount, rCount);
 //	        p = providers.get(result.getReferredDoctor());
 	        nData = new ProviderGraphNodeData(result.getReferredDoctor(), 
-					"1", result.getReferredDoctor(), "", "", "image", "images/doctor_icon.png", "50", "50",  "", "", "", "", "", "#ffffcc");
+					"1", result.getReferredDoctor(), "", "", "image", "images/doctor_icon.png", "50", "50",  "", "", "", "", "", "#ffffcc", "");
 	        node = new ProviderGraphNode(result.getReferredDoctor(), nData);
 	        node.setRefCount(count);
 	        nodes.add(node);
