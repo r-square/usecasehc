@@ -142,6 +142,13 @@ public class ImpalaClient {
         return list;
     }
 	
+	public ResultSet getProviderIds() throws Exception
+	{
+		Statement stmt = getConnection().createStatement();
+		String sql = "SELECT DISTINCT npi from  parquet_providers_table WHERE CAST(npi as int) IS NOT NULL";
+		return stmt.executeQuery(sql);
+	}
+	
 	private StringBuilder makeQueryStringForProviderId(List<ProviderReferralResult> results, String pid)
 	{
 		StringBuilder sql = new StringBuilder(

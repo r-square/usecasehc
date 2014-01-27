@@ -54,7 +54,7 @@ public class Neo4jClient {
 			String sql = makeCypherQuery(npi, option, limit, specialty);
 			logger.info(sql);
 			rs = s.executeQuery(sql);
-			results = ProviderReferralHelper.getUIGraphResultOutputJSON(rs, npi);
+			results = ProviderReferralHelper.getUIGraphResultOutputTwoLevelJSON(rs, npi); //getUIGraphResultOutputJSON(rs, npi);
 		}
         catch(SQLException sqe)
         {
@@ -169,6 +169,33 @@ public class Neo4jClient {
 		return builder.toString();
 	}
 	
+	private String makeReferralCypherQueryTwoLevel(String npi, String limit, String specialty)
+	{
+		StringBuilder builder = new StringBuilder("MATCH (a:provider)-[r:REFERRAL]->(b:provider)  WHERE a.npi = ");
+		builder.append(npi);
+		if(specialtyPresent(specialty))
+		{
+			appendSpecialtyCypher(specialty, builder, true);
+		}
+		builder.append(" RETURN a as provider,b as referral,r.count as count,\"0\" as reverse_count,\"referred\" as direction order by r.count desc");
+		if(Util.isInteger(limit))
+		{
+			builder.append(addLimitCypher(limit));
+		}
+		builder.append(" UNION MATCH (a:provider)-[r1:REFERRAL]->(b:provider)-[r2:REFERRAL]->(c:provider) WHERE (a)-->(c) AND a.npi = ");
+		builder.append(npi);
+		if(specialtyPresent(specialty))
+		{
+			appendSpecialtyCypher(specialty, builder, true);
+		}
+		builder.append(" RETURN b as provider,c as referral,r1.count as count,\"0\" as reverse_count,\"referred\" as direction");
+		if(Util.isInteger(limit))
+		{
+			builder.append(addLimitCypher(limit));
+		}
+		return builder.toString();
+	}
+	
 	private String makeReferredByCypherQuery(String npi, String limit, String specialty)
 	{
 		StringBuilder builder = new StringBuilder("MATCH (a:provider)<-[r:REFERRAL]-(b:provider)  WHERE a.npi = ");
@@ -249,7 +276,7 @@ public class Neo4jClient {
 		{
 		case 0:
 		case 1:
-			retString = makeReferralCypherQuery(npi, limit, specialty);
+			retString = makeReferralCypherQueryTwoLevel(npi, limit, specialty); //makeReferralCypherQuery(npi, limit, specialty);
 			break;
 		case 2:
 			retString = makeReferredByCypherQuery(npi, limit, specialty);

@@ -115,6 +115,117 @@ public class ProviderReferralHelper {
 		return gson.toJson(graph);
 	}
 	
+	public static String getUIGraphResultOutputTwoLevelJSON(ResultSet rs, String pid) throws SQLException
+	{
+		List<ProviderGraphNode> nodes = new ArrayList<ProviderGraphNode>();
+		List<ProviderGraphEdge> edges = new ArrayList<ProviderGraphEdge>();
+		List<String> rNodes = new ArrayList<String>();
+		int maxCount = 0;
+		
+		while ( rs.next() )
+	    {
+			@SuppressWarnings("unchecked")
+			Map<String, String> doctor = (Map<String, String>)rs.getObject(1);
+			@SuppressWarnings("unchecked")
+			Map<String, String> referredDoctor = (Map<String, String>)rs.getObject(2);
+			String count = rs.getString(3);
+			String reverse_count = rs.getString(4);
+			String direction = rs.getString(5);
+            String doctor_pid = String.valueOf(doctor.get("npi"));
+            String refdoctor_pid = String.valueOf(referredDoctor.get("npi"));
+            ProviderGraphNodeData nData = null;
+            ProviderGraphNode node;
+            boolean nodeAlreadyProcessed = false;
+            String name = "";
+            int display_count = 0;
+            
+            //this is the first loop, now set the selected node details
+            if(maxCount==0)
+            {
+            	name = makeNameString(doctor);
+            	nData = new ProviderGraphNodeData(name,"2", pid, "Impact, Charcoal, sans-serif", "#CC0000", "", "", "", "", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#ffffcc", "");
+        		node = new ProviderGraphNode(pid, nData);
+        		nodes.add(node);
+            }
+            
+	        if(rNodes.contains(refdoctor_pid))
+	        {
+	        	nodeAlreadyProcessed = true;
+	        }
+	        
+	        if(!nodeAlreadyProcessed)
+	        {
+	        	rNodes.add(refdoctor_pid);
+		        
+		        int fCount = Util.isInteger(count) ? Integer.parseInt(count) : 0;
+		        int rCount = Util.isInteger(reverse_count) ? Integer.parseInt(reverse_count) : 0;
+		        display_count = Math.max(fCount, rCount);
+		        name = makeNameString(referredDoctor);
+	        }
+	        
+	        if("\"referred\"".equalsIgnoreCase(direction) || "referred".equalsIgnoreCase(direction))
+		    {
+	        	String tooltip = "provided " + count + " referrals";
+	        	if(!nodeAlreadyProcessed)
+		        {
+	        		nData = new ProviderGraphNodeData(name,"1", refdoctor_pid, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#2262A0", tooltip);
+		        }
+	        	
+	        	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#2262A0", null);
+	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((doctor_pid + refdoctor_pid).hashCode())), 
+	        			refdoctor_pid, doctor_pid, eData);
+	        	edges.add(edge);
+		    }
+		    else if("\"was referred by\"".equalsIgnoreCase(direction) || "was referred by".equalsIgnoreCase(direction))
+		    {
+		    	String tooltip = "received " + reverse_count + " referrals";
+		    	if(!nodeAlreadyProcessed)
+		        {
+		    		nData = new ProviderGraphNodeData(name,"1", refdoctor_pid, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#DA6315", tooltip);
+		        }
+		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#DA6315", null);
+	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((doctor_pid + refdoctor_pid).hashCode())), 
+	        			doctor_pid, refdoctor_pid, eData);
+	        	edges.add(edge);
+		    }
+		    else
+		    {
+		    	String tooltip = "provided " + count + " referrals&#13;" + "received " + reverse_count + " referrals";
+		    	if(!nodeAlreadyProcessed)
+		        {
+		    		nData = new ProviderGraphNodeData(name,"1", refdoctor_pid, "", "", "image", "images/doctor_icon.png", "50", "50", name, doctor.get("specialty"), doctor.get("general_area"), doctor.get("provider_business_mailing_address_city_name"), doctor.get("provider_business_mailing_address_state_name"), "#FF0000", tooltip);
+		        }
+		    	ProviderGraphEdgeData eData = new ProviderGraphEdgeData(tooltip,"#FF0000", "true");
+	        	ProviderGraphEdge edge = new ProviderGraphEdge(String.valueOf(Math.abs((doctor_pid + refdoctor_pid).hashCode())), 
+	        			doctor_pid, refdoctor_pid, eData);
+	        	edges.add(edge);
+		    }
+	        
+	        if(!nodeAlreadyProcessed)
+	        {
+		        node = new ProviderGraphNode(refdoctor_pid, nData);
+		        node.setRefCount(display_count);
+		        nodes.add(node);
+		        
+		        if(maxCount < display_count) maxCount = display_count;
+	        }
+	        			
+	    }
+		
+		Iterator<ProviderGraphNode> iterator2 = nodes.iterator();
+		while(iterator2.hasNext())
+		{
+			ProviderGraphNode n = iterator2.next();
+			int graphicSize = 40 + (int) (n.getRefCount() * 1d / maxCount * 150);
+			n.getData().setGraphicSize(String.valueOf(graphicSize));
+			n.getData().setSelectedgraphicsize(String.valueOf(graphicSize));
+		}
+		
+		ProviderGraph graph = new ProviderGraph(nodes, edges);
+		Gson gson = new Gson();
+		return gson.toJson(graph);
+	}
+	
 	private static String makeNameString(Map<String, String> referredDoctor) {
 		StringBuilder builder = new StringBuilder();
 		String organization = referredDoctor.get("provider_organization_name_legal_business_name");
