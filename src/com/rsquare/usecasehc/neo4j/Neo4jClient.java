@@ -13,6 +13,8 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.rsquare.usecasehc.model.Location;
+import com.rsquare.usecasehc.model.LocationType;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 import com.rsquare.usecasehc.model.ProviderSpecialtyNode;
@@ -38,7 +40,7 @@ public class Neo4jClient {
 
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(
-				"jdbc:neo4j://localhost:7474", "", "");
+				"jdbc:neo4j://localhost:7472", "", "");
 	}
 	
 	public String getGraphDataByProvider(String npi, int option, String limit, String specialty) throws SQLException
@@ -110,6 +112,72 @@ public class Neo4jClient {
 			if(s!=null) s.close();
 			if(c!=null) c.close();
 		}
+	}
+	
+	public List<Location> getLocations() throws SQLException
+	{
+		Connection c = null;
+		Statement s = null;
+		ResultSet rs = null;
+		List<Location> results = new ArrayList<Location>();
+		try
+		{
+			c = getConnection();
+			s = c.createStatement();
+			String sql = "MATCH (a:location) return a, labels(a)[1]";
+			logger.info(sql);
+			rs = s.executeQuery(sql);
+			while(rs.next())
+			{
+				@SuppressWarnings("unchecked")
+				Map<String, Object> location = (Map<String, Object>)rs.getObject(1);
+				String location_type = rs.getString(2);
+				if(location_type!=null && !location_type.equals(""))
+				{
+					if(LocationType.ZIPCODE.equalsType(location_type))
+					{
+						results.add(new Location(String.valueOf(location.get("zip_code")), ((Double)location.get("lat")).doubleValue(), ((Double)location.get("lon")).doubleValue(), 
+								String.valueOf(location.get("city")), String.valueOf(location.get("state")), String.valueOf(location.get("county")),
+								String.valueOf(location.get("country")), LocationType.ZIPCODE));
+					}
+					else if(LocationType.CITY.equalsType(location_type))
+					{
+						results.add(new Location(String.valueOf(location.get("name")), 0d, 0d, 
+								String.valueOf(location.get("name")), String.valueOf(location.get("state")), String.valueOf(location.get("county")),
+								String.valueOf(location.get("country")), LocationType.CITY));
+					}
+					else if(LocationType.COUNTY.equalsType(location_type))
+					{
+						results.add(new Location(String.valueOf(location.get("name")), 0d, 0d, 
+								"", String.valueOf(location.get("state")), String.valueOf(location.get("county")),
+								String.valueOf(location.get("country")), LocationType.COUNTY));
+					}
+					else if(LocationType.STATE.equalsType(location_type))
+					{
+						results.add(new Location(String.valueOf(location.get("name")), 0d, 0d, 
+								"", String.valueOf(location.get("state")), "",
+								String.valueOf(location.get("country")), LocationType.STATE));
+					}
+					else if(LocationType.COUNTRY.equalsType(location_type))
+					{
+						results.add(new Location(String.valueOf(location.get("name")), 0d, 0d, 
+								"", "", "", String.valueOf(location.get("country")), LocationType.COUNTRY));
+					}
+				}
+			}
+		}
+        catch(SQLException sqe)
+        {
+            throw sqe;
+        }
+		finally
+		{
+			logger.debug(results);
+			if(rs!=null) rs.close();
+			if(s!=null) s.close();
+			if(c!=null) c.close();
+		}
+		return results;
 	}
 	
 	public List<ProviderReferralResult> getReferralsByProvider(String npi, int option, String limit) throws SQLException

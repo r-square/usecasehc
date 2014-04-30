@@ -8,6 +8,7 @@ import java.util.Map;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.rsquare.usecasehc.model.Location;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderSpecialtyNode;
 
@@ -19,6 +20,15 @@ public class PredicateHelper {
 			  public boolean apply(Provider p) {
 			    return (p.getName().toLowerCase().contains(searchString.toLowerCase()) || p.getNpi().toLowerCase().contains(searchString.toLowerCase()) || 
 			    		p.getSpecialty().toLowerCase().contains(searchString.toLowerCase()) || p.getCity().toLowerCase().contains(searchString.toLowerCase()) || p.getState().toLowerCase().contains(searchString.toLowerCase()));
+			  }
+			};
+	}
+	
+	public static Predicate<Location> getLocationPredicate(final String searchString)
+	{
+		return new Predicate<Location>() {
+			  public boolean apply(Location l) {
+			    return (l.getValue().toLowerCase().contains(searchString.toLowerCase()));
 			  }
 			};
 	}

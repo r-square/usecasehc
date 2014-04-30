@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.rsquare.usecasehc.model.Location;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 
@@ -113,6 +114,15 @@ public class Neo4jClientTest {
 		assertNotNull(results);
 //		assertTrue(results.size()==0);
 		System.out.println(results);
+	}
+	
+	@Test
+	public void testGetLocations() throws SQLException{
+		Neo4jClient nc = new Neo4jClient();
+		List<Location> locations = nc.getLocations();
+		assertNotNull(locations);
+		assertTrue(locations.size() == 78688);
+//		System.out.println(locations);
 	}
 
 }
