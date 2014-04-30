@@ -40,7 +40,7 @@ public class Neo4jClient {
 
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(
-				"jdbc:neo4j://localhost:7472", "", "");
+				"jdbc:neo4j://localhost:7474", "", "");
 	}
 	
 	public String getGraphDataByProvider(String npi, int option, String limit, String specialty) throws SQLException
