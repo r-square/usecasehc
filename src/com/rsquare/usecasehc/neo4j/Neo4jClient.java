@@ -18,6 +18,8 @@ import com.rsquare.usecasehc.model.LocationType;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
 import com.rsquare.usecasehc.model.ProviderSpecialtyNode;
+import com.rsquare.usecasehc.model.Taxonomy;
+import com.rsquare.usecasehc.model.TaxonomyClassification;
 import com.rsquare.usecasehc.util.PredicateHelper;
 import com.rsquare.usecasehc.util.ProviderReferralHelper;
 import com.rsquare.usecasehc.util.Util;
@@ -162,6 +164,63 @@ public class Neo4jClient {
 					{
 						results.add(new Location(String.valueOf(location.get("name")), 0d, 0d, 
 								"", "", "", String.valueOf(location.get("country")), LocationType.COUNTRY));
+					}
+				}
+			}
+		}
+        catch(SQLException sqe)
+        {
+            throw sqe;
+        }
+		finally
+		{
+			logger.debug(results);
+			if(rs!=null) rs.close();
+			if(s!=null) s.close();
+			if(c!=null) c.close();
+		}
+		return results;
+	}
+	
+	public List<Taxonomy> getTaxonomies() throws SQLException
+	{
+		Connection c = null;
+		Statement s = null;
+		ResultSet rs = null;
+		List<Taxonomy> results = new ArrayList<Taxonomy>();
+		try
+		{
+			c = getConnection();
+			s = c.createStatement();
+			String sql = "MATCH (a:taxonomy) return a, labels(a)[1]";
+			logger.info(sql);
+			rs = s.executeQuery(sql);
+			while(rs.next())
+			{
+				@SuppressWarnings("unchecked")
+				Map<String, Object> location = (Map<String, Object>)rs.getObject(1);
+				String classification = rs.getString(2);
+				if(classification!=null && !classification.equals(""))
+				{
+					if(TaxonomyClassification.ROOT.equalsType(classification))
+					{
+						results.add(new Taxonomy(String.valueOf(location.get("taxonomy_code")), String.valueOf(location.get("name")), TaxonomyClassification.ROOT,
+								String.valueOf(location.get("description")), String.valueOf(location.get("taxonomy_type"))));
+					}
+					else if(TaxonomyClassification.GENERAL_AREA.equalsType(classification))
+					{
+						results.add(new Taxonomy(String.valueOf(location.get("taxonomy_code")), String.valueOf(location.get("name")), TaxonomyClassification.GENERAL_AREA,
+								String.valueOf(location.get("description")), String.valueOf(location.get("taxonomy_type"))));
+					}
+					else if(TaxonomyClassification.SPECIALTY.equalsType(classification))
+					{
+						results.add(new Taxonomy(String.valueOf(location.get("taxonomy_code")), String.valueOf(location.get("name")), TaxonomyClassification.SPECIALTY,
+								String.valueOf(location.get("description")), String.valueOf(location.get("taxonomy_type"))));
+					}
+					else if(TaxonomyClassification.SUBSPECIALTY.equalsType(classification))
+					{
+						results.add(new Taxonomy(String.valueOf(location.get("taxonomy_code")), String.valueOf(location.get("name")), TaxonomyClassification.SUBSPECIALTY,
+								String.valueOf(location.get("description")), String.valueOf(location.get("taxonomy_type"))));
 					}
 				}
 			}

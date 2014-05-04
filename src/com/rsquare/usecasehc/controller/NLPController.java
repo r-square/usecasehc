@@ -14,6 +14,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.rsquare.usecasehc.model.Location;
 import com.rsquare.usecasehc.model.Provider;
+import com.rsquare.usecasehc.model.Taxonomy;
 import com.rsquare.usecasehc.neo4j.Neo4jClient;
 import com.rsquare.usecasehc.util.PredicateHelper;
 
@@ -23,6 +24,7 @@ public class NLPController {
 	protected static Logger logger = Logger.getLogger(NLPController.class);
 	
 	private static List<Location> locations;
+	private static List<Taxonomy> taxonomies;
 	
 	@RequestMapping("/getLocations")
     public @ResponseBody List<Location> getLocations(
@@ -40,6 +42,25 @@ public class NLPController {
 		}
 		
 		List<Location> filteredList = Lists.newArrayList(Collections2.filter(locations, PredicateHelper.getLocationPredicate(key)));
+		return filteredList;
+    }
+	
+	@RequestMapping("/getTaxonomies")
+    public @ResponseBody List<Taxonomy> getTaxonomies(
+            @RequestParam(value="seed", required=false, defaultValue="") String key) {
+		logger.info("Received input search string: " + key);
+		if(taxonomies==null)
+		{
+			Neo4jClient nc = new Neo4jClient();
+			try {
+				taxonomies = nc.getTaxonomies();
+			} catch (SQLException e) {
+				logger.error(e);
+				taxonomies = new ArrayList<Taxonomy>();
+			}
+		}
+		
+		List<Taxonomy> filteredList = Lists.newArrayList(Collections2.filter(taxonomies, PredicateHelper.getTaxonomyPredicate(key)));
 		return filteredList;
     }
 

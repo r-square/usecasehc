@@ -15,6 +15,7 @@ import org.junit.Test;
 import com.rsquare.usecasehc.model.Location;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderReferralResult;
+import com.rsquare.usecasehc.model.Taxonomy;
 
 public class Neo4jClientTest {
 
@@ -123,6 +124,15 @@ public class Neo4jClientTest {
 		assertNotNull(locations);
 		assertTrue(locations.size() == 78688);
 //		System.out.println(locations);
+	}
+	
+	@Test
+	public void testGetTaxonomies() throws SQLException{
+		Neo4jClient nc = new Neo4jClient();
+		List<Taxonomy> taxonomies = nc.getTaxonomies();
+		assertNotNull(taxonomies);
+		assertTrue(taxonomies.size() == 863);
+//		System.out.println(taxonomies);
 	}
 
 }

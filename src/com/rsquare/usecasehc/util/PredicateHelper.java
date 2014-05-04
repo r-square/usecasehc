@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.rsquare.usecasehc.model.Location;
 import com.rsquare.usecasehc.model.Provider;
 import com.rsquare.usecasehc.model.ProviderSpecialtyNode;
+import com.rsquare.usecasehc.model.Taxonomy;
 
 public class PredicateHelper {
 	
@@ -29,6 +30,16 @@ public class PredicateHelper {
 		return new Predicate<Location>() {
 			  public boolean apply(Location l) {
 			    return (l.getValue().toLowerCase().contains(searchString.toLowerCase()));
+			  }
+			};
+	}
+	
+	public static Predicate<Taxonomy> getTaxonomyPredicate(final String searchString)
+	{
+		return new Predicate<Taxonomy>() {
+			  public boolean apply(Taxonomy p) {
+			    return (p.getName().toLowerCase().contains(searchString.toLowerCase()) || p.getTaxonomyCode().toLowerCase().contains(searchString.toLowerCase()) || 
+			    		p.getTaxonomyType().toLowerCase().contains(searchString.toLowerCase()));
 			  }
 			};
 	}
